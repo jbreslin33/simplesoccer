@@ -27,6 +27,7 @@ class SoccerTeam;
 class SoccerBall;
 class SoccerTeam;
 class PlayerBase;
+class Server;
 
 
 class SoccerPitch
@@ -69,10 +70,12 @@ public:
   //themselves
   void CreateRegions(double width, double height);
 
+  Server* mServer;
+
 
 public:
 
-  SoccerPitch(int cxClient, int cyClient);
+  SoccerPitch(int cxClient, int cyClient, Server* server, int id);
 
   ~SoccerPitch();
 

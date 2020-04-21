@@ -11,19 +11,25 @@
 #include "PlayerBase.h"
 #include "TeamStates.h"
 #include "misc/FrameCounter.h"
+#include "server.h"
+
 
 const int NumRegionsHorizontal = 6; 
 const int NumRegionsVertical   = 3;
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
-SoccerPitch::SoccerPitch(int cx, int cy):m_cxClient(cx),
+SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                                          m_cyClient(cy),
                                          m_bPaused(false),
                                          m_bGoalKeeperHasBall(false),
                                          m_Regions(NumRegionsHorizontal*NumRegionsVertical),
                                          m_bGameOn(true)
 {
+
+	mId = id;
+	mServer = server;
+
   //define the playing area
   m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
 
