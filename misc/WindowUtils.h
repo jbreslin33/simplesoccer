@@ -2,7 +2,7 @@
 #define WINDOW_UTILS_H
 #pragma warning (disable:4786)
 
-#include <windows.h>
+//#include <windows.h>
 #include <string>
 
 struct Vector2D;

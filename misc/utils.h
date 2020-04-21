@@ -272,7 +272,7 @@ inline double StandardDeviation(const std::vector<double>& v)
   return sqrt(sd);
 }
 
-
+/*
 template <class container>
 inline void DeleteSTLContainer(container& c)
 {
@@ -282,7 +282,6 @@ inline void DeleteSTLContainer(container& c)
     *it = NULL;
   }
 }
-
 template <class map>
 inline void DeleteSTLMap(map& m)
 {
@@ -292,6 +291,7 @@ inline void DeleteSTLMap(map& m)
     it->second = NULL;
   }
 }
+*/
 
 
 

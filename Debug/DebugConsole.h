@@ -18,7 +18,7 @@
 //
 //------------------------------------------------------------------------
 #include <vector>
-#include <windows.h>
+//#include <windows.h>
 #include <iosfwd>
 #include <fstream>
 

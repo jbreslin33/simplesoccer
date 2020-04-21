@@ -13,7 +13,7 @@
 //        support, but hey, I have shares in AMD and Intel... Go upgrade ;o)
 //
 //-----------------------------------------------------------------------
-#include <windows.h>
+//#include <windows.h>
 #include <cassert>
 
 
@@ -22,7 +22,7 @@ class PrecisionTimer
 
 private:
 
-  LONGLONG  m_CurrentTime,
+  long  m_CurrentTime,
             m_LastTime,
             m_LastTimeInTimeElapsed,
             m_NextTime,
@@ -66,7 +66,7 @@ public:
 
   double  CurrentTime()
   { 
-    QueryPerformanceCounter( (LARGE_INTEGER*) &m_CurrentTime);
+    //QueryPerformanceCounter( (long*) &m_CurrentTime);
 
     return (m_CurrentTime - m_StartTime) * m_TimeScale;
   }
@@ -89,7 +89,7 @@ inline bool PrecisionTimer::ReadyForNextFrame()
 {
   assert(m_NormalFPS && "PrecisionTimer::ReadyForNextFrame<No FPS set in timer>");
   
-  QueryPerformanceCounter( (LARGE_INTEGER*) &m_CurrentTime);
+  //QueryPerformanceCounter( (long*) &m_CurrentTime);
 
   if (m_CurrentTime > m_NextTime)
   {
@@ -114,7 +114,7 @@ inline double PrecisionTimer::TimeElapsed()
 {
   m_LastTimeElapsed = m_TimeElapsed;
 
-  QueryPerformanceCounter( (LARGE_INTEGER*) &m_CurrentTime);
+  //QueryPerformanceCounter( (long*) &m_CurrentTime);
   
   m_TimeElapsed = (m_CurrentTime - m_LastTimeInTimeElapsed) * m_TimeScale;
   

@@ -1,5 +1,5 @@
 #pragma warning (disable:4786)
-#include <windows.h>
+//#include <windows.h>
 #include <time.h>
 
 #include "constants.h"
@@ -8,9 +8,9 @@
 #include "SoccerPitch.h"
 #include "misc/Cgdi.h"
 #include "ParamLoader.h"
-#include "Resource.h"
+#include "resource.h"
 #include "misc/WindowUtils.h"
-#include "debug/DebugConsole.h"
+#include "Debug/DebugConsole.h"
 
 
 //--------------------------------- Globals ------------------------------

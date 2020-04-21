@@ -17,7 +17,7 @@ PrecisionTimer::PrecisionTimer(): m_NormalFPS(0.0),
                   m_bSmoothUpdates(false)
 {
   //how many ticks per sec do we get
-  QueryPerformanceFrequency( (LARGE_INTEGER*) &m_PerfCountFreq);
+  QueryPerformanceFrequency( (long*) &m_PerfCountFreq);
   
   m_TimeScale = 1.0/m_PerfCountFreq;
 }
@@ -41,7 +41,7 @@ PrecisionTimer::PrecisionTimer(double fps): m_NormalFPS(fps),
 {
 
   //how many ticks per sec do we get
-  QueryPerformanceFrequency( (LARGE_INTEGER*) &m_PerfCountFreq);
+  QueryPerformanceFrequency( (long*) &m_PerfCountFreq);
 
   m_TimeScale = 1.0/m_PerfCountFreq;
 
@@ -64,7 +64,7 @@ void PrecisionTimer::Start()
   m_TimeElapsed = 0.0;
 
   //get the time
-  QueryPerformanceCounter( (LARGE_INTEGER*) &m_LastTime);
+  QueryPerformanceCounter( (long*) &m_LastTime);
 
   //keep a record of when the timer was started
   m_StartTime = m_LastTimeInTimeElapsed = m_LastTime;
