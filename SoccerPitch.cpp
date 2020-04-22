@@ -80,9 +80,10 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	);
 
   
-	/*
 	//create the teams 
-  	m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
+  	//m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
+  	m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::team_color::red);
+	/*
   	m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::blue);
 
   	//make sure each team knows who their opponents are

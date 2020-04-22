@@ -34,28 +34,42 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
                                            m_pControllingPlayer(NULL),
                                            m_pPlayerClosestToBall(NULL)
 {
-  //setup the state machine
-  m_pStateMachine = new StateMachine<SoccerTeam>(this);
 
-  m_pStateMachine->SetCurrentState(Defending::Instance());
-  m_pStateMachine->SetPreviousState(Defending::Instance());
-  m_pStateMachine->SetGlobalState(NULL);
+	printf("SoccerTeam Constructor\n");
 
-  //create the players and goalkeeper
-  CreatePlayers();
   
-  //set default steering behaviors
-  std::vector<PlayerBase*>::iterator it = m_Players.begin();
+	//setup the state machine
+	m_pStateMachine = new StateMachine<SoccerTeam>(this);
+	printf("SoccerTeam Constructor 0\n");
 
-  for (it; it != m_Players.end(); ++it)
-  {
-    (*it)->Steering()->SeparationOn();   
-  }
+  	m_pStateMachine->SetCurrentState(Defending::Instance());
+	printf("SoccerTeam Constructor 1\n");
+  	m_pStateMachine->SetPreviousState(Defending::Instance());
+	printf("SoccerTeam Constructor 2\n");
+  	m_pStateMachine->SetGlobalState(NULL);
+	printf("SoccerTeam Constructor 3\n");
 
-  //create the sweet spot calculator
-  m_pSupportSpotCalc = new SupportSpotCalculator(Prm.NumSupportSpotsX,
+  	//create the players and goalkeeper
+  	CreatePlayers();
+	printf("SoccerTeam Constructor 4\n");
+  
+  	//set default steering behaviors
+  	std::vector<PlayerBase*>::iterator it = m_Players.begin();
+	printf("SoccerTeam Constructor 5\n");
+
+  	for (it; it != m_Players.end(); ++it)
+  	{
+    		(*it)->Steering()->SeparationOn();   
+  	}
+	printf("SoccerTeam Constructor 6\n");
+
+
+	printf("SoccerTeam Constructor 7\n");
+  	//create the sweet spot calculator
+  	m_pSupportSpotCalc = new SupportSpotCalculator(Prm.NumSupportSpotsX,
                                                  Prm.NumSupportSpotsY,
                                                  this);
+	printf("SoccerTeam Constructor 8\n");
 }
 
 //----------------------- dtor -------------------------------------------
@@ -483,147 +497,205 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
 //------------------------------------------------------------------------
 void SoccerTeam::CreatePlayers()
 {
-  if (Color() == blue)
-  {
-    //goalkeeper
-    m_Players.push_back(new GoalKeeper(this,
-                               1,
-                               TendGoal::Instance(),
-                               Vector2D(0,1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale));
+	printf("CreatePlayers ENTER\n");
+	if (Color() == blue)
+  	{
+		printf("CreatePlayers blue\n");
+    		//goalkeeper
+    		m_Players.push_back
+		(
+			new GoalKeeper
+			(
+				this,
+                        	1,
+                               	TendGoal::Instance(),
+                               	Vector2D(0,1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0
+			)
+		);
  
-    //create the players
-    m_Players.push_back(new FieldPlayer(this,
-                               6,
-                               Wait::Instance(),
-                               Vector2D(0,1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::attacker));
+		//create the players
+    		m_Players.push_back
+		(
+			new FieldPlayer
+			(
+				this,
+                               	6,
+                               	Wait::Instance(),
+                               	Vector2D(0,1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+                               	PlayerBase::attacker
+			)
+		);
 
 
 
-        m_Players.push_back(new FieldPlayer(this,
-                               8,
-                               Wait::Instance(),
-                               Vector2D(0,1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::attacker));
+        	m_Players.push_back
+		(
+			new FieldPlayer
+			(
+			 	this,
+                               	8,
+                               	Wait::Instance(),
+                               	Vector2D(0,1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+			       	PlayerBase::attacker
+			)
+		);
+        	
+		m_Players.push_back
+		(
+			new FieldPlayer
+			(
+			 	this,
+                               	3,
+                               	Wait::Instance(),
+                               	Vector2D(0,1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+			       	PlayerBase::defender
+			)
+		);
+        	
+		m_Players.push_back
+		(
+			new FieldPlayer
+			(
+			 	this,
+                               	5,
+                               	Wait::Instance(),
+                               	Vector2D(0,1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+			       	PlayerBase::defender
+			)
+		);
+  	}
+
+  	else
+  	{
+		printf("CreatePlayers else red\n");
+
+     		//goalkeeper
+    		m_Players.push_back
+		(
+		 	new GoalKeeper
+			(
+				this,
+                               	16,
+                               	TendGoal::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                                3.0,
+                                1.0,
+                                1.6,
+                                0.4,
+                                1.0
+			)
+		);
+		printf("CreatePlayers else red after Goalkeeper\n");
+
+
+    		//create the players
+    		m_Players.push_back
+		(
+		 	new FieldPlayer
+			(
+			 	this,
+                               	9,
+                               	Wait::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+				PlayerBase::attacker
+			)
+		);
+
+    		m_Players.push_back
+		(
+		 	new FieldPlayer
+			(
+			 	this,
+                               	11,
+                               	Wait::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+                               	PlayerBase::attacker
+			)
+		);
 
 
  
+    		m_Players.push_back
+		(
+		 	new FieldPlayer
+			(
+			 	this,
+                               	12,
+                               	Wait::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+                               	PlayerBase::defender
+			)
+		);
 
+    		m_Players.push_back
+		(
+			new FieldPlayer
+			(
+				this,
+                              	14,
+                               	Wait::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                               	3.0,
+                               	1.0,
+                               	1.6,
+                               	0.4,
+                               	1.0,
+                               	PlayerBase::defender
+			)
+		);
+  	}
 
-        m_Players.push_back(new FieldPlayer(this,
-                               3,
-                               Wait::Instance(),
-                               Vector2D(0,1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::defender));
-
-
-        m_Players.push_back(new FieldPlayer(this,
-                               5,
-                               Wait::Instance(),
-                               Vector2D(0,1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                              PlayerBase::defender));
-
-  }
-
-  else
-  {
-
-     //goalkeeper
-    m_Players.push_back(new GoalKeeper(this,
-                               16,
-                               TendGoal::Instance(),
-                               Vector2D(0,-1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale));
-
-
-    //create the players
-    m_Players.push_back(new FieldPlayer(this,
-                               9,
-                               Wait::Instance(),
-                               Vector2D(0,-1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::attacker));
-
-    m_Players.push_back(new FieldPlayer(this,
-                               11,
-                               Wait::Instance(),
-                               Vector2D(0,-1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::attacker));
-
-
- 
-    m_Players.push_back(new FieldPlayer(this,
-                               12,
-                               Wait::Instance(),
-                               Vector2D(0,-1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::defender));
-
-
-    m_Players.push_back(new FieldPlayer(this,
-                               14,
-                               Wait::Instance(),
-                               Vector2D(0,-1),
-                               Vector2D(0.0, 0.0),
-                               Prm.PlayerMass,
-                               Prm.PlayerMaxForce,
-                               Prm.PlayerMaxSpeedWithoutBall,
-                               Prm.PlayerMaxTurnRate,
-                               Prm.PlayerScale,
-                               PlayerBase::defender));
-                      
-  }
+	printf("ALL PLAYERS CREATED\n");
 
   //register the players with the entity manager
   std::vector<PlayerBase*>::iterator it = m_Players.begin();

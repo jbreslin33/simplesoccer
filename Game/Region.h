@@ -76,9 +76,10 @@ public:
   //-------------------------------
   double     Top()const{return m_dTop;}
   double     Bottom()const{return m_dBottom;}
-  double     Left()const{
-	 printf("left in"); 
-	  return m_dLeft;}
+	double     Left()const
+  	{
+		return m_dLeft;
+	}
   double     Right()const{return m_dRight;}
   double     Width()const{return fabs(m_dRight - m_dLeft);}
   double     Height()const{return fabs(m_dTop - m_dBottom);}

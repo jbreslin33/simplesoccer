@@ -44,7 +44,7 @@ public:
                                                        m_iNumGoalsScored(0),
                                                        m_vFacing(facing)
   {  
- 	printf("gaol con"); 
+ 	printf("Goal Constructur\n"); 
   }
 
   //Given the current ball position and the previous ball position,
