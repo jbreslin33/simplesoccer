@@ -41,7 +41,8 @@ protected:
 public:
 
   Region():m_dTop(0),m_dBottom(0),m_dLeft(0),m_dRight(0)
-  {}
+  {
+  }
 
 
   Region(double left,
@@ -59,6 +60,7 @@ public:
 
     m_dWidth  = fabs(right-left);
     m_dHeight = fabs(bottom-top);
+    printf("Region Constructor id:%d\n",m_iID);
   }
 
   virtual ~Region(){}
@@ -74,7 +76,9 @@ public:
   //-------------------------------
   double     Top()const{return m_dTop;}
   double     Bottom()const{return m_dBottom;}
-  double     Left()const{return m_dLeft;}
+  double     Left()const{
+	 printf("left in"); 
+	  return m_dLeft;}
   double     Right()const{return m_dRight;}
   double     Width()const{return fabs(m_dRight - m_dLeft);}
   double     Height()const{return fabs(m_dTop - m_dBottom);}

@@ -43,7 +43,9 @@ public:
                                                        m_vCenter((left+right)/2.0),
                                                        m_iNumGoalsScored(0),
                                                        m_vFacing(facing)
-  {  }
+  {  
+ 	printf("gaol con"); 
+  }
 
   //Given the current ball position and the previous ball position,
   //this method returns true if the ball has crossed the goal line 

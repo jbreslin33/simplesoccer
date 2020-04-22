@@ -57,7 +57,7 @@ public:
   bool        eof()const{if (m_bGoodFile) return file.eof(); throw std::runtime_error("bad file");}
   bool        FileIsGood()const{return m_bGoodFile;}
 
-  iniFileLoaderBase(char* filename):CurrentLine(""), m_bGoodFile(true)
+  iniFileLoaderBase(const char* filename):CurrentLine(""), m_bGoodFile(true)
   {
     file.open(filename);
 

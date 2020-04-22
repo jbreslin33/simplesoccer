@@ -8,6 +8,7 @@ Server::Server()
 	mSoccerPitchIdCounter = 0;
 
 	mRunning = true;
+	printf("Server Constructor\n");
 }
 
 int Server::getNextSoccerPitchId()

@@ -72,9 +72,7 @@ void readSocketData(Server* server)
 
 int main(void)
 {
-	printf("Enter main");
 	Server server;
-	printf("After server");
         SoccerPitch* soccerPitch = new SoccerPitch(104, 68, &server, server.getNextSoccerPitchId());
 	/*
 	printf("Enter main");

@@ -25,29 +25,60 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                                          m_Regions(NumRegionsHorizontal*NumRegionsVertical),
                                          m_bGameOn(true)
 {
-	printf("pitch con");
+	printf("SoccerPitch Constructor\n");
 	mId = id;
 	mServer = server;
 
-  //define the playing area
-  m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
+  	//define the playing area
+  	m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
 
-  //create the regions  
-  CreateRegions(PlayingArea()->Width() / (double)NumRegionsHorizontal,
-                PlayingArea()->Height() / (double)NumRegionsVertical);
-/*
+  	//create the regions  
+	CreateRegions
+	(
+		PlayingArea()->Width() / (double)NumRegionsHorizontal,
+		PlayingArea()->Height() / (double)NumRegionsVertical
+	);
 
-  //create the goals
-   m_pRedGoal  = new Goal(Vector2D( m_pPlayingArea->Left(), (cy-Prm.GoalWidth)/2),
-                          Vector2D(m_pPlayingArea->Left(), cy - (cy-Prm.GoalWidth)/2),
-                          Vector2D(1,0));
+  	//this is the error......
+	//int gw = cy-Prm.GoalWidth;
+	
+	
+	m_pRedGoal  = new Goal
+	(
+		Vector2D
+		( 
+			m_pPlayingArea->Left(), cy - 100/2
+		),
+                Vector2D
+		(
+			m_pPlayingArea->Left(), cy - 100/2
+		),
+                Vector2D(1,0)
+	);
    
-
-
+/*
   m_pBlueGoal = new Goal( Vector2D( m_pPlayingArea->Right(), (cy-Prm.GoalWidth)/2),
                           Vector2D(m_pPlayingArea->Right(), cy - (cy-Prm.GoalWidth)/2),
-                          Vector2D(-1,0));
+ 
+*/
 
+  	m_pBlueGoal = new Goal
+	( 
+		Vector2D
+		( 
+			m_pPlayingArea->Right(), cy - 100/2
+		),
+                Vector2D
+		(
+			m_pPlayingArea->Right(), cy - 100/2
+		),
+                Vector2D
+		(
+			-1,0
+		)
+	);
+
+	/*
 
   //create the soccer ball
   m_pBall = new SoccerBall(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0),
@@ -186,20 +217,23 @@ void SoccerPitch::processMove(std::vector<std::string> stringVector)
 //------------------------- CreateRegions --------------------------------
 void SoccerPitch::CreateRegions(double width, double height)
 {  
-  //index into the vector
-  int idx = m_Regions.size()-1;
+	//index into the vector
+  	int idx = m_Regions.size()-1;
     
-  for (int col=0; col<NumRegionsHorizontal; ++col)
-  {
-    for (int row=0; row<NumRegionsVertical; ++row)
-    {
-      m_Regions[idx--] = new Region(PlayingArea()->Left()+col*width,
-                                   PlayingArea()->Top()+row*height,
-                                   PlayingArea()->Left()+(col+1)*width,
-                                   PlayingArea()->Top()+(row+1)*height,
-                                   idx);
-    }
-  }
+  	for (int col=0; col<NumRegionsHorizontal; ++col)
+  	{
+    		for (int row=0; row<NumRegionsVertical; ++row)
+    		{
+      			m_Regions[idx--] = new Region
+			(
+				PlayingArea()->Left()+col*width,
+                                PlayingArea()->Top()+row*height,
+                                PlayingArea()->Left()+(col+1)*width,
+                                PlayingArea()->Top()+(row+1)*height,
+                                idx
+			);
+    		}
+  	}
 }
 
 
