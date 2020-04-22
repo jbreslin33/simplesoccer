@@ -39,10 +39,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 		PlayingArea()->Height() / (double)NumRegionsVertical
 	);
 
-  	//this is the error......
-	//int gw = cy-Prm.GoalWidth;
-	
-	
+	//Goals
 	m_pRedGoal  = new Goal
 	(
 		Vector2D
@@ -56,12 +53,6 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                 Vector2D(1,0)
 	);
    
-/*
-  m_pBlueGoal = new Goal( Vector2D( m_pPlayingArea->Right(), (cy-Prm.GoalWidth)/2),
-                          Vector2D(m_pPlayingArea->Right(), cy - (cy-Prm.GoalWidth)/2),
- 
-*/
-
   	m_pBlueGoal = new Goal
 	( 
 		Vector2D
@@ -78,14 +69,14 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 		)
 	);
 
-	/*
 
   //create the soccer ball
   m_pBall = new SoccerBall(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0),
-                           Prm.BallSize,
-                           Prm.BallMass,
+                           5.0,
+                           1.0,
                            m_vecWalls);
 
+	/*
   
   //create the teams 
   m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
