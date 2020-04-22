@@ -70,21 +70,24 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	);
 
 
-  //create the soccer ball
-  m_pBall = new SoccerBall(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0),
-                           5.0,
-                           1.0,
-                           m_vecWalls);
+	//create the soccer ball
+  	m_pBall = new SoccerBall
+	(
+		Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0),
+                5.0,
+                1.0,
+                m_vecWalls
+	);
 
-	/*
   
-  //create the teams 
-  m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
-  m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::blue);
+	/*
+	//create the teams 
+  	m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
+  	m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::blue);
 
-  //make sure each team knows who their opponents are
-  m_pRedTeam->SetOpponents(m_pBlueTeam);
-  m_pBlueTeam->SetOpponents(m_pRedTeam); 
+  	//make sure each team knows who their opponents are
+  	m_pRedTeam->SetOpponents(m_pBlueTeam);
+  	m_pBlueTeam->SetOpponents(m_pRedTeam); 
 
   //create the walls
   Vector2D TopLeft(m_pPlayingArea->Left(), m_pPlayingArea->Top());                                        
