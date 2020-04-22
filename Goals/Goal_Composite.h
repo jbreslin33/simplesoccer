@@ -63,9 +63,7 @@ public:
   void         RemoveAllSubgoals();
 
 
-  virtual void RenderAtPos(Vector2D& pos, TypeToString* tts)const;
   //this is only used to render information for debugging purposes
-  virtual void Render();
 };
 
 
@@ -158,33 +156,6 @@ bool Goal_Composite<entity_type>::ForwardMessageToFrontMostSubgoal(const Telegra
   return false;
 }
 
-
-//-------------------------- RenderAtPos --------------------------------------
-template <class entity_type>
-void  Goal_Composite<entity_type>::RenderAtPos(Vector2D& pos, TypeToString* tts)const
-{
-  Goal<entity_type>::RenderAtPos(pos, tts);
-
-  pos.x += 10;
-
-  gdi->TransparentText();
-  SubgoalList::const_reverse_iterator it;
-  for (it=m_SubGoals.rbegin(); it != m_SubGoals.rend(); ++it)
-  {
-    (*it)->RenderAtPos(pos, tts);
-  }
-
-  pos.x -= 10;
-}
-
-template <class entity_type>
-void  Goal_Composite<entity_type>::Render()
-{
-  if (!m_SubGoals.empty())
-  {
-    m_SubGoals.front()->Render();
-  }
-}
 
 
 

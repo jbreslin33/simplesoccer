@@ -39,30 +39,19 @@ public:
     //tests to see if the ball has collided with a ball and reflects 
   //the ball's velocity accordingly
   void TestCollisionWithWalls(const std::vector<Wall2D>& walls);
-
+/*
   SoccerBall(Vector2D           pos,            
              double               BallSize,
              double               mass,
-             std::vector<Wall2D>& PitchBoundary):
-  
-      //set up the base class
-      MovingEntity(pos,
-                  BallSize,
-                  Vector2D(0,0),
-                  -1.0,                //max speed - unused
-                  Vector2D(0,1),
-                  mass,
-                  Vector2D(1.0,1.0),  //scale     - unused
-                  0,                   //turn rate - unused
-                  0),                  //max force - unused
-     m_PitchBoundary(PitchBoundary)
-  {}
-  
+             const std::vector<Wall2D>& PitchBoundary);
+ */ 
+ SoccerBall(Vector2D           pos,            
+             double               BallSize,
+             double               mass,
+             std::vector<Wall2D>& PitchBoundary); 
+
   //implement base class Update
   void      Update();
-
-  //implement base class Render
-  void      Render();
 
   //a soccer ball doesn't need to handle messages
   bool      HandleMessage(const Telegram& msg){return false;}

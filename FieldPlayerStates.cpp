@@ -1,5 +1,4 @@
 #include "FieldPlayerStates.h"
-#include "Debug/DebugConsole.h"
 #include "SoccerPitch.h"
 #include "FieldPlayer.h"
 #include "SteeringBehaviors.h"
@@ -11,8 +10,6 @@
 #include "Messaging/Telegram.h"
 #include "Messaging/MessageDispatcher.h"
 #include "SoccerMessages.h"
-
-#include "time/Regulator.h"
 
 
 //uncomment below to send state info to the debug window
@@ -109,8 +106,8 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
       FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
 
       #ifdef PLAYER_STATE_INFO_ON
-      debug_con << "Player " << player->ID() << " received request from " <<
-                    receiver->ID() << " to make pass" << "";
+      //debug_con << "Player " << player->ID() << " received request from " <<
+        //            receiver->ID() << " to make pass" << "";
       #endif
 
       //if the ball is not within kicking range or their is already a 
@@ -120,7 +117,7 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
          !player->BallWithinKickingRange() )
       {
         #ifdef PLAYER_STATE_INFO_ON
-        debug_con << "Player " << player->ID() << " cannot make requested pass <cannot kick ball>" << "";
+        //debug_con << "Player " << player->ID() << " cannot make requested pass <cannot kick ball>" << "";
         #endif
 
         return true;
@@ -132,16 +129,18 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 
           
      #ifdef PLAYER_STATE_INFO_ON
-     debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
+     //debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
      #endif
         
       //let the receiver know a pass is coming 
+      /*
       Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                               player->ID(),
                               receiver->ID(),
                               Msg_ReceiveBall,
                               &receiver->Pos());
-
+                       //      receiver->Pos());
+*/
    
 
       //change state   
@@ -177,7 +176,7 @@ void ChaseBall::Enter(FieldPlayer* player)
   player->Steering()->SeekOn();
 
   #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters chase state" << "";
+  //debug_con << "Player " << player->ID() << " enters chase state" << "";
   #endif
 }
 
@@ -230,7 +229,7 @@ void SupportAttacker::Enter(FieldPlayer* player)
   player->Steering()->SetTarget(player->Team()->GetSupportSpot());
   
   #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters support state" << "";
+  //debug_con << "Player " << player->ID() << " enters support state" << "";
   #endif
 }
 
@@ -312,7 +311,7 @@ void ReturnToHomeRegion::Enter(FieldPlayer* player)
   }
 
   #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters ReturnToHome state" << "";
+  //debug_con << "Player " << player->ID() << " enters ReturnToHome state" << "";
   #endif
 }
 
@@ -371,7 +370,7 @@ Wait* Wait::Instance()
 void Wait::Enter(FieldPlayer* player)
 {
   #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters wait state" << "";
+  //debug_con << "Player " << player->ID() << " enters wait state" << "";
   #endif
 
   //if the game is not on make sure the target is the center of the player's
@@ -458,7 +457,7 @@ void KickBall::Enter(FieldPlayer* player)
 
    
   #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters kick state" << "";
+  //debug_con << "Player " << player->ID() << " enters kick state" << "";
   #endif
 }
 
@@ -477,7 +476,7 @@ void KickBall::Execute(FieldPlayer* player)
       (dot < 0) ) 
   {
     #ifdef PLAYER_STATE_INFO_ON
-    debug_con << "Goaly has ball / ball behind player" << "";
+    //debug_con << "Goaly has ball / ball behind player" << "";
     #endif
     
     player->GetFSM()->ChangeState(ChaseBall::Instance());
@@ -504,7 +503,7 @@ void KickBall::Execute(FieldPlayer* player)
      (RandFloat() < Prm.ChancePlayerAttemptsPotShot))
   {
    #ifdef PLAYER_STATE_INFO_ON
-   debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
+   //debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
    #endif
 
    //add some noise to the kick. We don't want players who are 
@@ -549,8 +548,8 @@ void KickBall::Execute(FieldPlayer* player)
     player->Ball()->Kick(KickDirection, power);
 
     #ifdef PLAYER_STATE_INFO_ON
-    debug_con << "Player " << player->ID() << " passes the ball with force " << power << "  to player " 
-              << receiver->ID() << "  Target is " << BallTarget << "";
+    //debug_con << "Player " << player->ID() << " passes the ball with force " << power << "  to player " 
+     //         << receiver->ID() << "  Target is " << BallTarget << "";
     #endif
 
     
@@ -597,7 +596,7 @@ void Dribble::Enter(FieldPlayer* player)
   player->Team()->SetControllingPlayer(player);
 
 #ifdef PLAYER_STATE_INFO_ON
-  debug_con << "Player " << player->ID() << " enters dribble state" << "";
+  //debug_con << "Player " << player->ID() << " enters dribble state" << "";
   #endif
 }
 
@@ -679,7 +678,7 @@ void ReceiveBall::Enter(FieldPlayer* player)
     player->Steering()->ArriveOn();
     
     #ifdef PLAYER_STATE_INFO_ON
-    debug_con << "Player " << player->ID() << " enters receive state (Using Arrive)" << "";
+    //debug_con << "Player " << player->ID() << " enters receive state (Using Arrive)" << "";
     #endif
   }
   else
@@ -687,7 +686,7 @@ void ReceiveBall::Enter(FieldPlayer* player)
     player->Steering()->PursuitOn();
 
     #ifdef PLAYER_STATE_INFO_ON
-    debug_con << "Player " << player->ID() << " enters receive state (Using Pursuit)" << "";
+    //debug_con << "Player " << player->ID() << " enters receive state (Using Pursuit)" << "";
     #endif
   }
 }

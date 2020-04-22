@@ -8,7 +8,6 @@
 
 //uncomment to send state info to debug window
 //#define DEBUG_TEAM_STATES
-#include "Debug/DebugConsole.h"
 
 
 

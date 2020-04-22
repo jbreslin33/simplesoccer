@@ -37,26 +37,6 @@ inline std::string btos(bool b)
   return "false";
 }
 
-//--------------------------- GetValueFromStream ------------------------------
-//
-//  grabs a value of the specified type from an input stream
-//-----------------------------------------------------------------------------
-template <typename T>
-inline T GetValueFromStream(std::ifstream& stream)
-{
-  T val;
-
-  stream >> val;
-
-  //make sure it was the correct type
-  if (!stream)
-  {
-    throw std::runtime_error("Attempting to retrieve wrong type from stream");
-  }
-
-  return val;
-}
-
 //--------------------------- WriteBitsToStream ------------------------------------
 //
 // writes the value as a binary string of bits

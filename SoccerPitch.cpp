@@ -3,9 +3,8 @@
 #include "Goal.h"
 #include "Game/Region.h"
 #include "2D/Transformations.h"
-#include "2D/Geometry.h"
+#include "2D/geometry.h"
 #include "SoccerTeam.h"
-#include "Debug/DebugConsole.h"
 #include "Game/EntityManager.h"
 #include "ParamLoader.h"
 #include "PlayerBase.h"
@@ -26,13 +25,14 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                                          m_Regions(NumRegionsHorizontal*NumRegionsVertical),
                                          m_bGameOn(true)
 {
-
+	printf("pitch con");
 	mId = id;
 	mServer = server;
 
   //define the playing area
   m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
 
+/*
   //create the regions  
   CreateRegions(PlayingArea()->Width() / (double)NumRegionsHorizontal,
                 PlayingArea()->Height() / (double)NumRegionsVertical);
@@ -78,6 +78,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
   m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
 
   ParamLoader* p = ParamLoader::Instance();
+  */
 }
 
 //-------------------------------- dtor ----------------------------------
@@ -99,6 +100,8 @@ SoccerPitch::~SoccerPitch()
     delete m_Regions[i];
   }
 }
+
+
 
 //----------------------------- Update -----------------------------------
 //
@@ -132,6 +135,54 @@ void SoccerPitch::Update()
   }
 }
 
+
+void SoccerPitch::processBuffer(std::vector<std::string> stringVector)
+{
+/*
+        if (stringVector.at(1).compare(0,1,"m") == 0)
+        {
+                processMove(stringVector);
+        }
+
+        if (stringVector.at(1).compare(0,1,"j") == 0)
+        {
+                requestClient(stringVector);
+        }
+
+        if (stringVector.at(1).compare(0,1,"p") == 0)
+        {
+                requestPlayer(stringVector);
+        }
+
+        if (stringVector.at(1).compare(0,1,"g") == 0)
+        {
+                startGame(stringVector);
+        }
+	*/
+}
+
+void SoccerPitch::processMove(std::vector<std::string> stringVector)
+{
+	/*
+        int clientIdInt = atoi(stringVector.at(2).c_str());
+
+        for (int c = 0; c < mClientVector.size(); c++)
+        {
+                if (mClientVector.at(c)->mId == clientIdInt)
+                {
+                        mClientVector.at(c)->mUp = atoi(stringVector.at(3).c_str());
+                        mClientVector.at(c)->mRight = atoi(stringVector.at(4).c_str());
+                        mClientVector.at(c)->mDown = atoi(stringVector.at(5).c_str());
+                        mClientVector.at(c)->mLeft = atoi(stringVector.at(6).c_str());
+                        mClientVector.at(c)->mRotateLeft = atoi(stringVector.at(7).c_str());
+                        mClientVector.at(c)->mRotateRight = atoi(stringVector.at(8).c_str());
+                }
+        }
+	*/
+}
+
+
+
 //------------------------- CreateRegions --------------------------------
 void SoccerPitch::CreateRegions(double width, double height)
 {  
@@ -151,66 +202,6 @@ void SoccerPitch::CreateRegions(double width, double height)
   }
 }
 
-
-//------------------------------ Render ----------------------------------
-//------------------------------------------------------------------------
-bool SoccerPitch::Render()
-{
-  //draw the grass
-  gdi->DarkGreenPen();
-  gdi->DarkGreenBrush();
-  gdi->Rect(0,0,m_cxClient, m_cyClient);
-
-  //render regions
-  if (Prm.bRegions)
-  {   
-    for (unsigned int r=0; r<m_Regions.size(); ++r)
-    {
-      m_Regions[r]->Render(true);
-    }
-  }
-  
-  //render the goals
-  gdi->HollowBrush();
-  gdi->RedPen();
-  gdi->Rect(m_pPlayingArea->Left(), (m_cyClient-Prm.GoalWidth)/2, m_pPlayingArea->Left()+40, m_cyClient - (m_cyClient-Prm.GoalWidth)/2);
-
-  gdi->BluePen();
-  gdi->Rect(m_pPlayingArea->Right(), (m_cyClient-Prm.GoalWidth)/2, m_pPlayingArea->Right()-40, m_cyClient - (m_cyClient-Prm.GoalWidth)/2);
-  
-  //render the pitch markings
-  gdi->WhitePen();
-  gdi->Circle(m_pPlayingArea->Center(), m_pPlayingArea->Width() * 0.125);
-  gdi->Line(m_pPlayingArea->Center().x, m_pPlayingArea->Top(), m_pPlayingArea->Center().x, m_pPlayingArea->Bottom());
-  gdi->WhiteBrush();
-  gdi->Circle(m_pPlayingArea->Center(), 2.0);
-
-
-  //the ball
-  gdi->WhitePen();
-  gdi->WhiteBrush();
-  m_pBall->Render();
-  
-  //Render the teams
-  m_pRedTeam->Render();
-  m_pBlueTeam->Render(); 
-
-  //render the walls
-  gdi->WhitePen();
-  for (unsigned int w=0; w<m_vecWalls.size(); ++w)
-  {
-    m_vecWalls[w].Render();
-  }
-
-  //show the score
-  gdi->TextColor(Cgdi::red);
-  gdi->TextAtPos((m_cxClient/2)-50, m_cyClient-18, "Red: " + ttos(m_pBlueGoal->NumGoalsScored()));
-
-  gdi->TextColor(Cgdi::blue);
-  gdi->TextAtPos((m_cxClient/2)+10, m_cyClient-18, "Blue: " + ttos(m_pRedGoal->NumGoalsScored()));
-
-  return true;  
-}
 
 
 

@@ -1,4 +1,4 @@
-#include "framecounter.h"
+#include "FrameCounter.h"
 
 
 FrameCounter* FrameCounter::Instance()

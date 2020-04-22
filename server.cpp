@@ -13,14 +13,14 @@ Server::Server()
 int Server::getNextSoccerPitchId()
 {
 	mSoccerPitchIdCounter++;
-	return mGameIdCounter;
+	return mSoccerPitchIdCounter;
 }
 
 void Server::update()
 {
 	for (int i = 0; i < mSoccerPitchVector.size(); i++)
 	{
-		mSoccerPitchVector.at(i)->update();		
+		mSoccerPitchVector.at(i)->Update();		
 	}                 
 
 }

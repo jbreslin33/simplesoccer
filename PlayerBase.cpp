@@ -1,8 +1,7 @@
 #include "PlayerBase.h"
 #include "SteeringBehaviors.h"
 #include "2D/Transformations.h"
-#include "2D/Geometry.h"
-#include "misc/Cgdi.h"
+#include "2D/geometry.h"
 #include "2D/C2DMatrix.h"
 #include "Game/Region.h"
 #include "ParamLoader.h"
@@ -13,7 +12,6 @@
 #include "Goal.h"
 #include "SoccerBall.h"
 #include "SoccerPitch.h"
-#include "Debug/DebugConsole.h"
 
 
 using std::vector;

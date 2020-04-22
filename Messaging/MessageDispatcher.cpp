@@ -1,8 +1,7 @@
 #include "MessageDispatcher.h"
 #include "Game/BaseGameEntity.h"
 #include "misc/FrameCounter.h"
-#include "game/EntityManager.h"
-#include "Debug/DebugConsole.h"
+#include "Game/EntityManager.h"
 
 using std::set;
 
@@ -30,7 +29,6 @@ void MessageDispatcher::Discharge(BaseGameEntity* pReceiver, const Telegram& tel
   {
     //telegram could not be handled
     #ifdef SHOW_MESSAGING_INFO
-    debug_con << "Message not handled" << "";
     #endif
   }
 }
@@ -55,7 +53,7 @@ void MessageDispatcher::DispatchMsg(double       delay,
   if (pReceiver == NULL)
   {
     #ifdef SHOW_MESSAGING_INFO
-    debug_con << "\nWarning! No Receiver with ID of " << receiver << " found" << "";
+    //debug_con << "\nWarning! No Receiver with ID of " << receiver << " found" << "";
     #endif
 
     return;
@@ -68,9 +66,9 @@ void MessageDispatcher::DispatchMsg(double       delay,
   if (delay <= 0.0)                                                        
   {
     #ifdef SHOW_MESSAGING_INFO
-    debug_con << "\nTelegram dispatched at time: " << TickCounter->GetCurrentFrame()
-         << " by " << sender << " for " << receiver 
-         << ". Msg is " << msg << "";
+    //debug_con << "\nTelegram dispatched at time: " << TickCounter->GetCurrentFrame()
+     //    << " by " << sender << " for " << receiver 
+      //   << ". Msg is " << msg << "";
     #endif
 
     //send the telegram to the recipient
@@ -88,9 +86,9 @@ void MessageDispatcher::DispatchMsg(double       delay,
     PriorityQ.insert(telegram);   
 
     #ifdef SHOW_MESSAGING_INFO
-    debug_con << "\nDelayed telegram from " << sender << " recorded at time " 
-            << TickCounter->GetCurrentFrame() << " for " << receiver
-            << ". Msg is " << msg << "";
+    //debug_con << "\nDelayed telegram from " << sender << " recorded at time " 
+     //       << TickCounter->GetCurrentFrame() << " for " << receiver
+      //      << ". Msg is " << msg << "";
     #endif
   }
 }
@@ -119,8 +117,8 @@ void MessageDispatcher::DispatchDelayedMessages()
     BaseGameEntity* pReceiver = EntityMgr->GetEntityFromID(telegram.Receiver);
 
     #ifdef SHOW_MESSAGING_INFO
-    debug_con << "\nQueued telegram ready for dispatch: Sent to " 
-         << pReceiver->ID() << ". Msg is "<< telegram.Msg << "";
+    //debug_con << "\nQueued telegram ready for dispatch: Sent to " 
+     //    << pReceiver->ID() << ". Msg is "<< telegram.Msg << "";
     #endif
 
     //send the telegram to the recipient

@@ -36,6 +36,8 @@ public:
 
   SoccerBall*          m_pBall;
 
+  int mId;
+
   SoccerTeam*          m_pRedTeam;
   SoccerTeam*          m_pBlueTeam;
 
@@ -80,8 +82,10 @@ public:
   ~SoccerPitch();
 
   void  Update();
+  void processBuffer(std::vector<std::string> stringVector);
+  void processMove(std::vector<std::string> stringVector);
 
-  bool  Render();
+
 
   void  TogglePause(){m_bPaused = !m_bPaused;}
   bool  Paused()const{return m_bPaused;}

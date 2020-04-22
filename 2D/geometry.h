@@ -10,8 +10,8 @@
 //
 //------------------------------------------------------------------------
 #include "misc/utils.h"
-#include "2d/Vector2D.h"
-#include "2d/C2DMatrix.h"
+#include "2D/Vector2D.h"
+#include "2D/C2DMatrix.h"
 #include "Transformations.h"
 
 #include <math.h>
@@ -578,6 +578,7 @@ inline bool   LineSegmentCircleIntersection(Vector2D A,
 //
 //  returns false if no intersection point is found
 //-----------------------------------------------------------------------------
+/*
 inline bool GetLineSegmentCircleClosestIntersectionPoint(Vector2D A,
                                                          Vector2D B,
                                                          Vector2D pos,
@@ -588,7 +589,11 @@ inline bool GetLineSegmentCircleClosestIntersectionPoint(Vector2D A,
 
   //move the circle into the local space defined by the vector B-A with origin
   //at A
-  Vector2D LocalPos = PointToLocalSpace(pos, toBNorm, toBNorm.Perp(), A);
+  
+	Vector2D v = toBNorm.Perp();
+  
+  //Vector2D LocalPos = PointToLocalSpace(pos, toBNorm, toBNorm.Perp(), A);
+  Vector2D LocalPos = PointToLocalSpace(pos, toBNorm, v, A);
 
   bool ipFound = false;
 
@@ -625,6 +630,7 @@ inline bool GetLineSegmentCircleClosestIntersectionPoint(Vector2D A,
 
   return ipFound;
 }
+*/
 
 #endif
 

@@ -49,20 +49,6 @@ public:
   double    Right()const{return m_vBottomRight.x;}
   Vector2D Center()const{return m_vCenter;}
 
-  void     Render(bool RenderCenter = false)const
-  {
-    gdi->Line((int)Left(), (int)Top(), (int)Right(), (int)Top() );
-    gdi->Line((int)Left(), (int)Bottom(), (int)Right(), (int)Bottom() );
-    gdi->Line((int)Left(), (int)Top(), (int)Left(), (int)Bottom() );
-    gdi->Line((int)Right(), (int)Top(), (int)Right(), (int)Bottom() );
-
-
-    if (RenderCenter)
-    {
-      gdi->Circle(m_vCenter, 5);
-    }
-  }
-
 };
   
 #endif

@@ -3,18 +3,15 @@
 #include "Goal.h"
 #include "SoccerBall.h"
 #include "constants.h"
-#include "time/regulator.h"
 #include "SoccerTeam.h"
 #include "ParamLoader.h"
 #include "SoccerPitch.h"
 
-#include "debug/DebugConsole.h"
 
 //------------------------------- dtor ----------------------------------------
 //-----------------------------------------------------------------------------
 SupportSpotCalculator::~SupportSpotCalculator()
 {
-  delete m_pRegulator;
 }
 
 
@@ -54,8 +51,6 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
     }
   }
   
-  //create the regulator
-  m_pRegulator = new Regulator(Prm.SupportSpotUpdateFreq);
 }
 
 
@@ -66,10 +61,12 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
 Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 {
   //only update the spots every few frames                              
+  /*
   if (!m_pRegulator->isReady() && m_pBestSupportingSpot)
   {
     return m_pBestSupportingSpot->m_vPos;
   }
+  */
 
   //reset the best supporting spot
   m_pBestSupportingSpot = NULL;
@@ -157,21 +154,3 @@ Vector2D SupportSpotCalculator::GetBestSupportingSpot()
   }
 }
 
-//----------------------------------- Render ----------------------------------
-//-----------------------------------------------------------------------------
-void SupportSpotCalculator::Render()const
-{
-    gdi->HollowBrush();
-    gdi->GreyPen();
-
-    for (unsigned int spt=0; spt<m_Spots.size(); ++spt)
-    {
-      gdi->Circle(m_Spots[spt].m_vPos, m_Spots[spt].m_dScore);
-    }
-
-    if (m_pBestSupportingSpot)
-    {
-      gdi->GreenPen();
-      gdi->Circle(m_pBestSupportingSpot->m_vPos, m_pBestSupportingSpot->m_dScore);
-    }
-}

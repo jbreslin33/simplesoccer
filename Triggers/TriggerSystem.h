@@ -110,16 +110,6 @@ public:
     m_Triggers.push_back(trigger);
   }
 
-  //some triggers are required to be rendered (like giver-triggers for example)
-  void Render()
-  {
-    TriggerList::iterator curTrg;
-    for (curTrg = m_Triggers.begin(); curTrg != m_Triggers.end(); ++curTrg)
-    {
-      (*curTrg)->Render();
-    }
-  }
-
   const TriggerList& GetTriggers()const{return m_Triggers;}
 
 };

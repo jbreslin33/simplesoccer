@@ -15,7 +15,7 @@
 #include <string>
 #include <iosfwd>
 #include "2D/Vector2D.h"
-#include "2D/Geometry.h"
+#include "2D/geometry.h"
 #include "misc/utils.h"
 
 
@@ -70,8 +70,6 @@ public:
 
   virtual void Update(){}; 
 
-  virtual void Render()=0;
-  
   virtual bool HandleMessage(const Telegram& msg){return false;}
   
   //entities should be able to read/write their data to a stream

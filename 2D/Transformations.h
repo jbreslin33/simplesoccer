@@ -138,7 +138,8 @@ inline Vector2D VectorToWorldSpace(const Vector2D &vec,
 //--------------------- PointToLocalSpace --------------------------------
 //
 //------------------------------------------------------------------------
-inline Vector2D PointToLocalSpace(const Vector2D &point,
+/*
+Vector2D PointToLocalSpace(const Vector2D &point,
                              Vector2D &AgentHeading,
                              Vector2D &AgentSide,
                               Vector2D &AgentPosition)
@@ -163,7 +164,7 @@ inline Vector2D PointToLocalSpace(const Vector2D &point,
 
   return TransPoint;
 }
-
+*/
 //--------------------- VectorToLocalSpace --------------------------------
 //
 //------------------------------------------------------------------------

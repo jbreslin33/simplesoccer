@@ -1,12 +1,11 @@
-#include "GoalKeeper.h"
-#include "misc/Cgdi.h"
+#include "Goalkeeper.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
 #include "SoccerPitch.h"
-#include "2D/transformations.h"
+#include "2D/Transformations.h"
 #include "GoalKeeperStates.h"
 #include "Goal.h"
-#include "game/EntityFunctionTemplates.h"
+#include "Game/EntityFunctionTemplates.h"
 #include "ParamLoader.h"
 
 
@@ -126,40 +125,3 @@ bool GoalKeeper::HandleMessage(const Telegram& msg)
   return m_pStateMachine->HandleMessage(msg);
 }
 
-//--------------------------- Render -------------------------------------
-//
-//------------------------------------------------------------------------
-void GoalKeeper::Render()                                         
-{
-  if (Team()->Color() == SoccerTeam::blue) 
-    gdi->BluePen();
-  else 
-    gdi->RedPen();
-  
-  m_vecPlayerVBTrans = WorldTransform(m_vecPlayerVB,
-                                       Pos(),
-                                       m_vLookAt,
-                                       m_vLookAt.Perp(),
-                                       Scale());
-
-  gdi->ClosedShape(m_vecPlayerVBTrans);
-  
-  //draw the head
-  gdi->BrownBrush();
-  gdi->Circle(Pos(), 6);
-
-  //draw the ID
-  if (Prm.bIDs)
-  {
-    gdi->TextColor(0, 170, 0);;
-    gdi->TextAtPos(Pos().x-20, Pos().y-20, ttos(ID()));
-  }
-
-  //draw the state
-  if (Prm.bStates)
-  { 
-    gdi->TextColor(0, 170, 0); 
-    gdi->TransparentText(); 
-    gdi->TextAtPos(m_vPosition.x, m_vPosition.y -20, std::string(m_pStateMachine->GetNameOfCurrentState()));
-  }
-}

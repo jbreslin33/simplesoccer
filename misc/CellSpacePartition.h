@@ -115,7 +115,6 @@ public:
   void        EmptyCells();
 
   //call this to use the gdi to render the cell edges
-  inline void RenderCells()const;
 };
 
 
@@ -273,16 +272,5 @@ inline void CellSpacePartition<entity>::UpdateEntity(const entity&  ent,
   m_Cells[NewIdx].Members.push_back(ent);
 }
 
-//-------------------------- RenderCells -----------------------------------
-//--------------------------------------------------------------------------
-template<class entity>
-inline void CellSpacePartition<entity>::RenderCells()const
-{
-  std::vector<Cell<entity> >::const_iterator curCell;
-  for (curCell=m_Cells.begin(); curCell!=m_Cells.end(); ++curCell)
-  {
-    curCell->BBox.Render(false);
-  }
-}
 
 #endif

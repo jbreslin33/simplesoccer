@@ -1,11 +1,47 @@
 #include "SoccerBall.h"
 #include "2D/geometry.h"
-#include "Debug/DebugConsole.h"
-#include "misc/Cgdi.h"
 #include "ParamLoader.h"
 #include "2D/Wall2D.h"
 
+SoccerBall::SoccerBall(Vector2D           pos,            
+             double               BallSize,
+             double               mass,
+             std::vector<Wall2D>& PitchBoundary):
+  
+      //set up the base class
+      MovingEntity(pos,
+                  BallSize,
+                  Vector2D(0,0),
+                  -1.0,                //max speed - unused
+                  Vector2D(0,1),
+                  mass,
+                  Vector2D(1.0,1.0),  //scale     - unused
+                  0,                   //turn rate - unused
+                  0),                  //max force - unused
+     m_PitchBoundary(PitchBoundary)
+  {}
+/*
 
+SoccerBall::SoccerBall(Vector2D           pos,
+             double               BallSize,
+             double               mass,
+             const std::vector<Wall2D>& PitchBoundary):
+
+      //set up the base class
+      MovingEntity(pos,
+                  BallSize,
+                  Vector2D(0,0),
+                  -1.0,                //max speed - unused
+                  Vector2D(0,1),
+                  mass,
+                  Vector2D(1.0,1.0),  //scale     - unused
+                  0,                   //turn rate - unused
+                  0,                  //max force - unused
+     PitchBoundary)
+  {
+  
+  }
+*/
 //----------------------------- AddNoiseToKick --------------------------------
 //
 //  this can be used to vary the accuracy of a player's kick. Just call it 
@@ -133,26 +169,6 @@ Vector2D SoccerBall::FuturePosition(double time)const
 
   //the predicted position is the balls position plus these two terms
   return Pos() + ut + ScalarToVector;
-}
-
-
-//----------------------------- Render -----------------------------------
-//
-//  Renders the ball
-//------------------------------------------------------------------------
-void SoccerBall::Render()
-{
-  gdi->BlackBrush();
-
-  gdi->Circle(m_vPosition, m_dBoundingRadius);
-
-  /*
-  gdi->GreenBrush();
-  for (int i=0; i<IPPoints.size(); ++i)
-  {
-    gdi->Circle(IPPoints[i], 3);
-  }
-  */
 }
 
 

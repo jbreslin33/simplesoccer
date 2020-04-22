@@ -16,15 +16,11 @@
 
 #include "Game/Region.h"
 #include "2D/Vector2D.h"
-#include "misc/Cgdi.h"
-
 
 class PlayerBase;
 class Goal;
 class SoccerBall;
 class SoccerTeam;
-class Regulator;
-
 
 
 //------------------------------------------------------------------------
@@ -58,7 +54,6 @@ private:
 
   //this will regulate how often the spots are calculated (default is
   //one update per second)
-  Regulator*                m_pRegulator;
 
 public:
   
@@ -71,8 +66,7 @@ public:
   //draws the spots to the screen as a hollow circles. The higher the 
   //score, the bigger the circle. The best supporting spot is drawn in
   //bright green.
-  void       Render()const;
-
+  
   //this method iterates through each possible spot and calculates its
   //score.
   Vector2D  DetermineBestSupportingPosition();

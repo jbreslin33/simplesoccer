@@ -22,7 +22,6 @@
 #include "FSM/StateMachine.h"
 #include "PlayerBase.h"
 #include "FSM/StateMachine.h"
-#include "time/Regulator.h"
 
 class CSteeringBehavior;
 class SoccerTeam;
@@ -37,10 +36,6 @@ private:
 
    //an instance of the state machine class
   StateMachine<FieldPlayer>*  m_pStateMachine;
-  
-  //limits the number of kicks a player may take per second
-  Regulator*                  m_pKickLimiter;
-
   
 public:
 
@@ -61,13 +56,12 @@ public:
   //call this to update the player's position and orientation
   void        Update();   
 
-  void        Render();
-
   bool        HandleMessage(const Telegram& msg);
 
   StateMachine<FieldPlayer>* GetFSM()const{return m_pStateMachine;}
 
-  bool        isReadyForNextKick()const{return m_pKickLimiter->isReady();}
+  //bool        isReadyForNextKick()const{return m_pKickLimiter->isReady();}
+  bool        isReadyForNextKick()const{return true;}
 
          
 };

@@ -2,7 +2,7 @@
 #include "SoccerPitch.h"
 #include "Goal.h"
 #include "PlayerBase.h"
-#include "GoalKeeper.h"
+#include "Goalkeeper.h"
 #include "FieldPlayer.h"
 #include "misc/utils.h"
 #include "SteeringBehaviors.h"
@@ -13,8 +13,6 @@
 #include "Messaging/MessageDispatcher.h"
 #include "SoccerMessages.h"
 #include "TeamStates.h"
-#include "Debug/DebugConsole.h"
-#include <windows.h>
 
 using std::vector;
 
@@ -314,11 +312,15 @@ bool SoccerTeam::isPassSafeFromOpponent(Vector2D    from,
   Vector2D ToTarget = target - from;
   Vector2D ToTargetNormalized = Vec2DNormalize(ToTarget);
 
+	Vector2D v = ToTargetNormalized.Perp();
+	//needs fixing as i hacked it
+  Vector2D LocalPosOpp;
+/*
   Vector2D LocalPosOpp = PointToLocalSpace(opp->Pos(),
                                          ToTargetNormalized,
-                                         ToTargetNormalized.Perp(),
+                                         v,
                                          from);
-
+*/
   //if opponent is behind the kicker then pass is considered okay(this is 
   //based on the assumption that the ball is going to be kicked with a 
   //velocity greater than the opponent's max velocity)
@@ -392,7 +394,7 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
   {
     if (!isPassSafeFromOpponent(from, target, receiver, *opp, PassingForce))
     {
-      debug_on
+      //debug_on
         
       return false;
     }
@@ -412,7 +414,7 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
 //------------------------------------------------------------------------
 bool SoccerTeam::CanShoot(Vector2D  BallPos,
                           double     power, 
-                          Vector2D& ShotTarget)const
+                          const Vector2D& ShotTarget)const
 {
   //the number of randomly created shot targets this method will test 
   int NumAttempts = Prm.NumAttemptsToFindValidStrike;
@@ -421,26 +423,28 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos,
   {
     //choose a random position along the opponent's goal mouth. (making
     //sure the ball's radius is taken into account)
-    ShotTarget = OpponentsGoal()->Center();
+    
+	Vector2D shotTarget = OpponentsGoal()->Center();
+    //ShotTarget = OpponentsGoal()->Center();
 
     //the y value of the shot position should lay somewhere between two
     //goalposts (taking into consideration the ball diameter)
     int MinYVal = (int)(OpponentsGoal()->LeftPost().y + Pitch()->Ball()->BRadius());
     int MaxYVal = (int)(OpponentsGoal()->RightPost().y - Pitch()->Ball()->BRadius());
 
-    ShotTarget.y = (double)RandInt(MinYVal, MaxYVal);
+    shotTarget.y = (double)RandInt(MinYVal, MaxYVal);
 
     //make sure striking the ball with the given power is enough to drive
     //the ball over the goal line.
     double time = Pitch()->Ball()->TimeToCoverDistance(BallPos,
-                                                      ShotTarget,
+                                                      shotTarget,
                                                       power);
     
     //if it is, this shot is then tested to see if any of the opponents
     //can intercept it.
     if (time >= 0)
     {
-      if (isPassSafeFromAllOpponents(BallPos, ShotTarget, NULL, power))
+      if (isPassSafeFromAllOpponents(BallPos, shotTarget, NULL, power))
       {
         return true;
       }
@@ -472,93 +476,6 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
   }
 }
 
-
-//--------------------------- Render -------------------------------------
-//
-//  renders the players and any team related info
-//------------------------------------------------------------------------
-void SoccerTeam::Render()const
-{
-  std::vector<PlayerBase*>::const_iterator it = m_Players.begin();
-
-  for (it; it != m_Players.end(); ++it)
-  {
-    (*it)->Render();
-  }
-
-  //show the controlling team and player at the top of the display
-  if (Prm.bShowControllingTeam)
-  {
-    gdi->TextColor(Cgdi::white);
-    
-    if ( (Color() == blue) && InControl())
-    {
-      gdi->TextAtPos(20,3,"Blue in Control");
-    }
-    else if ( (Color() == red) && InControl())
-    {
-      gdi->TextAtPos(20,3,"Red in Control");
-    }
-    if (m_pControllingPlayer != NULL)
-    {
-      gdi->TextAtPos(Pitch()->cxClient()-150, 3, "Controlling Player: " + ttos(m_pControllingPlayer->ID()));
-    }
-  }
-
-  //render the sweet spots
-  if (Prm.bSupportSpots && InControl())
-  {
-    m_pSupportSpotCalc->Render();
-  }
-
-//#define SHOW_TEAM_STATE
-#ifdef SHOW_TEAM_STATE
-  if (Color() == red)
-  {
-    gdi->TextColor(Cgdi::white);
-
-    if (CurrentState() == Attacking::Instance())
-    {
-      gdi->TextAtPos(160, 20, "Attacking");
-    }
-    if (CurrentState() == Defending::Instance())
-    {
-      gdi->TextAtPos(160, 20, "Defending");
-    }
-    if (CurrentState() == PrepareForKickOff::Instance())
-    {
-      gdi->TextAtPos(160, 20, "Kickoff");
-    }
-  }
-  else
-  {
-    if (CurrentState() == Attacking::Instance())
-    {
-      gdi->TextAtPos(160, Pitch()->cyClient()-40, "Attacking");
-    }
-    if (CurrentState() == Defending::Instance())
-    {
-      gdi->TextAtPos(160, Pitch()->cyClient()-40, "Defending");
-    }
-    if (CurrentState() == PrepareForKickOff::Instance())
-    {
-      gdi->TextAtPos(160, Pitch()->cyClient()-40, "Kickoff");
-    }
-  }
-#endif
-
-//#define SHOW_SUPPORTING_PLAYERS_TARGET
-#ifdef SHOW_SUPPORTING_PLAYERS_TARGET
-  if (m_pSupportingPlayer)
-  {
-    gdi->BlueBrush();
-    gdi->RedPen();
-    gdi->Circle(m_pSupportingPlayer->Steering()->Target(), 4);
-
-  }
-#endif
-
-}
 
 //------------------------- CreatePlayers --------------------------------
 //
