@@ -32,10 +32,10 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
   //define the playing area
   m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
 
-/*
   //create the regions  
   CreateRegions(PlayingArea()->Width() / (double)NumRegionsHorizontal,
                 PlayingArea()->Height() / (double)NumRegionsVertical);
+/*
 
   //create the goals
    m_pRedGoal  = new Goal(Vector2D( m_pPlayingArea->Left(), (cy-Prm.GoalWidth)/2),
