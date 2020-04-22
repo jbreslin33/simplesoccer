@@ -34,14 +34,18 @@ GoalKeeper::GoalKeeper(SoccerTeam*        home_team,
                                          
                                         
 {   
-   //set up the state machine
-  m_pStateMachine = new StateMachine<GoalKeeper>(this);
-
-  m_pStateMachine->SetCurrentState(start_state);
-  m_pStateMachine->SetPreviousState(start_state);
-  m_pStateMachine->SetGlobalState(GlobalKeeperState::Instance());
-
-  m_pStateMachine->CurrentState()->Enter(this);        
+	printf("Goalkeeper Constructor\n");	
+   	//set up the state machine
+  	m_pStateMachine = new StateMachine<GoalKeeper>(this);
+	printf("Goalkeeper Constructor 1\n");	
+  	m_pStateMachine->SetCurrentState(start_state);
+	printf("Goalkeeper Constructor 2\n");	
+  	m_pStateMachine->SetPreviousState(start_state);
+	printf("Goalkeeper Constructor 3\n");	
+  	m_pStateMachine->SetGlobalState(GlobalKeeperState::Instance());
+	printf("Goalkeeper Constructor 4\n");	
+  	m_pStateMachine->CurrentState()->Enter(this);        
+	printf("Goalkeeper Constructor END\n");	
 }
 
 

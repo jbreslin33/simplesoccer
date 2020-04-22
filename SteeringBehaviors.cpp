@@ -20,13 +20,14 @@ SteeringBehaviors::SteeringBehaviors(PlayerBase*  agent,
                                   
              m_pPlayer(agent),
              m_iFlags(0),
-             m_dMultSeparation(Prm.SeparationCoefficient),
+             m_dMultSeparation(10.0),
              m_bTagged(false),
-             m_dViewDistance(Prm.ViewDistance),
+             m_dViewDistance(30.0),
              m_pBall(ball),
              m_dInterposeDist(0.0),
              m_Antenna(5,Vector2D())
 {
+	printf("SteeringBehaviors::SteeringBehaviors()\n");
 }
 
 //--------------------- AccumulateForce ----------------------------------

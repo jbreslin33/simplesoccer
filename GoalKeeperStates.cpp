@@ -74,12 +74,15 @@ TendGoal* TendGoal::Instance()
 
 void TendGoal::Enter(GoalKeeper* keeper)
 {
+	printf("TendGoal::Enter()\n");
   //turn interpose on
   keeper->Steering()->InterposeOn(Prm.GoalKeeperTendingDistance);
+	printf("TendGoal::Enter() 1\n");
 
   //interpose will position the agent between the ball position and a target
   //position situated along the goal mouth. This call sets the target
   keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
+	printf("TendGoal::Enter() 2\n");
 }
 
 void TendGoal::Execute(GoalKeeper* keeper)
@@ -121,7 +124,8 @@ void TendGoal::Execute(GoalKeeper* keeper)
 
 void TendGoal::Exit(GoalKeeper* keeper)
 {
-  keeper->Steering()->InterposeOff();
+	printf("TendGoal::Exit()\n");
+	keeper->Steering()->InterposeOff();
 }
 
 

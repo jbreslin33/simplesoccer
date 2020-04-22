@@ -498,6 +498,25 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
 void SoccerTeam::CreatePlayers()
 {
 	printf("CreatePlayers ENTER\n");
+	//TendGoal::Instance();
+	printf("CreatePlayers AFTER INSTANCE\n");
+
+		 	new GoalKeeper
+			(
+				this,
+                               	16,
+                               	TendGoal::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                                3.0,
+                                1.0,
+                                1.6,
+                                0.4,
+                                1.0
+			);
+	printf("CreatePlayers AFTER TEST OF KEEPER\n");
+
+
 	if (Color() == blue)
   	{
 		printf("CreatePlayers blue\n");
