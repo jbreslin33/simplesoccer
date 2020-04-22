@@ -26,8 +26,62 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                                          m_bGameOn(true)
 {
 	printf("SoccerPitch Constructor\n");
+
+	//params
+	GoalWidth = 100;
+	NumSweetSpotsX                  13
+NumSweetSpotsY                  6
+Spot_CanPassScore                     2.0
+Spot_CanScoreFromPositionScore        1.0
+Spot_DistFromControllingPlayerScore    2.0
+Spot_ClosenessToSupportingPlayerScore 0.0
+Spot_AheadOfAttackerScore             0.0
+SupportSpotUpdateFreq           1
+ChancePlayerAttemptsPotShot     0.005
+ChanceOfUsingArriveTypeReceiveBehavior  0.5
+BallSize                        5.0
+BallMass                        1.0
+Friction                        -0.015
+KeeperInBallRange               10.0
+PlayerInTargetRange             10.0
+PlayerKickingDistance           6.0
+PlayerKickFrequency               8
+PlayerMass                      3.0
+PlayerMaxForce                  1.0
+PlayerMaxSpeedWithBall          1.2
+PlayerMaxSpeedWithoutBall       1.6
+PlayerMaxTurnRate               0.4
+PlayerScale                     1.0
+PlayerComfortZone               60.0
+PlayerKickingAccuracy           0.99
+NumAttemptsToFindValidStrike    5
+MaxDribbleForce                 1.5
+MaxShootingForce                6.0
+MaxPassingForce                 3.0
+WithinRangeOfHome               15.0
+WithinRangeOfSweetSpot          15.0
+MinPassDistance                 120.0
+GoalkeeperMinPassDistance       50.0
+GoalKeeperTendingDistance       20.0
+GoalKeeperInterceptRange              100.0
+BallWithinReceivingRange        10.0
+ViewStates                          1
+ViewIDs                             1
+ViewSupportSpots                    1
+ViewRegions                         0
+bShowControllingTeam                1
+ViewTargets                         0
+HighlightIfThreatened               0
+FrameRate                           60;
+SeparationCoefficient                10.0;
+ViewDistance                        30.0;
+bNonPenetrationConstraint           0
+
+	
+	
 	mId = id;
 	mServer = server;
+
 
   	//define the playing area
   	m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
