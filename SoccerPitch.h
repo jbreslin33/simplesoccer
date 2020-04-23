@@ -32,152 +32,162 @@ class Server;
 
 class SoccerPitch
 { 
-public:
+	public:
 
-	SoccerBall*          m_pBall;
+		SoccerBall*          m_pBall;
+		double MinPassDistance                  = 120.0;
+		double GoalkeeperMinPassDistance;
+		int ViewStates;
+		int ViewIDs;
+		int ViewSupportSpots;
+		int ViewRegions;
+		int ViewTargets;
+		int HighlightIfThreatened;
   
-	//params
-  	double GoalWidth; 
+		//params
+  		double GoalWidth; 
     
-    	int NumSupportSpotsX;    
-    	int NumSupportSpotsY;   
+    		int NumSupportSpotsX;    
+    		int NumSupportSpotsY;   
+
+		int NumSweetSpotsX;
+		int NumSweetSpotsY;
+
+		double Spot_CanPassScore;
+		double WithinRangeOfSweetSpot;
     
-    	double Spot_PassSafeScore;
-    	double Spot_CanScoreFromPositionScore;
-    	double Spot_DistFromControllingPlayerScore;
-    	double Spot_ClosenessToSupportingPlayerScore;
-    	double Spot_AheadOfAttackerScore;
+    		double Spot_PassSafeScore;
+    		double Spot_CanScoreFromPositionScore;
+    		double Spot_DistFromControllingPlayerScore;
+    		double Spot_ClosenessToSupportingPlayerScore;
+    		double Spot_AheadOfAttackerScore;
 
-    	double SupportSpotUpdateFreq; 
+    		double SupportSpotUpdateFreq; 
     
-    	double ChancePlayerAttemptsPotShot;
-    ChanceOfUsingArriveTypeReceiveBehavior = GetNextParameterDouble();
+    		double ChancePlayerAttemptsPotShot;
+    		double ChanceOfUsingArriveTypeReceiveBehavior;
     
-    BallSize                    = GetNextParameterDouble();    
-    BallMass                    = GetNextParameterDouble();    
-    Friction                    = GetNextParameterDouble(); 
+    		double BallSize;    
+    		double BallMass;    
+    		double Friction; 
     
-    KeeperInBallRange           = GetNextParameterDouble();    
-    PlayerInTargetRange         = GetNextParameterDouble(); 
-    PlayerKickingDistance       = GetNextParameterDouble(); 
-    PlayerKickFrequency         = GetNextParameterDouble();
+    		double KeeperInBallRange;    
+    		double PlayerInTargetRange; 
+    		double PlayerKickingDistance; 
+    		double PlayerKickFrequency;
 
+    		double PlayerMass; 
+    		double PlayerMaxForce;    
+    		double PlayerMaxSpeedWithBall;   
+    		double PlayerMaxSpeedWithoutBall;   
+    		double PlayerMaxTurnRate;   
+    		double PlayerScale;      
+    		double PlayerComfortZone;  
+    		double PlayerKickingAccuracy;
 
-    PlayerMass                  = GetNextParameterDouble(); 
-    PlayerMaxForce              = GetNextParameterDouble();    
-    PlayerMaxSpeedWithBall      = GetNextParameterDouble();   
-    PlayerMaxSpeedWithoutBall   = GetNextParameterDouble();   
-    PlayerMaxTurnRate           = GetNextParameterDouble();   
-    PlayerScale                 = GetNextParameterDouble();      
-    PlayerComfortZone           = GetNextParameterDouble();  
-    PlayerKickingAccuracy       = GetNextParameterDouble();
+    		int    NumAttemptsToFindValidStrike;
 
-    NumAttemptsToFindValidStrike = GetNextParameterInt();
-
-
+    		double MaxDribbleForce;    
+    		double MaxShootingForce;    
+    		double MaxPassingForce;  
     
-    MaxDribbleForce             = GetNextParameterDouble();    
-    MaxShootingForce            = GetNextParameterDouble();    
-    MaxPassingForce             = GetNextParameterDouble();  
+    		double WithinRangeOfHome;    
+    		double WithinRangeOfSupportSpot;    
     
-    WithinRangeOfHome           = GetNextParameterDouble();    
-    WithinRangeOfSupportSpot    = GetNextParameterDouble();    
+   	 	double MinPassDist;
+    		double GoalkeeperMinPassDist;
+   	 
+    		double GoalKeeperTendingDistance;    
+   	 	double GoalKeeperInterceptRange;
+    		double BallWithinReceivingRange;
     
-    MinPassDist                 = GetNextParameterDouble();
-    GoalkeeperMinPassDist       = GetNextParameterDouble();
-    
-    GoalKeeperTendingDistance   = GetNextParameterDouble();    
-    GoalKeeperInterceptRange    = GetNextParameterDouble();
-    BallWithinReceivingRange    = GetNextParameterDouble();
-    
-    bStates                     = GetNextParameterBool();    
-    bIDs                        = GetNextParameterBool(); 
-    bSupportSpots               = GetNextParameterBool();     
-    bRegions                    = GetNextParameterBool();
-    bShowControllingTeam        = GetNextParameterBool();
-    bViewTargets                = GetNextParameterBool();
-    bHighlightIfThreatened      = GetNextParameterBool();
+    		bool bStates;    
+    		bool bIDs; 
+   		bool bSupportSpots;     
+    		bool bRegions;
+    		bool bShowControllingTeam;
+    		bool bViewTargets;
+    		bool bHighlightIfThreatened;
 
-    FrameRate                   = GetNextParameterInt();
+    		int FrameRate;
 
-    SeparationCoefficient       = GetNextParameterDouble(); 
-    ViewDistance                = GetNextParameterDouble(); 
-    bNonPenetrationConstraint   = GetNextParameterBool(); 
+    		double SeparationCoefficient; 
+    		double ViewDistance; 
+    		bool bNonPenetrationConstraint; 
 
-  int mId;
+  		int mId;
 
-  SoccerTeam*          m_pRedTeam;
-  SoccerTeam*          m_pBlueTeam;
+  		SoccerTeam*          m_pRedTeam;
+  		SoccerTeam*          m_pBlueTeam;
 
-  Goal*                m_pRedGoal;
-  Goal*                m_pBlueGoal;
+  		Goal*                m_pRedGoal;
+  		Goal*                m_pBlueGoal;
    
-  //container for the boundary walls
-  std::vector<Wall2D>  m_vecWalls;
+  		//container for the boundary walls
+  		std::vector<Wall2D>  m_vecWalls;
 
-  //defines the dimensions of the playing area
-  Region*              m_pPlayingArea;
+ 		//defines the dimensions of the playing area
+  		Region*              m_pPlayingArea;
 
-  //the playing field is broken up into regions that the team
-  //can make use of to implement strategies.
-  std::vector<Region*> m_Regions;
+  		//the playing field is broken up into regions that the team
+  		//can make use of to implement strategies.
+  		std::vector<Region*> m_Regions;
 
-  //true if a goal keeper has possession
-  bool                 m_bGoalKeeperHasBall;
+  		//true if a goal keeper has possession
+  		bool                 m_bGoalKeeperHasBall;
 
-  //true if the game is in play. Set to false whenever the players
-  //are getting ready for kickoff
-  bool                 m_bGameOn;
+  		//true if the game is in play. Set to false whenever the players
+  		//are getting ready for kickoff
+  		bool                 m_bGameOn;
 
-  //set true to pause the motion
-  bool                 m_bPaused;
+  		//set true to pause the motion
+  		bool                 m_bPaused;
 
-  //local copy of client window dimensions
-  int                  m_cxClient,
-                       m_cyClient;  
+  		//local copy of client window dimensions
+  		int                  m_cxClient;
+       		int               m_cyClient;  
   
-  //this instantiates the regions the players utilize to  position
-  //themselves
-  void CreateRegions(double width, double height);
+  		//this instantiates the regions the players utilize to  position
+ 	 	//themselves
+  		void CreateRegions(double width, double height);
 
-  Server* mServer;
+  		Server* mServer;
 
+	public:
 
-public:
+  		SoccerPitch(int cxClient, int cyClient, Server* server, int id);
 
-  SoccerPitch(int cxClient, int cyClient, Server* server, int id);
+  		~SoccerPitch();
 
-  ~SoccerPitch();
-
-  void  Update();
-  void processBuffer(std::vector<std::string> stringVector);
-  void processMove(std::vector<std::string> stringVector);
-
+	  	void  Update();
+  		void processBuffer(std::vector<std::string> stringVector);
+	  	void processMove(std::vector<std::string> stringVector);
 
 
-  void  TogglePause(){m_bPaused = !m_bPaused;}
-  bool  Paused()const{return m_bPaused;}
 
-  int   cxClient()const{return m_cxClient;}
-  int   cyClient()const{return m_cyClient;}
+		void  TogglePause(){m_bPaused = !m_bPaused;}
+  		bool  Paused()const{return m_bPaused;}
 
-  bool  GoalKeeperHasBall()const{return m_bGoalKeeperHasBall;}
-  void  SetGoalKeeperHasBall(bool b){m_bGoalKeeperHasBall = b;}
+  		int   cxClient()const{return m_cxClient;}
+  		int   cyClient()const{return m_cyClient;}
 
-  const Region*const         PlayingArea()const{return m_pPlayingArea;}
-  const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
-  SoccerBall*const           Ball()const{return m_pBall;}
+ 		bool  GoalKeeperHasBall()const{return m_bGoalKeeperHasBall;}
+  		void  SetGoalKeeperHasBall(bool b){m_bGoalKeeperHasBall = b;}
 
-  const Region* const GetRegionFromIndex(int idx)                                
-  {
-    assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
+  		const Region*const         PlayingArea()const{return m_pPlayingArea;}
+  		const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
+  		SoccerBall*const           Ball()const{return m_pBall;}
 
-    return m_Regions[idx];
-  }
+  		const Region* const GetRegionFromIndex(int idx)                                
+  		{
+    			assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
 
-  bool  GameOn()const{return m_bGameOn;}
-  void  SetGameOn(){m_bGameOn = true;}
-  void  SetGameOff(){m_bGameOn = false;}
+    			return m_Regions[idx];
+  		}
+
+  		bool  GameOn()const{return m_bGameOn;}
+  		void  SetGameOn(){m_bGameOn = true;}
+  		void  SetGameOff(){m_bGameOn = false;}
 
 };
 
