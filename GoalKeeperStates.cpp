@@ -76,7 +76,7 @@ void TendGoal::Enter(GoalKeeper* keeper)
 {
 	printf("TendGoal::Enter()\n");
   //turn interpose on
-  keeper->Steering()->InterposeOn(Prm.GoalKeeperTendingDistance);
+  keeper->Steering()->InterposeOn(keeper->Team()->Pitch()->GoalKeeperTendingDistance);
 	printf("TendGoal::Enter() 1\n");
 
   //interpose will position the agent between the ball position and a target

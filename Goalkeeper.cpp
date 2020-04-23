@@ -111,13 +111,13 @@ bool GoalKeeper::TooFarFromGoalMouth()const
 
 Vector2D GoalKeeper::GetRearInterposeTarget()const
 {
-  double xPosTarget = Team()->HomeGoal()->Center().x;
+	double xPosTarget = Team()->HomeGoal()->Center().x;
 
-  double yPosTarget = Pitch()->PlayingArea()->Center().y - 
-                     Prm.GoalWidth*0.5 + (Ball()->Pos().y*Prm.GoalWidth) /
+  	double yPosTarget = Pitch()->PlayingArea()->Center().y - 
+                     Team()->Pitch()->GoalWidth*0.5 + (Ball()->Pos().y*Team()->Pitch()->GoalWidth) /
                      Pitch()->PlayingArea()->Height();
 
-  return Vector2D(xPosTarget, yPosTarget); 
+  	return Vector2D(xPosTarget, yPosTarget); 
 }
 
 //-------------------- HandleMessage -------------------------------------
