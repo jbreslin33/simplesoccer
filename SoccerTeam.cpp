@@ -66,8 +66,8 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
 
 	printf("SoccerTeam Constructor 7\n");
   	//create the sweet spot calculator
-  	m_pSupportSpotCalc = new SupportSpotCalculator(Prm.NumSupportSpotsX,
-                                                 Prm.NumSupportSpotsY,
+  	m_pSupportSpotCalc = new SupportSpotCalculator(Pitch()->NumSupportSpotsX,
+                                                 Pitch()->NumSupportSpotsY,
                                                  this);
 	printf("SoccerTeam Constructor 8\n");
 }
