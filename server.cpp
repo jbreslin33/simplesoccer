@@ -19,8 +19,10 @@ int Server::getNextSoccerPitchId()
 
 void Server::update()
 {
+	printf("Server::update()\n");
 	for (int i = 0; i < mSoccerPitchVector.size(); i++)
 	{
+		printf("Server::update() 1\n");
 		mSoccerPitchVector.at(i)->Update();		
 	}                 
 

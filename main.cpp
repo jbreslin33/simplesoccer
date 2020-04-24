@@ -74,12 +74,6 @@ int main(void)
 {
 	Server server;
         SoccerPitch* soccerPitch = new SoccerPitch(104, 68, &server, server.getNextSoccerPitchId());
-	/*
-	printf("Enter main");
-	Server server;
-	printf("Server created");
-        SoccerPitch* soccerPitch = new SoccerPitch(104, 68, &server, server.getNextSoccerPitchId());
-	printf("Pitch created");
         server.mSoccerPitchVector.push_back(soccerPitch);
 
         std::thread tServer          (serverThread, &server);
@@ -87,6 +81,5 @@ int main(void)
 
         tServer.join();
         tReadSocketData.join();
-	*/
         return 0;
 }

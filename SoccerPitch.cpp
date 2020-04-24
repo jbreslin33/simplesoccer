@@ -134,8 +134,8 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	//create the teams 
   	//m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
   	m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::team_color::red);
-	/*
-  	m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::blue);
+  	m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::team_color::blue);
+
 
   	//make sure each team knows who their opponents are
   	m_pRedTeam->SetOpponents(m_pBlueTeam);
@@ -154,6 +154,9 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
   	m_vecWalls.push_back(Wall2D(TopRight, m_pBlueGoal->LeftPost()));
   	m_vecWalls.push_back(Wall2D(m_pBlueGoal->RightPost(), BottomRight));
   	m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
+
+	printf("SoccerPitch::SoccerPitch() END \n");
+	/*
 
   	ParamLoader* p = ParamLoader::Instance();
   
@@ -189,29 +192,41 @@ SoccerPitch::~SoccerPitch()
 //------------------------------------------------------------------------
 void SoccerPitch::Update()
 {
-  if (m_bPaused) return;
+	printf("SoccerPitch::Update()\n");
 
-  static int tick = 0;
+	if (m_bPaused) 
+	{
+		return;
+	}
 
-  //update the balls
-  m_pBall->Update();
+	printf("SoccerPitch::Update() 1\n");
 
-  //update the teams
-  m_pRedTeam->Update();
-  m_pBlueTeam->Update();
+  	static int tick = 0;
+	printf("SoccerPitch::Update() 2\n");
 
-  //if a goal has been detected reset the pitch ready for kickoff
-  if (m_pBlueGoal->Scored(m_pBall) || m_pRedGoal->Scored(m_pBall))
-  {
-    m_bGameOn = false;
+  	//update the balls
+  	m_pBall->Update();
+	printf("SoccerPitch::Update() 3\n");
+
+  	//update the teams
+  	m_pRedTeam->Update();
+	printf("SoccerPitch::Update() 4\n");
+  	m_pBlueTeam->Update();
+	
+	printf("SoccerPitch::Update() 5\n");
+
+  	//if a goal has been detected reset the pitch ready for kickoff
+  	if (m_pBlueGoal->Scored(m_pBall) || m_pRedGoal->Scored(m_pBall))
+ 	{
+    		m_bGameOn = false;
     
-    //reset the ball                                                      
-    m_pBall->PlaceAtPosition(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0));
+    		//reset the ball                                                      
+    		m_pBall->PlaceAtPosition(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0));
 
-    //get the teams ready for kickoff
-    m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
-    m_pBlueTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
-  }
+    		//get the teams ready for kickoff
+    		m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+   	 	m_pBlueTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+  	}
 }
 
 
