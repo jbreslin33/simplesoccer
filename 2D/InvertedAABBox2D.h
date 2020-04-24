@@ -47,7 +47,7 @@ public:
   double    Left()const{return m_vTopLeft.x;}
   double    Bottom()const{return m_vBottomRight.y;}
   double    Right()const{return m_vBottomRight.x;}
-  Vector2D Center()const{return m_vCenter;}
+  Vector2D Center(){return m_vCenter;}
 
 };
   

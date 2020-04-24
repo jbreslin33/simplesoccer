@@ -105,11 +105,11 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	(
 		Vector2D
 		( 
-			m_pPlayingArea->Left(), cy - GoalWidth/2
+			m_pPlayingArea->Left(), cy - GoalWidth/2 //550
 		),
                 Vector2D
 		(
-			m_pPlayingArea->Left(), cy - GoalWidth/2
+			m_pPlayingArea->Left(), cy - (cy - GoalWidth/2) //600 - (600 - 50) = 50
 		),
                 Vector2D(1,0)
 	);
@@ -122,7 +122,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 		),
                 Vector2D
 		(
-			m_pPlayingArea->Right(), cy - GoalWidth/2
+			m_pPlayingArea->Right(), cy - (cy - GoalWidth/2)
 		),
                 Vector2D
 		(

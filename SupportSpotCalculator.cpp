@@ -60,80 +60,81 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
 //-----------------------------------------------------------------------------
 Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 {
-  //only update the spots every few frames                              
-  /*
-  if (!m_pRegulator->isReady() && m_pBestSupportingSpot)
-  {
-    return m_pBestSupportingSpot->m_vPos;
-  }
-  */
+	//only update the spots every few frames                              
+	//BRESLIN
+  	/*
+  	if (!m_pRegulator->isReady() && m_pBestSupportingSpot)
+  	{
+    		return m_pBestSupportingSpot->m_vPos;
+  	}
+  	*/
 
-  //reset the best supporting spot
-  m_pBestSupportingSpot = NULL;
+  	//reset the best supporting spot
+  	m_pBestSupportingSpot = NULL;
  
-  double BestScoreSoFar = 0.0;
+  	double BestScoreSoFar = 0.0;
 
-  std::vector<SupportSpot>::iterator curSpot;
+  	std::vector<SupportSpot>::iterator curSpot;
 
-  for (curSpot = m_Spots.begin(); curSpot != m_Spots.end(); ++curSpot)
-  {
-    //first remove any previous score. (the score is set to one so that
-    //the viewer can see the positions of all the spots if he has the 
-    //aids turned on)
-    curSpot->m_dScore = 1.0;
+  	for (curSpot = m_Spots.begin(); curSpot != m_Spots.end(); ++curSpot)
+  	{
+    		//first remove any previous score. (the score is set to one so that
+    		//the viewer can see the positions of all the spots if he has the 
+    		//aids turned on)
+    		curSpot->m_dScore = 1.0;
 
-    //Test 1. is it possible to make a safe pass from the ball's position 
-    //to this position?
-    if(m_pTeam->isPassSafeFromAllOpponents(m_pTeam->ControllingPlayer()->Pos(),
+    		//Test 1. is it possible to make a safe pass from the ball's position 
+    		//to this position?
+    		if(m_pTeam->isPassSafeFromAllOpponents(m_pTeam->ControllingPlayer()->Pos(),
                                            curSpot->m_vPos,
                                            NULL,
                                            m_pTeam->Pitch()->MaxPassingForce))
-    {
-      curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
-    }
+    		{
+      			curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
+    		}
       
    
-    //Test 2. Determine if a goal can be scored from this position.  
-    printf("SupportSpotCalculator::DetermineBestSupportingPosition()");
-    if( m_pTeam->CanShoot(curSpot->m_vPos,            
+    		//Test 2. Determine if a goal can be scored from this position.  
+    		printf("SupportSpotCalculator::DetermineBestSupportingPosition()");
+    		if( m_pTeam->CanShoot(curSpot->m_vPos,            
                           m_pTeam->Pitch()->MaxShootingForce))
-    {
-      curSpot->m_dScore += m_pTeam->Pitch()->Spot_CanScoreFromPositionScore;
-    }   
+    		{
+      			curSpot->m_dScore += m_pTeam->Pitch()->Spot_CanScoreFromPositionScore;
+    		}	   
 
     
-    //Test 3. calculate how far this spot is away from the controlling
-    //player. The further away, the higher the score. Any distances further
-    //away than OptimalDistance pixels do not receive a score.
-    if (m_pTeam->SupportingPlayer())
-    {
-      const double OptimalDistance = 200.0;
+    		//Test 3. calculate how far this spot is away from the controlling
+    		//player. The further away, the higher the score. Any distances further
+    		//away than OptimalDistance pixels do not receive a score.
+    		if (m_pTeam->SupportingPlayer())
+    		{
+      			const double OptimalDistance = 200.0;
         
-      double dist = Vec2DDistance(m_pTeam->ControllingPlayer()->Pos(),
+      			double dist = Vec2DDistance(m_pTeam->ControllingPlayer()->Pos(),
                                  curSpot->m_vPos);
       
-      double temp = fabs(OptimalDistance - dist);
+      			double temp = fabs(OptimalDistance - dist);
 
-      if (temp < OptimalDistance)
-      {
+      			if (temp < OptimalDistance)
+      			{
 
-        //normalize the distance and add it to the score
-        curSpot->m_dScore += m_pTeam->Pitch()->Spot_DistFromControllingPlayerScore *
-                             (OptimalDistance-temp)/OptimalDistance;  
-      }
-    }
+        			//normalize the distance and add it to the score
+        			curSpot->m_dScore += m_pTeam->Pitch()->Spot_DistFromControllingPlayerScore *
+                             		(OptimalDistance-temp)/OptimalDistance;  
+      			}
+    		}
     
-    //check to see if this spot has the highest score so far
-    if (curSpot->m_dScore > BestScoreSoFar)
-    {
-      BestScoreSoFar = curSpot->m_dScore;
+    		//check to see if this spot has the highest score so far
+    		if (curSpot->m_dScore > BestScoreSoFar)
+    		{
+      			BestScoreSoFar = curSpot->m_dScore;
 
-      m_pBestSupportingSpot = &(*curSpot);
-    }    
+      			m_pBestSupportingSpot = &(*curSpot);
+    		}    
     
-  }
+  	}
 
-  return m_pBestSupportingSpot->m_vPos;
+  	return m_pBestSupportingSpot->m_vPos;
 }
 
 

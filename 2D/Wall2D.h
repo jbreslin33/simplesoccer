@@ -54,7 +54,7 @@ public:
   Vector2D Normal()const{return m_vN;}
   void     SetNormal(Vector2D n){m_vN = n;}
   
-  Vector2D Center()const{return (m_vA+m_vB)/2.0;}
+  Vector2D Center(){return (m_vA+m_vB)/2.0;}
 
  void Read(std::ifstream& in)
   {

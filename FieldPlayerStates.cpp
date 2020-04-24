@@ -464,120 +464,119 @@ void KickBall::Enter(FieldPlayer* player)
 
 void KickBall::Execute(FieldPlayer* player)
 { 
-  //calculate the dot product of the vector pointing to the ball
-  //and the player's heading
-  Vector2D ToBall = player->Ball()->Pos() - player->Pos();
-  double   dot    = player->Heading().Dot(Vec2DNormalize(ToBall)); 
 
-  //cannot kick the ball if the goalkeeper is in possession or if it is 
-  //behind the player or if there is already an assigned receiver. So just
-  //continue chasing the ball
-  if (player->Team()->Receiver() != NULL   ||
-      player->Pitch()->GoalKeeperHasBall() ||
-      (dot < 0) ) 
-  {
-    #ifdef PLAYER_STATE_INFO_ON
-    //debug_con << "Goaly has ball / ball behind player" << "";
-    #endif
+	printf("KickBall::Execute()\n");
+  	//calculate the dot product of the vector pointing to the ball
+  	//and the player's heading
+  	Vector2D ToBall = player->Ball()->Pos() - player->Pos();
+  	double   dot    = player->Heading().Dot(Vec2DNormalize(ToBall)); 
+
+  	//cannot kick the ball if the goalkeeper is in possession or if it is 
+  	//behind the player or if there is already an assigned receiver. So just
+  	//continue chasing the ball
+  	if (player->Team()->Receiver() != NULL   ||
+      		player->Pitch()->GoalKeeperHasBall() ||
+      		(dot < 0) ) 
+  	{
+    		#ifdef PLAYER_STATE_INFO_ON
+    		//debug_con << "Goaly has ball / ball behind player" << "";
+    		#endif
     
-    player->GetFSM()->ChangeState(ChaseBall::Instance());
+    		player->GetFSM()->ChangeState(ChaseBall::Instance());
+    	
+		return;
+  	}
 
-    return;
-  }
+  	/* Attempt a shot at the goal */
 
-  /* Attempt a shot at the goal */
+  	//if a shot is possible, this vector will hold the position along the 
+  	//opponent's goal line the player should aim for.
+  	Vector2D    BallTarget;
 
-  //if a shot is possible, this vector will hold the position along the 
-  //opponent's goal line the player should aim for.
-  Vector2D    BallTarget;
+  	//the dot product is used to adjust the shooting force. The more
+  	//directly the ball is ahead, the more forceful the kick
+  	double power = player->Pitch()->MaxShootingForce * dot;
 
-  //the dot product is used to adjust the shooting force. The more
-  //directly the ball is ahead, the more forceful the kick
-  double power = player->Pitch()->MaxShootingForce * dot;
+  	//if it is determined that the player could score a goal from this position
+  	//OR if he should just kick the ball anyway, the player will attempt
+  	//to make the shot
+	printf("KickBall::Execute() 1\n");
+	printf("KickBall::Execute(FieldPlayer* player) Pos.x:%f Pos.y:%f \n",player->Ball()->Pos().x, player->Ball()->Pos().y);
+  	if (player->Team()->CanShoot(player->Ball()->Pos(), power) ||  (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
+  	{	 
+		printf("KickBall::Execute() 2\n");
+   		#ifdef PLAYER_STATE_INFO_ON
+   		//debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
+   		#endif
 
-  //if it is determined that the player could score a goal from this position
-  //OR if he should just kick the ball anyway, the player will attempt
-  //to make the shot
-  printf("KickBall::Execute(FieldPlayer* player) Pos.x:%f Pos.y:%f \n",player->Ball()->Pos().x, player->Ball()->Pos().y);
-  if (player->Team()->CanShoot(player->Ball()->Pos(),
-                               power,
-                               BallTarget)                   || 
-     (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
-  {
-   #ifdef PLAYER_STATE_INFO_ON
-   //debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
-   #endif
+   		//add some noise to the kick. We don't want players who are 
+   		//too accurate! The amount of noise can be adjusted by altering
+   		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
-   //add some noise to the kick. We don't want players who are 
-   //too accurate! The amount of noise can be adjusted by altering
-   BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
-
-   //this is the direction the ball will be kicked in
-   Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+   		//this is the direction the ball will be kicked in
+   		Vector2D KickDirection = BallTarget - player->Ball()->Pos();
    
-   player->Ball()->Kick(KickDirection, power);
+   		player->Ball()->Kick(KickDirection, power);
     
-   //change state   
-   player->GetFSM()->ChangeState(Wait::Instance());
+   		//change state   
+   		player->GetFSM()->ChangeState(Wait::Instance());
    
-   player->FindSupport();
+   		player->FindSupport();
   
-   return;
- }
+   		return;
+ 	}
+	printf("KickBall::Execute() 3\n");
 
+  	/* Attempt a pass to a player */
 
-  /* Attempt a pass to a player */
+  	//if a receiver is found this will point to it
+  	PlayerBase* receiver = NULL;
 
-  //if a receiver is found this will point to it
-  PlayerBase* receiver = NULL;
-
-  power = player->Pitch()->MaxPassingForce * dot;
+  	power = player->Pitch()->MaxPassingForce * dot;
   
-  //test if there are any potential candidates available to receive a pass
-  if (player->isThreatened()  &&
-      player->Team()->FindPass(player,
+  	//test if there are any potential candidates available to receive a pass
+  	if (player->isThreatened()  &&
+      		player->Team()->FindPass(player,
                               receiver,
                               BallTarget,
                               power,
                               player->Pitch()->MinPassDist))
-  {     
-    //add some noise to the kick
-    BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
+  	{     
+    		//add some noise to the kick
+    		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
-    Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+    		Vector2D KickDirection = BallTarget - player->Ball()->Pos();
    
-    player->Ball()->Kick(KickDirection, power);
+    		player->Ball()->Kick(KickDirection, power);
 
-    #ifdef PLAYER_STATE_INFO_ON
-    //debug_con << "Player " << player->ID() << " passes the ball with force " << power << "  to player " 
-     //         << receiver->ID() << "  Target is " << BallTarget << "";
-    #endif
-
+    		#ifdef PLAYER_STATE_INFO_ON
+    		//debug_con << "Player " << player->ID() << " passes the ball with force " << power << "  to player " 
+     		//         << receiver->ID() << "  Target is " << BallTarget << "";
+    		#endif
     
-    //let the receiver know a pass is coming 
-    Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+    		//let the receiver know a pass is coming 
+    		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                             player->ID(),
                             receiver->ID(),
                             Msg_ReceiveBall,
                             &BallTarget);                            
    
+    		//the player should wait at his current position unless instruced
+    		//otherwise  
+    		player->GetFSM()->ChangeState(Wait::Instance());
 
-    //the player should wait at his current position unless instruced
-    //otherwise  
-    player->GetFSM()->ChangeState(Wait::Instance());
+    		player->FindSupport();
 
-    player->FindSupport();
+    		return;
+  	}
 
-    return;
-  }
+  	//cannot shoot or pass, so dribble the ball upfield
+  	else
+  	{   
+    		player->FindSupport();
 
-  //cannot shoot or pass, so dribble the ball upfield
-  else
-  {   
-    player->FindSupport();
-
-    player->GetFSM()->ChangeState(Dribble::Instance());
-  }   
+    		player->GetFSM()->ChangeState(Dribble::Instance());
+  	}   
 }
 
 

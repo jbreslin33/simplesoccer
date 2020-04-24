@@ -429,46 +429,58 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
 //  found, the function will immediately return true, with the target 
 //  position stored in the vector ShotTarget.
 //------------------------------------------------------------------------
-bool SoccerTeam::CanShoot(Vector2D  BallPos,
-                          double     power, 
-                          const Vector2D& ShotTarget)const
+bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 {
-  //the number of randomly created shot targets this method will test 
-  int NumAttempts = Pitch()->NumAttemptsToFindValidStrike;
+	printf("SoccerTeam::CanShoot()\n");
+	//the number of randomly created shot targets this method will test 
+  	int NumAttempts = Pitch()->NumAttemptsToFindValidStrike;
 
-  while (NumAttempts--)
-  {
-    //choose a random position along the opponent's goal mouth. (making
-    //sure the ball's radius is taken into account)
-    
-	Vector2D shotTarget = OpponentsGoal()->Center();
-    //ShotTarget = OpponentsGoal()->Center();
+  	while (NumAttempts--)
+  	{
+    		//choose a random position along the opponent's goal mouth. (making
+    		//sure the ball's radius is taken into account)
 
-    //the y value of the shot position should lay somewhere between two
-    //goalposts (taking into consideration the ball diameter)
-    int MinYVal = (int)(OpponentsGoal()->LeftPost().y + Pitch()->Ball()->BRadius());
-    int MaxYVal = (int)(OpponentsGoal()->RightPost().y - Pitch()->Ball()->BRadius());
+      		//you messed with this...	  
+      		Vector2D* ShotTarget = new Vector2D();
+		//Vector2D shotTarget = OpponentsGoal()->Center();
+    		ShotTarget->x = OpponentsGoal()->Center().x;
+    		ShotTarget->y = OpponentsGoal()->Center().y;
 
-    shotTarget.y = (double)RandInt(MinYVal, MaxYVal);
 
-    //make sure striking the ball with the given power is enough to drive
-    //the ball over the goal line.
-    double time = Pitch()->Ball()->TimeToCoverDistance(BallPos,
+    		//the y value of the shot position should lay somewhere between two
+    		//goalposts (taking into consideration the ball diameter)
+		printf("LeftPost.y:%f RightPost.y:%f radius:%f \n",OpponentsGoal()->LeftPost().y, OpponentsGoal()->RightPost().y, Pitch()->Ball()->BRadius());
+    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Pitch()->Ball()->BRadius());
+    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Pitch()->Ball()->BRadius());
+
+		printf("MinYVal:%f MaxYVal:%f\n",MinYVal,MaxYVal);
+    		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
+		printf("ShotTarget.x:%f ShotTarget.y:%f\n",ShotTarget->x, ShotTarget->y);
+		printf("SoccerTeam::CanShoot() 1\n");
+
+    		//make sure striking the ball with the given power is enough to drive
+    		//the ball over the goal line.
+		Vector2D shotTarget;
+		shotTarget.x = ShotTarget->x;
+		shotTarget.y = ShotTarget->y;
+    		double time = Pitch()->Ball()->TimeToCoverDistance(BallPos,
                                                       shotTarget,
                                                       power);
+		printf("SoccerTeam::CanShoot() 2\n");
     
-    //if it is, this shot is then tested to see if any of the opponents
-    //can intercept it.
-    if (time >= 0)
-    {
-      if (isPassSafeFromAllOpponents(BallPos, shotTarget, NULL, power))
-      {
-        return true;
-      }
-    }
-  }
-  
-  return false;
+    		//if it is, this shot is then tested to see if any of the opponents
+    		//can intercept it.
+    		if (time >= 0)
+    		{
+      			if (isPassSafeFromAllOpponents(BallPos, shotTarget, NULL, power))
+      			{
+				printf("SoccerTeam::CanShoot() RETURN TRUE\n");
+        			return true;
+      			}
+    		}
+  	}
+	printf("SoccerTeam::CanShoot() RETURN FALSE\n");
+  	return false;
 }
 
  
