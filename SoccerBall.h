@@ -20,6 +20,7 @@
 
 class Wall2D;
 class PlayerBase;
+class SoccerPitch;
 
 
 class SoccerBall : public MovingEntity
@@ -45,7 +46,7 @@ class SoccerBall : public MovingEntity
              	const std::vector<Wall2D>& PitchBoundary);
  		*/ 
  
-		SoccerBall(Vector2D           pos,            
+		SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,            
              		double               BallSize,
              		double               mass,
              		std::vector<Wall2D>& PitchBoundary); 
@@ -79,6 +80,10 @@ class SoccerBall : public MovingEntity
   
   		//this places the ball at the desired location and sets its velocity to zero
   		void      PlaceAtPosition(Vector2D NewPos);
+
+		SoccerPitch* Pitch();
+
+		SoccerPitch* m_pPitch;
 };
 
 

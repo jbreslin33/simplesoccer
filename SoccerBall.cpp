@@ -1,9 +1,10 @@
 #include "SoccerBall.h"
+#include "SoccerPitch.h"
 #include "2D/geometry.h"
 #include "ParamLoader.h"
 #include "2D/Wall2D.h"
 
-SoccerBall::SoccerBall(Vector2D           pos,            
+SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,            
              double               BallSize,
              double               mass,
              std::vector<Wall2D>& PitchBoundary):
@@ -20,7 +21,14 @@ SoccerBall::SoccerBall(Vector2D           pos,
                   0),                  //max force - unused
      m_PitchBoundary(PitchBoundary)
 {
+
 	printf("SoccerBall::SoccerBall()\n");  
+	m_pPitch = soccerPitch;
+}
+
+SoccerPitch* SoccerBall::Pitch()
+{
+	return m_pPitch;
 }
 
 //----------------------------- AddNoiseToKick --------------------------------
@@ -66,6 +74,7 @@ void SoccerBall::Kick(Vector2D direction, double force)
 //------------------------------------------------------------------------
 void SoccerBall::Update()
 {
+	printf("SoccerBall::Update\n");
 	//keep a record of the old position so the goal::scored method
   	//can utilize it for goal testing
   	m_vOldPos = m_vPosition;
@@ -75,15 +84,16 @@ void SoccerBall::Update()
 
   	//Simulate Prm.Friction. Make sure the speed is positive 
   	//first though
-  	if (m_vVelocity.LengthSq() > Prm.Friction * Prm.Friction)
+  	if (m_vVelocity.LengthSq() > Pitch()->Friction * Pitch()->Friction)
   	{
-    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Prm.Friction;
+    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Pitch()->Friction;
 
     		m_vPosition += m_vVelocity;
     
 		//update heading
     		m_vHeading = Vec2DNormalize(m_vVelocity);
   	}	   
+	printf("SoccerBall::Update END\n");
 }
 
 //---------------------- TimeToCoverDistance -----------------------------
