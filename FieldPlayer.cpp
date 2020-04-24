@@ -66,22 +66,27 @@ FieldPlayer::FieldPlayer(SoccerTeam* home_team,
 //------------------------------------------------------------------------
 void FieldPlayer::Update()
 { 
-  //run the logic for the current state
-  m_pStateMachine->Update();
-
-  //calculate the combined steering force
-  m_pSteering->Calculate();
-
-  //if no steering force is produced decelerate the player by applying a
-  //braking force
-  if (m_pSteering->Force().isZero())
-  {
-    const double BrakingRate = 0.8; 
-
-    m_vVelocity = m_vVelocity * BrakingRate;                                     
-  }
+	printf("FieldPlayer::Update()\n");
   
-  //the steering force's side component is a force that rotates the 
+	//run the logic for the current state
+  	m_pStateMachine->Update();
+	printf("FieldPlayer::Update() 1\n");
+
+  	//calculate the combined steering force
+  	m_pSteering->Calculate();
+	printf("FieldPlayer::Update() 2\n");
+
+  	//if no steering force is produced decelerate the player by applying a
+  	//braking force
+  	if (m_pSteering->Force().isZero())
+  	{
+    		const double BrakingRate = 0.8; 
+
+    		m_vVelocity = m_vVelocity * BrakingRate;                                     
+  	}
+	printf("FieldPlayer::Update() 2\n");
+  
+  	//the steering force's side component is a force that rotates the 
   //player about its axis. We must limit the rotation so that a player
   //can only turn by PlayerMaxTurnRate rads per update.
   double TurningForce =   m_pSteering->SideComponent();

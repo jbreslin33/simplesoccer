@@ -54,12 +54,14 @@ GoalKeeper::GoalKeeper(SoccerTeam*        home_team,
 
 void GoalKeeper::Update()
 { 
-  //run the logic for the current state
-  m_pStateMachine->Update();
 
-  //calculate the combined force from each steering behavior 
-  Vector2D SteeringForce = m_pSteering->Calculate();
+	printf("GoalKeeper::Update\n");
+  
+	//run the logic for the current state
+  	m_pStateMachine->Update();
 
+  	//calculate the combined force from each steering behavior 
+  	Vector2D SteeringForce = m_pSteering->Calculate();
 
 
   //Acceleration = Force/Mass

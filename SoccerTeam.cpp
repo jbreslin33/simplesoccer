@@ -95,25 +95,28 @@ SoccerTeam::~SoccerTeam()
 //------------------------------------------------------------------------
 void SoccerTeam::Update()
 {
-  //this information is used frequently so it's more efficient to 
-  //calculate it just once each frame
-  CalculateClosestPlayerToBall();
+	printf("SoccerTeam::Update()\n");
+  	//this information is used frequently so it's more efficient to 
+  	//calculate it just once each frame
+  	CalculateClosestPlayerToBall();
+	printf("SoccerTeam::Update() 1\n");
 
-  //the team state machine switches between attack/defense behavior. It
-  //also handles the 'kick off' state where a team must return to their
-  //kick off positions before the whistle is blown
-  m_pStateMachine->Update();
+  	//the team state machine switches between attack/defense behavior. It
+  	//also handles the 'kick off' state where a team must return to their
+  	//kick off positions before the whistle is blown
+  	m_pStateMachine->Update();
+	printf("SoccerTeam::Update() 2\n");
   
-  //now update each player
-  std::vector<PlayerBase*>::iterator it = m_Players.begin();
+  	//now update each player
+  	std::vector<PlayerBase*>::iterator it = m_Players.begin();
+	printf("SoccerTeam::Update() 3\n");
 
-  for (it; it != m_Players.end(); ++it)
-  {
-    (*it)->Update();
-  }
-
+  	for (it; it != m_Players.end(); ++it)
+  	{
+    		(*it)->Update();
+  	}
+	printf("SoccerTeam::Update() END\n");
 }
-
 
 //------------------------ CalculateClosestPlayerToBall ------------------
 //
