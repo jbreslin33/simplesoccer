@@ -94,6 +94,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
       
    
     //Test 2. Determine if a goal can be scored from this position.  
+    printf("SupportSpotCalculator::DetermineBestSupportingPosition()");
     if( m_pTeam->CanShoot(curSpot->m_vPos,            
                           m_pTeam->Pitch()->MaxShootingForce))
     {

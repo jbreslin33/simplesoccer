@@ -252,6 +252,7 @@ void SupportAttacker::Execute(FieldPlayer* player)
 
   //if this player has a shot at the goal AND the attacker can pass
   //the ball to him the attacker should pass the ball to this player
+  printf("SupportAttacker::Execute(FieldPlayer* player)\n");
   if( player->Team()->CanShoot(player->Pos(),
                                player->Pitch()->MaxShootingForce))
   {
@@ -497,6 +498,7 @@ void KickBall::Execute(FieldPlayer* player)
   //if it is determined that the player could score a goal from this position
   //OR if he should just kick the ball anyway, the player will attempt
   //to make the shot
+  printf("KickBall::Execute(FieldPlayer* player) Pos.x:%f Pos.y:%f \n",player->Ball()->Pos().x, player->Ball()->Pos().y);
   if (player->Team()->CanShoot(player->Ball()->Pos(),
                                power,
                                BallTarget)                   || 

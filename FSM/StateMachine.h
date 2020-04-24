@@ -65,6 +65,8 @@ private:
     			//same for the current state
     			if (m_pCurrentState) 
 			{
+				printf("if m_pCurrentState Goalkeeper Statemachine::Update 1\n");
+				printf("state:%s\n",GetNameOfCurrentState().c_str());
 				m_pCurrentState->Execute(m_pOwner);
 			}
 			printf("Goalkeeper Statemachine::Update END\n");
