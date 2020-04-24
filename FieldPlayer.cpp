@@ -9,6 +9,7 @@
 #include "Game/EntityFunctionTemplates.h"
 #include "ParamLoader.h"
 #include "SoccerTeam.h"
+#include "SoccerPitch.h"
 
 #include <limits>
 
@@ -91,7 +92,7 @@ void FieldPlayer::Update()
   //can only turn by PlayerMaxTurnRate rads per update.
   double TurningForce =   m_pSteering->SideComponent();
 
-  Clamp(TurningForce, -Prm.PlayerMaxTurnRate, Prm.PlayerMaxTurnRate);
+  Clamp(TurningForce, -Pitch()->PlayerMaxTurnRate, Pitch()->PlayerMaxTurnRate);
 
   //rotate the heading vector
   Vec2DRotateAroundOrigin(m_vHeading, TurningForce);
@@ -119,7 +120,7 @@ void FieldPlayer::Update()
 
 
   //enforce a non-penetration constraint if desired
-  if(Prm.bNonPenetrationConstraint)
+  if(Pitch()->bNonPenetrationConstraint)
   {
     EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   }

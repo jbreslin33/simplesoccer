@@ -434,7 +434,7 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos,
                           const Vector2D& ShotTarget)const
 {
   //the number of randomly created shot targets this method will test 
-  int NumAttempts = Prm.NumAttemptsToFindValidStrike;
+  int NumAttempts = Pitch()->NumAttemptsToFindValidStrike;
 
   while (NumAttempts--)
   {
@@ -807,7 +807,7 @@ void SoccerTeam::RequestPass(FieldPlayer* requester)const
   if (isPassSafeFromAllOpponents(ControllingPlayer()->Pos(),
                                  requester->Pos(),
                                  requester,
-                                 Prm.MaxPassingForce))
+                                 Pitch()->MaxPassingForce))
   {
 
     //tell the player to make the pass

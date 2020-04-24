@@ -76,6 +76,15 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	SeparationCoefficient                	= 10.0;
 	ViewDistance                        	= 30.0;
 	bNonPenetrationConstraint           	= 0;
+
+	//squared space
+	BallWithinReceivingRangeSq = BallWithinReceivingRange * BallWithinReceivingRange;
+	KeeperInBallRangeSq      = KeeperInBallRange * KeeperInBallRange;
+	PlayerInTargetRangeSq    = PlayerInTargetRange * PlayerInTargetRange;   
+	PlayerKickingDistanceSq  = PlayerKickingDistance * PlayerKickingDistance;
+	PlayerComfortZoneSq      = PlayerComfortZone * PlayerComfortZone;
+	GoalKeeperInterceptRangeSq     = GoalKeeperInterceptRange * GoalKeeperInterceptRange;
+	WithinRangeOfSupportSpotSq = WithinRangeOfSupportSpot * WithinRangeOfSupportSpot;
 	
 	mId = id;
 	mServer = server;

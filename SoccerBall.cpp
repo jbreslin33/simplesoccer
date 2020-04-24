@@ -3,6 +3,7 @@
 #include "2D/geometry.h"
 #include "ParamLoader.h"
 #include "2D/Wall2D.h"
+#include "PlayerBase.h"
 
 SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,            
              double               BallSize,
@@ -26,10 +27,12 @@ SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,
 	m_pPitch = soccerPitch;
 }
 
-SoccerPitch* SoccerBall::Pitch()
+
+SoccerPitch* const SoccerBall::Pitch()const
 {
 	return m_pPitch;
 }
+
 
 //----------------------------- AddNoiseToKick --------------------------------
 //
@@ -37,10 +40,10 @@ SoccerPitch* SoccerBall::Pitch()
 //  prior to kicking the ball using the ball's position and the ball target as
 //  parameters.
 //-----------------------------------------------------------------------------
-Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
+Vector2D SoccerBall::AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
 {
 
-	double displacement = (Pi - Pi*Prm.PlayerKickingAccuracy) * RandomClamped();
+	double displacement = (Pi - Pi*Pitch()->PlayerKickingAccuracy) * RandomClamped();
 
   	Vector2D toTarget = BallTarget - BallPos;
 
@@ -82,7 +85,7 @@ void SoccerBall::Update()
       	//Test for collisions
     	TestCollisionWithWalls(m_PitchBoundary);
 
-  	//Simulate Prm.Friction. Make sure the speed is positive 
+  	//Simulate Friction. Make sure the speed is positive 
   	//first though
   	if (m_vVelocity.LengthSq() > Pitch()->Friction * Pitch()->Friction)
   	{
@@ -118,7 +121,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//first calculate s (the distance between the two positions)
   	double DistanceToCover =  Vec2DDistance(A, B);
 
-  	double term = speed*speed + 2.0*DistanceToCover*Prm.Friction;
+  	double term = speed*speed + 2.0*DistanceToCover * Pitch()->Friction;
 
   	//if  (u^2 + 2as) is negative it means the ball cannot reach point B.
   	if (term <= 0.0) return -1.0;
@@ -132,7 +135,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//        ---
   	//         a
   	//
-  	return (v-speed)/Prm.Friction;
+  	return (v-speed)/Pitch()->Friction;
 }
 
 //--------------------- FuturePosition -----------------------------------
@@ -149,7 +152,7 @@ Vector2D SoccerBall::FuturePosition(double time)const
   	Vector2D ut = m_vVelocity * time;
 
   	//calculate the 1/2at^2 term, which is scalar
-  	double half_a_t_squared = 0.5 * Prm.Friction * time * time;
+  	double half_a_t_squared = 0.5 * Pitch()->Friction * time * time;
 
   	//turn the scalar quantity into a vector by multiplying the value with
   	//the normalized velocity vector (because that gives the direction)

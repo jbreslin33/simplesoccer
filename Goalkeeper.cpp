@@ -59,56 +59,61 @@ void GoalKeeper::Update()
   
 	//run the logic for the current state
   	m_pStateMachine->Update();
+	
+	printf("GoalKeeper::Update 1\n");
 
   	//calculate the combined force from each steering behavior 
   	Vector2D SteeringForce = m_pSteering->Calculate();
+	
+	printf("GoalKeeper::Update 2\n");
 
 
-  //Acceleration = Force/Mass
-  Vector2D Acceleration = SteeringForce / m_dMass;
+	//Acceleration = Force/Mass
+  	Vector2D Acceleration = SteeringForce / m_dMass;
 
-  //update velocity
-  m_vVelocity += Acceleration;
+  	//update velocity
+  	m_vVelocity += Acceleration;
 
-  //make sure player does not exceed maximum velocity
-  m_vVelocity.Truncate(m_dMaxSpeed);
+  	//make sure player does not exceed maximum velocity
+  	m_vVelocity.Truncate(m_dMaxSpeed);
 
-  //update the position
-  m_vPosition += m_vVelocity;
+  	//update the position
+  	m_vPosition += m_vVelocity;
 
 
-  //enforce a non-penetration constraint if desired
-  if(Prm.bNonPenetrationConstraint)
-  {
-    EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
-  }
+  	//enforce a non-penetration constraint if desired
+  	if(Pitch()->bNonPenetrationConstraint)
+  	{
+    		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
+  	}
 
-  //update the heading if the player has a non zero velocity
-  if ( !m_vVelocity.isZero())
-  {    
-    m_vHeading = Vec2DNormalize(m_vVelocity);
+ 	//update the heading if the player has a non zero velocity
+  	if ( !m_vVelocity.isZero())
+  	{    
+    		m_vHeading = Vec2DNormalize(m_vVelocity);
 
-    m_vSide = m_vHeading.Perp();
-  }
+    		m_vSide = m_vHeading.Perp();
+  	}
 
-  //look-at vector always points toward the ball
-  if (!Pitch()->GoalKeeperHasBall())
-  {
-   m_vLookAt = Vec2DNormalize(Ball()->Pos() - Pos());
-  }
+  	//look-at vector always points toward the ball
+  	if (!Pitch()->GoalKeeperHasBall())
+  	{
+   		m_vLookAt = Vec2DNormalize(Ball()->Pos() - Pos());
+  	}
+	printf("GoalKeeper::Update END\n");
 }
 
 
 bool GoalKeeper::BallWithinRangeForIntercept()const
 {
   return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), Ball()->Pos()) <=
-          Prm.GoalKeeperInterceptRangeSq);
+          Pitch()->GoalKeeperInterceptRangeSq);
 }
 
 bool GoalKeeper::TooFarFromGoalMouth()const
 {
   return (Vec2DDistanceSq(Pos(), GetRearInterposeTarget()) >
-          Prm.GoalKeeperInterceptRangeSq);
+          Pitch()->GoalKeeperInterceptRangeSq);
 }
 
 Vector2D GoalKeeper::GetRearInterposeTarget()const
@@ -116,7 +121,7 @@ Vector2D GoalKeeper::GetRearInterposeTarget()const
 	double xPosTarget = Team()->HomeGoal()->Center().x;
 
   	double yPosTarget = Pitch()->PlayingArea()->Center().y - 
-                     Team()->Pitch()->GoalWidth*0.5 + (Ball()->Pos().y*Team()->Pitch()->GoalWidth) /
+                     Pitch()->GoalWidth*0.5 + (Ball()->Pos().y*Pitch()->GoalWidth) /
                      Pitch()->PlayingArea()->Height();
 
   	return Vector2D(xPosTarget, yPosTarget); 

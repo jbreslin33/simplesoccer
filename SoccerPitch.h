@@ -115,6 +115,16 @@ class SoccerPitch
     		double ViewDistance; 
     		bool bNonPenetrationConstraint; 
 
+		//squared space
+		double BallWithinReceivingRangeSq;
+		double KeeperInBallRangeSq;
+		double PlayerInTargetRangeSq;
+		double PlayerKickingDistanceSq;
+		double PlayerComfortZoneSq;
+		double GoalKeeperInterceptRangeSq;
+		double WithinRangeOfSupportSpotSq;
+
+
   		int mId;
 
   		SoccerTeam*          m_pRedTeam;

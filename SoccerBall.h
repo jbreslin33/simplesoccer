@@ -81,14 +81,16 @@ class SoccerBall : public MovingEntity
   		//this places the ball at the desired location and sets its velocity to zero
   		void      PlaceAtPosition(Vector2D NewPos);
 
-		SoccerPitch* Pitch();
+		SoccerPitch* const       Pitch()const;
+
 
 		SoccerPitch* m_pPitch;
+
+		//this can be used to vary the accuracy of a player's kick.
+		Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget);
 };
 
 
-//this can be used to vary the accuracy of a player's kick.
-Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget);
 
 
 #endif

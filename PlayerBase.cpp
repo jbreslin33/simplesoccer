@@ -162,7 +162,7 @@ bool PlayerBase::isThreatened()const
     //calculate distance to the player. if dist is less than our
     //comfort zone, and the opponent is infront of the player, return true
     if (PositionInFrontOfPlayer((*curOpp)->Pos()) &&
-       (Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Prm.PlayerComfortZoneSq))
+       (Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Pitch()->PlayerComfortZoneSq))
     {        
       return true;
     }
@@ -239,17 +239,17 @@ bool PlayerBase::isControllingPlayer()const
 
 bool PlayerBase::BallWithinKeeperRange()const
 {
-  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Prm.KeeperInBallRangeSq);
+  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->KeeperInBallRange);
 }
 
 bool PlayerBase::BallWithinReceivingRange()const
 {
-  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Prm.BallWithinReceivingRangeSq);
+  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->BallWithinReceivingRangeSq);
 }
 
 bool PlayerBase::BallWithinKickingRange()const
 {
-  return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Prm.PlayerKickingDistanceSq);
+  return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Pitch()->PlayerKickingDistanceSq);
 }
 
 
@@ -267,7 +267,7 @@ bool PlayerBase::InHomeRegion()const
 
 bool PlayerBase::AtTarget()const
 {
-  return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Prm.PlayerInTargetRangeSq);
+  return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Pitch()->PlayerInTargetRangeSq);
 }
 
 bool PlayerBase::isClosestTeamMemberToBall()const

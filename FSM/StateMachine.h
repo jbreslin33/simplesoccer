@@ -35,7 +35,7 @@ private:
   State<entity_type>*   m_pGlobalState;
   
 
-public:
+	public:
 
   StateMachine(entity_type* owner):m_pOwner(owner),
                                    m_pCurrentState(NULL),
@@ -51,14 +51,25 @@ public:
   void SetPreviousState(State<entity_type>* s){m_pPreviousState = s;}
   
   //call this to update the FSM
-  void  Update()const
-  {
-    //if a global state exists, call its execute method, else do nothing
-    if(m_pGlobalState)   m_pGlobalState->Execute(m_pOwner);
+		void  Update()const
+  		{
+			printf("Goalkeeper Statemachine::Update\n");
+    			//if a global state exists, call its execute method, else do nothing
+    			if(m_pGlobalState)   
+			{
+				m_pGlobalState->Execute(m_pOwner);
+			}
 
-    //same for the current state
-    if (m_pCurrentState) m_pCurrentState->Execute(m_pOwner);
-  }
+			printf("Goalkeeper Statemachine::Update 1\n");
+
+    			//same for the current state
+    			if (m_pCurrentState) 
+			{
+				m_pCurrentState->Execute(m_pOwner);
+			}
+			printf("Goalkeeper Statemachine::Update END\n");
+
+  		}
 
   bool  HandleMessage(const Telegram& msg)const
   {

@@ -87,17 +87,17 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     if(m_pTeam->isPassSafeFromAllOpponents(m_pTeam->ControllingPlayer()->Pos(),
                                            curSpot->m_vPos,
                                            NULL,
-                                           Prm.MaxPassingForce))
+                                           m_pTeam->Pitch()->MaxPassingForce))
     {
-      curSpot->m_dScore += Prm.Spot_PassSafeScore;
+      curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
     }
       
    
     //Test 2. Determine if a goal can be scored from this position.  
     if( m_pTeam->CanShoot(curSpot->m_vPos,            
-                          Prm.MaxShootingForce))
+                          m_pTeam->Pitch()->MaxShootingForce))
     {
-      curSpot->m_dScore += Prm.Spot_CanScoreFromPositionScore;
+      curSpot->m_dScore += m_pTeam->Pitch()->Spot_CanScoreFromPositionScore;
     }   
 
     
@@ -117,7 +117,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
       {
 
         //normalize the distance and add it to the score
-        curSpot->m_dScore += Prm.Spot_DistFromControllingPlayerScore *
+        curSpot->m_dScore += m_pTeam->Pitch()->Spot_DistFromControllingPlayerScore *
                              (OptimalDistance-temp)/OptimalDistance;  
       }
     }
