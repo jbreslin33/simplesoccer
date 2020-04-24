@@ -533,6 +533,7 @@ void KickBall::Execute(FieldPlayer* player)
   	PlayerBase* receiver = NULL;
 
   	power = player->Pitch()->MaxPassingForce * dot;
+	printf("KickBall::Execute() 4\n");
   
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
@@ -542,6 +543,7 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Pitch()->MinPassDist))
   	{     
+		printf("KickBall::Execute() 5\n");
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -573,10 +575,14 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
+		printf("KickBall::Execute() 6\n");
     		player->FindSupport();
+		printf("KickBall::Execute() 7\n");
 
     		player->GetFSM()->ChangeState(Dribble::Instance());
+		printf("KickBall::Execute() 8\n");
   	}   
+	printf("KickBall::Execute() END\n");
 }
 
 

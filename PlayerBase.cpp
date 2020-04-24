@@ -179,77 +179,85 @@ bool PlayerBase::isThreatened()const
 //-----------------------------------------------------------------------------
 void PlayerBase::FindSupport()const
 {    
-  //if there is no support we need to find a suitable player.
-  if (Team()->SupportingPlayer() == NULL)
-  {
-    PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
+	printf("PlayerBase::FindSupport\n");
+  
+	//if there is no support we need to find a suitable player.
+  	if (Team()->SupportingPlayer() == NULL)
+  	{
+		printf("PlayerBase::FindSupport 1\n");
+    		PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
+		printf("PlayerBase::FindSupport 2\n");
 
-    Team()->SetSupportingPlayer(BestSupportPly);
+    		Team()->SetSupportingPlayer(BestSupportPly);
+		printf("PlayerBase::FindSupport 3\n");
 
-    Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+    		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                             ID(),
                             Team()->SupportingPlayer()->ID(),
                             Msg_SupportAttacker,
                             NULL);
-  }
+		printf("PlayerBase::FindSupport 4\n");
+  	}
     
-  PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
+	printf("PlayerBase::FindSupport 5\n");
+  	PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
     
-  //if the best player available to support the attacker changes, update
-  //the pointers and send messages to the relevant players to update their
-  //states
-  if (BestSupportPly && (BestSupportPly != Team()->SupportingPlayer()))
-  {
+  	//if the best player available to support the attacker changes, update
+  	//the pointers and send messages to the relevant players to update their
+  	//states
+  	if (BestSupportPly && (BestSupportPly != Team()->SupportingPlayer()))
+  	{
     
-    if (Team()->SupportingPlayer())
-    {
-      Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+    		if (Team()->SupportingPlayer())
+    		{
+      			Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                               ID(),
                               Team()->SupportingPlayer()->ID(),
                               Msg_GoHome,
                               NULL);
-    }
+    		}
     
-    
-    
-    Team()->SetSupportingPlayer(BestSupportPly);
+    		Team()->SetSupportingPlayer(BestSupportPly);
 
-    Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+    		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                             ID(),
                             Team()->SupportingPlayer()->ID(),
                             Msg_SupportAttacker,
                             NULL);
-  }
+  	}
+	printf("PlayerBase::FindSupport END\n");
 }
 
 
-  //calculate distance to opponent's goal. Used frequently by the passing//methods
+//calculate distance to opponent's goal. Used frequently by the passing//methods
 double PlayerBase::DistToOppGoal()const
 {
-  return fabs(Pos().x - Team()->OpponentsGoal()->Center().x);
+	return fabs(Pos().x - Team()->OpponentsGoal()->Center().x);
 }
 
 double PlayerBase::DistToHomeGoal()const
 {
-  return fabs(Pos().x - Team()->HomeGoal()->Center().x);
+	return fabs(Pos().x - Team()->HomeGoal()->Center().x);
 }
 
 bool PlayerBase::isControllingPlayer()const
-{return Team()->ControllingPlayer()==this;}
+{
+	return Team()->ControllingPlayer()==this;
+}
 
 bool PlayerBase::BallWithinKeeperRange()const
 {
-  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->KeeperInBallRange);
+	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->KeeperInBallRange);
 }
 
 bool PlayerBase::BallWithinReceivingRange()const
 {
-  return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->BallWithinReceivingRangeSq);
+	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->BallWithinReceivingRangeSq);
 }
 
 bool PlayerBase::BallWithinKickingRange()const
 {
-  return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Pitch()->PlayerKickingDistanceSq);
+	return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Pitch()->PlayerKickingDistanceSq);
 }
 
 
