@@ -22,11 +22,10 @@
 
 GlobalKeeperState* GlobalKeeperState::Instance()
 {
-  static GlobalKeeperState instance;
+	static GlobalKeeperState instance;
 
-  return &instance;
+  	return &instance;
 }
-
 
 bool GlobalKeeperState::OnMessage(GoalKeeper* keeper, const Telegram& telegram)
 {
@@ -66,24 +65,33 @@ bool GlobalKeeperState::OnMessage(GoalKeeper* keeper, const Telegram& telegram)
 
 TendGoal* TendGoal::Instance()
 {
-  static TendGoal instance;
+	static TendGoal instance;
 
-  return &instance;
+	return &instance;
 }
-
 
 void TendGoal::Enter(GoalKeeper* keeper)
 {
-  //turn interpose on
-  keeper->Steering()->InterposeOn(keeper->Team()->Pitch()->GoalKeeperTendingDistance);
+        if (keeper->mEnterLogs)
+        {
+                printf("TendGoal::Enter() ID:%d\n",keeper->ID());
+        }
 
-  //interpose will position the agent between the ball position and a target
-  //position situated along the goal mouth. This call sets the target
-  keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
+  	//turn interpose on
+  	keeper->Steering()->InterposeOn(keeper->Team()->Pitch()->GoalKeeperTendingDistance);
+
+  	//interpose will position the agent between the ball position and a target
+  	//position situated along the goal mouth. This call sets the target
+  	keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
 }
 
 void TendGoal::Execute(GoalKeeper* keeper)
 {
+        if (keeper->mExecuteLogs)
+        {
+                printf("TendGoal::Execute() ID:%d\n",keeper->ID());
+        }
+
   	//the rear interpose target will change as the ball's position changes
   	//so it must be updated each update-step 
   	keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
@@ -117,12 +125,15 @@ void TendGoal::Execute(GoalKeeper* keeper)
   	}
 }
 
-
 void TendGoal::Exit(GoalKeeper* keeper)
 {
+        if (keeper->mExitLogs)
+        {
+                printf("TendGoal::Exit() ID:%d\n",keeper->ID());
+        }
+
 	keeper->Steering()->InterposeOff();
 }
-
 
 //------------------------- ReturnHome: ----------------------------------
 //
@@ -132,35 +143,47 @@ void TendGoal::Exit(GoalKeeper* keeper)
 
 ReturnHome* ReturnHome::Instance()
 {
-  static ReturnHome instance;
+	static ReturnHome instance;
 
-  return &instance;
+  	return &instance;
 }
-
 
 void ReturnHome::Enter(GoalKeeper* keeper)
 {
-  keeper->Steering()->ArriveOn();
+        if (keeper->mEnterLogs)
+        {
+                printf("ReturnHome::Enter() ID:%d\n", keeper->ID());
+        }
+
+	keeper->Steering()->ArriveOn();
 }
 
 void ReturnHome::Execute(GoalKeeper* keeper)
 {
-  keeper->Steering()->SetTarget(keeper->HomeRegion()->Center());
+        if (keeper->mExecuteLogs)
+        {
+                printf("ReturnHome::Execute() ID:%d\n", keeper->ID());
+        }
 
-  //if close enough to home or the opponents get control over the ball,
-  //change state to tend goal
-  if (keeper->InHomeRegion() || !keeper->Team()->InControl())
-  {
-    keeper->GetFSM()->ChangeState(TendGoal::Instance());
-  }
+	keeper->Steering()->SetTarget(keeper->HomeRegion()->Center());
+
+  	//if close enough to home or the opponents get control over the ball,
+  	//change state to tend goal
+  	if (keeper->InHomeRegion() || !keeper->Team()->InControl())
+  	{
+   		keeper->GetFSM()->ChangeState(TendGoal::Instance());
+  	}
 }
 
 void ReturnHome::Exit(GoalKeeper* keeper)
 {
-  keeper->Steering()->ArriveOff();
+        if (keeper->mExitLogs)
+        {
+                printf("ReturnHome::Exit() ID:%d\n", keeper->ID());
+        }
+
+	keeper->Steering()->ArriveOff();
 }
-
-
 
 //----------------- InterceptBall ----------------------------------------
 //
@@ -179,42 +202,51 @@ InterceptBall* InterceptBall::Instance()
 
 void InterceptBall::Enter(GoalKeeper* keeper)
 {
-  keeper->Steering()->PursuitOn();  
-
-    #ifdef GOALY_STATE_INFO_ON
-    debug_con << "Goaly " << keeper->ID() << " enters InterceptBall" <<  "";
-    #endif
+        if (keeper->mEnterLogs)
+        {
+                printf("InterceptBall::Enter() ID:%d\n",keeper->ID());
+        }
+  
+	keeper->Steering()->PursuitOn();  
 }
 
 void InterceptBall::Execute(GoalKeeper* keeper)
 { 
-  //if the goalkeeper moves to far away from the goal he should return to his
-  //home region UNLESS he is the closest player to the ball, in which case,
-  //he should keep trying to intercept it.
-  if (keeper->TooFarFromGoalMouth() && !keeper->isClosestPlayerOnPitchToBall())
-  {
-    keeper->GetFSM()->ChangeState(ReturnHome::Instance());
+        if (keeper->mExecuteLogs)
+        {
+                printf("InterceptBall::Execute() ID:%d\n", keeper->ID());
+        }
 
-    return;
-  }
+  	//if the goalkeeper moves to far away from the goal he should return to his
+  	//home region UNLESS he is the closest player to the ball, in which case,
+  	//he should keep trying to intercept it.
+  	if (keeper->TooFarFromGoalMouth() && !keeper->isClosestPlayerOnPitchToBall())
+  	{
+    		keeper->GetFSM()->ChangeState(ReturnHome::Instance());
+    		return;
+  	}
   
-  //if the ball becomes in range of the goalkeeper's hands he traps the 
-  //ball and puts it back in play
-  if (keeper->BallWithinKeeperRange())
-  {
-    keeper->Ball()->Trap();
+  	//if the ball becomes in range of the goalkeeper's hands he traps the 
+  	//ball and puts it back in play
+  	if (keeper->BallWithinKeeperRange())
+  	{
+    		keeper->Ball()->Trap();
     
-    keeper->Pitch()->SetGoalKeeperHasBall(true);
+    		keeper->Pitch()->SetGoalKeeperHasBall(true);
 
-    keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
-
-    return;
-  }
+    		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
+    		return;
+  	}
 }
 
 void InterceptBall::Exit(GoalKeeper* keeper)
 {
-  keeper->Steering()->PursuitOff();
+        if (keeper->mExitLogs)
+        {
+                printf("InterceptBall::Execute() ID:%d\n", keeper->ID());
+        }
+  
+	keeper->Steering()->PursuitOff();
 }
 
 
@@ -225,55 +257,64 @@ void InterceptBall::Exit(GoalKeeper* keeper)
 
 PutBallBackInPlay* PutBallBackInPlay::Instance()
 {
-  static PutBallBackInPlay instance;
+	static PutBallBackInPlay instance;
 
-  return &instance;
+	return &instance;
 }
 
 void PutBallBackInPlay::Enter(GoalKeeper* keeper)
 {
-  //let the team know that the keeper is in control
-  keeper->Team()->SetControllingPlayer(keeper);
+        if (keeper->mEnterLogs)
+        {
+                printf("PutBallBackInPlay::Enter() ID:%d\n", keeper->ID());
+        }
 
-  //send all the players home
-  keeper->Team()->Opponents()->ReturnAllFieldPlayersToHome();
-  keeper->Team()->ReturnAllFieldPlayersToHome();
+  	//let the team know that the keeper is in control
+  	keeper->Team()->SetControllingPlayer(keeper);
+
+  	//send all the players home
+  	keeper->Team()->Opponents()->ReturnAllFieldPlayersToHome();
+  	keeper->Team()->ReturnAllFieldPlayersToHome();
 }
-
 
 void PutBallBackInPlay::Execute(GoalKeeper* keeper)
 {
-  PlayerBase*  receiver = NULL;
-  Vector2D     BallTarget;
+	if (keeper->mExecuteLogs)
+        {
+                printf("PutBallBackInPlay::Execute() ID:%d\n", keeper->ID());
+        }
+  
+	PlayerBase*  receiver = NULL;
+  	Vector2D     BallTarget;
     
-  //test if there are players further forward on the field we might
-  //be able to pass to. If so, make a pass.
-  if (keeper->Team()->FindPass(keeper,
+  	//test if there are players further forward on the field we might
+  	//be able to pass to. If so, make a pass.
+  	if (keeper->Team()->FindPass(keeper,
                               receiver,
                               BallTarget,
                               keeper->Pitch()->MaxPassingForce,
                               keeper->Pitch()->GoalkeeperMinPassDist))
-  {     
-    //make the pass   
-    keeper->Ball()->Kick(Vec2DNormalize(BallTarget - keeper->Ball()->Pos()),
+  	{     
+    		//make the pass   
+    		keeper->Ball()->Kick(Vec2DNormalize(BallTarget - keeper->Ball()->Pos()),
                          keeper->Pitch()->MaxPassingForce);
 
-    //goalkeeper no longer has ball 
-    keeper->Pitch()->SetGoalKeeperHasBall(false);
+    		//goalkeeper no longer has ball 
+    		keeper->Pitch()->SetGoalKeeperHasBall(false);
 
-    //let the receiving player know the ball's comin' at him
-    Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+    		//let the receiving player know the ball's comin' at him
+    		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                           keeper->ID(),
                           receiver->ID(),
                           Msg_ReceiveBall,
                           &BallTarget);
     
-    //go back to tending the goal   
-    keeper->GetFSM()->ChangeState(TendGoal::Instance());
+    		//go back to tending the goal   
+    		keeper->GetFSM()->ChangeState(TendGoal::Instance());
 
-    return;
-  }  
+    		return;
+  	}  
 
-  keeper->SetVelocity(Vector2D());
+  	keeper->SetVelocity(Vector2D());
 }
 
