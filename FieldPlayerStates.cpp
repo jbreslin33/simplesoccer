@@ -20,153 +20,121 @@
 
 GlobalPlayerState* GlobalPlayerState::Instance()
 {
-  static GlobalPlayerState instance;
-
-  return &instance;
+	static GlobalPlayerState instance;
+  	return &instance;
 }
-
 
 void GlobalPlayerState::Execute(FieldPlayer* player)                                     
 {
-  //if a player is in possession and close to the ball reduce his max speed
-  if((player->BallWithinReceivingRange()) && (player->isControllingPlayer()))
-  {
-    player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithBall);
-  }
-
-  else
-  {
-     player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithoutBall);
-  }
-    
+	//if a player is in possession and close to the ball reduce his max speed
+  	if((player->BallWithinReceivingRange()) && (player->isControllingPlayer()))
+  	{
+    		player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithBall);
+  	}
+  	else
+  	{
+     		player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithoutBall);
+  	}
 }
-
 
 bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 {
-  switch(telegram.Msg)
-  {
-  case Msg_ReceiveBall:
-    {
-      //set the target
-      player->Steering()->SetTarget(*(static_cast<Vector2D*>(telegram.ExtraInfo)));
+	switch(telegram.Msg)
+  	{
+  		case Msg_ReceiveBall:
+    		{
+      			//set the target
+      			player->Steering()->SetTarget(*(static_cast<Vector2D*>(telegram.ExtraInfo)));
 
-      //change state 
-      player->GetFSM()->ChangeState(ReceiveBall::Instance());
+      			//change state 
+      			player->GetFSM()->ChangeState(ReceiveBall::Instance());
+      			return true;
+    		}
+    		break;
 
-      return true;
-    }
-
-    break;
-
-  case Msg_SupportAttacker:
-    {
-      //if already supporting just return
-      if (player->GetFSM()->isInState(*SupportAttacker::Instance()))
-      {
-        return true;
-      }
+  		case Msg_SupportAttacker:
+    		{
+      			//if already supporting just return
+      			if (player->GetFSM()->isInState(*SupportAttacker::Instance()))
+      			{
+        			return true;
+      			}
       
-      //set the target to be the best supporting position
-      player->Steering()->SetTarget(player->Team()->GetSupportSpot());
+      			//set the target to be the best supporting position
+      			player->Steering()->SetTarget(player->Team()->GetSupportSpot());
 
-      //change the state
-      player->GetFSM()->ChangeState(SupportAttacker::Instance());
+      			//change the state
+      			player->GetFSM()->ChangeState(SupportAttacker::Instance());
 
-      return true;
-    }
+      			return true;
+    		}
 
-    break;
+    		break;
 
- case Msg_Wait:
-    {
-      //change the state
-      player->GetFSM()->ChangeState(Wait::Instance());
+ 		case Msg_Wait:
+    		{
+      			//change the state
+      			player->GetFSM()->ChangeState(Wait::Instance());
+      			return true;
+    		}
+    		break;
 
-      return true;
-    }
-
-    break;
-
-  case Msg_GoHome:
-    {
-      player->SetDefaultHomeRegion();
+  		case Msg_GoHome:
+    		{
+      			player->SetDefaultHomeRegion();
       
-      player->GetFSM()->ChangeState(ReturnToHomeRegion::Instance());
+      			player->GetFSM()->ChangeState(ReturnToHomeRegion::Instance());
 
-      return true;
-    }
+      			return true;
+    		}
 
-    break;
+    		break;
 
-  case Msg_PassToMe:
-    {  
+  		case Msg_PassToMe:
+    		{ 	 
       
-      //get the position of the player requesting the pass 
-      FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
+      			//get the position of the player requesting the pass 
+      			FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
 
-      #ifdef PLAYER_STATE_INFO_ON
-      //debug_con << "Player " << player->ID() << " received request from " <<
-        //            receiver->ID() << " to make pass" << "";
-      #endif
+      			//if the ball is not within kicking range or their is already a 
+      			//receiving player, this player cannot pass the ball to the player
+      			//making the request.
+      			if (player->Team()->Receiver() != NULL ||
+         			!player->BallWithinKickingRange() )
+      			{
 
-      //if the ball is not within kicking range or their is already a 
-      //receiving player, this player cannot pass the ball to the player
-      //making the request.
-      if (player->Team()->Receiver() != NULL ||
-         !player->BallWithinKickingRange() )
-      {
-        #ifdef PLAYER_STATE_INFO_ON
-        //debug_con << "Player " << player->ID() << " cannot make requested pass <cannot kick ball>" << "";
-        #endif
-
-        return true;
-      }
+        			return true;
+      			}
       
-      //make the pass   
-      player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
-                           player->Pitch()->MaxPassingForce);
+      			//make the pass   
+      			player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
+                        player->Pitch()->MaxPassingForce);
 
           
-     #ifdef PLAYER_STATE_INFO_ON
-     //debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
-     #endif
-
-            //let the receiver know a pass is coming
-	 Vector2D receiverPosition;
-	 receiverPosition.x = receiver->Pos().x;
-	 receiverPosition.y = receiver->Pos().y;
-      Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+            		//let the receiver know a pass is coming
+	 		Vector2D receiverPosition;
+	 		receiverPosition.x = receiver->Pos().x;
+	 		receiverPosition.y = receiver->Pos().y;
+      			Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                               player->ID(),
                               receiver->ID(),
                               Msg_ReceiveBall,
                               //&receiver->Pos());
                               &receiverPosition);
         
-      //let the receiver know a pass is coming 
-      /*
-      Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
-                              player->ID(),
-                              receiver->ID(),
-                              Msg_ReceiveBall,
-                              &receiver->Pos());
-                       //      receiver->Pos());
-*/
-   
+      			//change state   
+      			player->GetFSM()->ChangeState(Wait::Instance());
 
-      //change state   
-      player->GetFSM()->ChangeState(Wait::Instance());
+      			player->FindSupport();
 
-      player->FindSupport();
+      			return true;
+    		}
 
-      return true;
-    }
+    		break;
 
-    break;
+	}//end switch
 
-  }//end switch
-
-  return false;
+  	return false;
 }
                                 
 
@@ -176,11 +144,10 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 
 ChaseBall* ChaseBall::Instance()
 {
-  static ChaseBall instance;
+	static ChaseBall instance;
 
-  return &instance;
+  	return &instance;
 }
-
 
 void ChaseBall::Enter(FieldPlayer* player)
 {
@@ -189,8 +156,6 @@ void ChaseBall::Enter(FieldPlayer* player)
 		printf("ChaseBall::Enter()\n");
 	}
 	player->Steering()->SeekOn();
-
-
 }
 
 void ChaseBall::Execute(FieldPlayer* player)                                     
