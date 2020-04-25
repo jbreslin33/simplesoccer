@@ -174,6 +174,12 @@ PlayerBase* SoccerTeam::DetermineBestSupportingAttacker()
     		{
 			printf("SoccerTeam::DetermineBaseSupportingAttacker() 5\n");
       			//calculate the dist. Use the squared value to avoid sqrt
+			//test
+			Vector2D bestSupportingSpot = m_pSupportSpotCalc->GetBestSupportingSpot();
+			printf("SoccerTeam::DetermineBaseSupportingAttacker() 5.5\n");
+			
+			
+			//end test
       			double dist = Vec2DDistanceSq((*it)->Pos(), m_pSupportSpotCalc->GetBestSupportingSpot());
 			printf("SoccerTeam::DetermineBaseSupportingAttacker() 6\n");
     

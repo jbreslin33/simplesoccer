@@ -157,12 +157,12 @@ Vector2D SupportSpotCalculator::GetBestSupportingSpot()
 	printf("SupportSpotCalculator::GetBestSupportingSpot()\n");
   	if (m_pBestSupportingSpot)
   	{
-		printf("SupportSpotCalculator::GetBestSupportingSpot() 1\n");
+		printf("SupportSpotCalculator::GetBestSupportingSpot() if\n");
     		return m_pBestSupportingSpot->m_vPos;
   	}
   	else
   	{	 
-		printf("SupportSpotCalculator::GetBestSupportingSpot() 2\n");
+		printf("SupportSpotCalculator::GetBestSupportingSpot() else\n");
     		return DetermineBestSupportingPosition();
   	}
 }
