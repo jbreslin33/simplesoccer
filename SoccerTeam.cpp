@@ -59,6 +59,7 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
 
   	for (it; it != m_Players.end(); ++it)
   	{
+		printf("SoccerTeam Constructor 5.5\n");
     		(*it)->Steering()->SeparationOn();   
   	}
 	printf("SoccerTeam Constructor 6\n");
@@ -154,33 +155,44 @@ void SoccerTeam::CalculateClosestPlayerToBall()
 //------------------------------------------------------------------------
 PlayerBase* SoccerTeam::DetermineBestSupportingAttacker()
 {
-  double ClosestSoFar = MaxFloat;
+	printf("SoccerTeam::DetermineBaseSupportingAttacker()\n");
+  
+	double ClosestSoFar = MaxFloat;
+	printf("SoccerTeam::DetermineBaseSupportingAttacker() 1\n");
 
-  PlayerBase* BestPlayer = NULL;
+  	PlayerBase* BestPlayer = NULL;
+	printf("SoccerTeam::DetermineBaseSupportingAttacker() 2\n");
 
-  std::vector<PlayerBase*>::iterator it = m_Players.begin();
+  	std::vector<PlayerBase*>::iterator it = m_Players.begin();
+	printf("SoccerTeam::DetermineBaseSupportingAttacker() 3\n");
 
-  for (it; it != m_Players.end(); ++it)
-  {
-    //only attackers utilize the BestSupportingSpot
-    if ( ((*it)->Role() == PlayerBase::attacker) && ((*it) != m_pControllingPlayer) )
-    {
-      //calculate the dist. Use the squared value to avoid sqrt
-      double dist = Vec2DDistanceSq((*it)->Pos(), m_pSupportSpotCalc->GetBestSupportingSpot());
+  	for (it; it != m_Players.end(); ++it)
+  	{
+		printf("SoccerTeam::DetermineBaseSupportingAttacker() 4\n");
+    		//only attackers utilize the BestSupportingSpot
+    		if ( ((*it)->Role() == PlayerBase::attacker) && ((*it) != m_pControllingPlayer) )
+    		{
+			printf("SoccerTeam::DetermineBaseSupportingAttacker() 5\n");
+      			//calculate the dist. Use the squared value to avoid sqrt
+      			double dist = Vec2DDistanceSq((*it)->Pos(), m_pSupportSpotCalc->GetBestSupportingSpot());
+			printf("SoccerTeam::DetermineBaseSupportingAttacker() 6\n");
     
-      //if the distance is the closest so far and the player is not a
-      //goalkeeper and the player is not the one currently controlling
-      //the ball, keep a record of this player
-      if ((dist < ClosestSoFar) )
-      {
-        ClosestSoFar = dist;
+      			//if the distance is the closest so far and the player is not a
+      			//goalkeeper and the player is not the one currently controlling
+      			//the ball, keep a record of this player
+      			if ((dist < ClosestSoFar) )
+      			{
+				printf("SoccerTeam::DetermineBaseSupportingAttacker() 7\n");
+        			ClosestSoFar = dist;
+        			BestPlayer = (*it);
+      			}
+			printf("SoccerTeam::DetermineBaseSupportingAttacker() 8\n");
+    		}
+		printf("SoccerTeam::DetermineBaseSupportingAttacker() 9\n");
+  	}
+	printf("SoccerTeam::DetermineBaseSupportingAttacker() END\n");
 
-        BestPlayer = (*it);
-      }
-    }
-  }
-
-  return BestPlayer;
+  	return BestPlayer;
 }
 
 //-------------------------- FindPass ------------------------------
