@@ -65,7 +65,6 @@ class Region
 
     			m_dWidth  = fabs(right-left);
     			m_dHeight = fabs(bottom-top);
-    			printf("Region Constructor id:%d\n",m_iID);
   		}
 
   

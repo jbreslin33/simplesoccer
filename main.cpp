@@ -73,6 +73,7 @@ void readSocketData(Server* server)
 int main(void)
 {
 	Server server;
+        //SoccerPitch* soccerPitch = new SoccerPitch(800, 600, &server, server.getNextSoccerPitchId());
         SoccerPitch* soccerPitch = new SoccerPitch(800, 600, &server, server.getNextSoccerPitchId());
         server.mSoccerPitchVector.push_back(soccerPitch);
 

@@ -25,7 +25,6 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
                                          m_Regions(NumRegionsHorizontal*NumRegionsVertical),
                                          m_bGameOn(true)
 {
-	printf("SoccerPitch Constructor\n");
 
 	//params
 	GoalWidth 				= 100;
@@ -165,7 +164,6 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
   	m_vecWalls.push_back(Wall2D(m_pBlueGoal->RightPost(), BottomRight));
   	m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
 
-	printf("SoccerPitch::SoccerPitch() END \n");
 	/*
 
   	ParamLoader* p = ParamLoader::Instance();
@@ -202,28 +200,22 @@ SoccerPitch::~SoccerPitch()
 //------------------------------------------------------------------------
 void SoccerPitch::Update()
 {
-	printf("SoccerPitch::Update()\n");
 
 	if (m_bPaused) 
 	{
 		return;
 	}
 
-	printf("SoccerPitch::Update() 1\n");
 
   	static int tick = 0;
-	printf("SoccerPitch::Update() 2\n");
 
   	//update the balls
   	m_pBall->Update();
-	printf("SoccerPitch::Update() 3\n");
 
   	//update the teams
   	m_pRedTeam->Update();
-	printf("SoccerPitch::Update() 4\n");
   	m_pBlueTeam->Update();
 	
-	printf("SoccerPitch::Update() 5\n");
 
   	//if a goal has been detected reset the pitch ready for kickoff
   	if (m_pBlueGoal->Scored(m_pBall) || m_pRedGoal->Scored(m_pBall))

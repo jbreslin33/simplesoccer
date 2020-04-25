@@ -23,7 +23,6 @@ SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,
      m_PitchBoundary(PitchBoundary)
 {
 
-	printf("SoccerBall::SoccerBall()\n");  
 	m_pPitch = soccerPitch;
 }
 
@@ -77,7 +76,6 @@ void SoccerBall::Kick(Vector2D direction, double force)
 //------------------------------------------------------------------------
 void SoccerBall::Update()
 {
-	printf("SoccerBall::Update\n");
 	//keep a record of the old position so the goal::scored method
   	//can utilize it for goal testing
   	m_vOldPos = m_vPosition;
@@ -96,7 +94,8 @@ void SoccerBall::Update()
 		//update heading
     		m_vHeading = Vec2DNormalize(m_vVelocity);
   	}	   
-	printf("SoccerBall::Update END\n");
+
+	//printf("x:%f y:%f\n",m_vPosition.x, m_vPosition.y);
 }
 
 //---------------------- TimeToCoverDistance -----------------------------

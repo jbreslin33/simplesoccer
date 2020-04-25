@@ -35,42 +35,31 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
                                            m_pPlayerClosestToBall(NULL)
 {
 
-	printf("SoccerTeam Constructor\n");
 
   
 	//setup the state machine
 	m_pStateMachine = new StateMachine<SoccerTeam>(this);
-	printf("SoccerTeam Constructor 0\n");
 
   	m_pStateMachine->SetCurrentState(Defending::Instance());
-	printf("SoccerTeam Constructor 1\n");
   	m_pStateMachine->SetPreviousState(Defending::Instance());
-	printf("SoccerTeam Constructor 2\n");
   	m_pStateMachine->SetGlobalState(NULL);
-	printf("SoccerTeam Constructor 3\n");
 
   	//create the players and goalkeeper
   	CreatePlayers();
-	printf("SoccerTeam Constructor 4\n");
   
   	//set default steering behaviors
   	std::vector<PlayerBase*>::iterator it = m_Players.begin();
-	printf("SoccerTeam Constructor 5\n");
 
   	for (it; it != m_Players.end(); ++it)
   	{
-		printf("SoccerTeam Constructor 5.5\n");
     		(*it)->Steering()->SeparationOn();   
   	}
-	printf("SoccerTeam Constructor 6\n");
 
 
-	printf("SoccerTeam Constructor 7\n");
   	//create the sweet spot calculator
   	m_pSupportSpotCalc = new SupportSpotCalculator(Pitch()->NumSupportSpotsX,
                                                  Pitch()->NumSupportSpotsY,
                                                  this);
-	printf("SoccerTeam Constructor 8\n");
 }
 
 //----------------------- dtor -------------------------------------------
@@ -96,27 +85,22 @@ SoccerTeam::~SoccerTeam()
 //------------------------------------------------------------------------
 void SoccerTeam::Update()
 {
-	printf("SoccerTeam::Update()\n");
   	//this information is used frequently so it's more efficient to 
   	//calculate it just once each frame
   	CalculateClosestPlayerToBall();
-	printf("SoccerTeam::Update() 1\n");
 
   	//the team state machine switches between attack/defense behavior. It
   	//also handles the 'kick off' state where a team must return to their
   	//kick off positions before the whistle is blown
   	m_pStateMachine->Update();
-	printf("SoccerTeam::Update() 2\n");
   
   	//now update each player
   	std::vector<PlayerBase*>::iterator it = m_Players.begin();
-	printf("SoccerTeam::Update() 3\n");
 
   	for (it; it != m_Players.end(); ++it)
   	{
     		(*it)->Update();
   	}
-	printf("SoccerTeam::Update() END\n");
 }
 
 //------------------------ CalculateClosestPlayerToBall ------------------
@@ -155,48 +139,36 @@ void SoccerTeam::CalculateClosestPlayerToBall()
 //------------------------------------------------------------------------
 PlayerBase* SoccerTeam::DetermineBestSupportingAttacker()
 {
-	printf("SoccerTeam::DetermineBestSupportingAttacker()\n");
   
 	double ClosestSoFar = MaxFloat;
-	printf("SoccerTeam::DetermineBestSupportingAttacker() 1\n");
 
   	PlayerBase* BestPlayer = NULL;
-	printf("SoccerTeam::DetermineBestSupportingAttacker() 2\n");
 
   	std::vector<PlayerBase*>::iterator it = m_Players.begin();
-	printf("SoccerTeam::DetermineBestSupportingAttacker() 3\n");
 
   	for (it; it != m_Players.end(); ++it)
   	{
-		printf("SoccerTeam::DetermineBestSupportingAttacker() 4\n");
     		//only attackers utilize the BestSupportingSpot
     		if ( ((*it)->Role() == PlayerBase::attacker) && ((*it) != m_pControllingPlayer) )
     		{
-			printf("SoccerTeam::DetermineBestSupportingAttacker() 5\n");
       			//calculate the dist. Use the squared value to avoid sqrt
 			//test
 			Vector2D bestSupportingSpot = m_pSupportSpotCalc->GetBestSupportingSpot();
-			printf("SoccerTeam::DetermineBestSupportingAttacker() 5.5\n");
 			
 			
 			//end test
       			double dist = Vec2DDistanceSq((*it)->Pos(), m_pSupportSpotCalc->GetBestSupportingSpot());
-			printf("SoccerTeam::DetermineBestSupportingAttacker() 6\n");
     
       			//if the distance is the closest so far and the player is not a
       			//goalkeeper and the player is not the one currently controlling
       			//the ball, keep a record of this player
       			if ((dist < ClosestSoFar) )
       			{
-				printf("SoccerTeam::DetermineBestSupportingAttacker() 7\n");
         			ClosestSoFar = dist;
         			BestPlayer = (*it);
       			}
-			printf("SoccerTeam::DetermineBestSupportingAttacker() 8\n");
     		}
-		printf("SoccerTeam::DetermineBestSupportingAttacker() 9\n");
   	}
-	printf("SoccerTeam::DetermineBestSupportingAttacker() END\n");
 
   	return BestPlayer;
 }
@@ -449,7 +421,6 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
 //------------------------------------------------------------------------
 bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 {
-	printf("SoccerTeam::CanShoot()\n");
 	//the number of randomly created shot targets this method will test 
   	int NumAttempts = Pitch()->NumAttemptsToFindValidStrike;
 
@@ -467,14 +438,10 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 
     		//the y value of the shot position should lay somewhere between two
     		//goalposts (taking into consideration the ball diameter)
-		printf("LeftPost.y:%f RightPost.y:%f radius:%f \n",OpponentsGoal()->LeftPost().y, OpponentsGoal()->RightPost().y, Pitch()->Ball()->BRadius());
     		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Pitch()->Ball()->BRadius());
     		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Pitch()->Ball()->BRadius());
 
-		printf("MinYVal:%f MaxYVal:%f\n",MinYVal,MaxYVal);
     		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
-		printf("ShotTarget.x:%f ShotTarget.y:%f\n",ShotTarget->x, ShotTarget->y);
-		printf("SoccerTeam::CanShoot() 1\n");
 
     		//make sure striking the ball with the given power is enough to drive
     		//the ball over the goal line.
@@ -484,7 +451,6 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
     		double time = Pitch()->Ball()->TimeToCoverDistance(BallPos,
                                                       shotTarget,
                                                       power);
-		printf("SoccerTeam::CanShoot() 2\n");
     
     		//if it is, this shot is then tested to see if any of the opponents
     		//can intercept it.
@@ -492,12 +458,10 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
     		{
       			if (isPassSafeFromAllOpponents(BallPos, shotTarget, NULL, power))
       			{
-				printf("SoccerTeam::CanShoot() RETURN TRUE\n");
         			return true;
       			}
     		}
   	}
-	printf("SoccerTeam::CanShoot() RETURN FALSE\n");
   	return false;
 }
 
@@ -530,9 +494,7 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
 //------------------------------------------------------------------------
 void SoccerTeam::CreatePlayers()
 {
-	printf("CreatePlayers ENTER\n");
 	//TendGoal::Instance();
-	printf("CreatePlayers AFTER INSTANCE\n");
 
 		 	new GoalKeeper
 			(
@@ -547,12 +509,10 @@ void SoccerTeam::CreatePlayers()
                                	m_pPitch->PlayerMaxTurnRate,
                                	m_pPitch->PlayerScale
 			);
-	printf("CreatePlayers AFTER TEST OF KEEPER\n");
 
 
 	if (Color() == blue)
   	{
-		printf("CreatePlayers blue\n");
     		//goalkeeper
     		m_Players.push_back
 		(
@@ -649,7 +609,6 @@ void SoccerTeam::CreatePlayers()
 
   	else
   	{
-		printf("CreatePlayers else red\n");
 
      		//goalkeeper
     		m_Players.push_back
@@ -668,7 +627,6 @@ void SoccerTeam::CreatePlayers()
                                 m_pPitch->PlayerScale
 			)
 		);
-		printf("CreatePlayers else red after Goalkeeper\n");
 
 
     		//create the players
@@ -747,7 +705,6 @@ void SoccerTeam::CreatePlayers()
 		);
   	}
 
-	printf("ALL PLAYERS CREATED\n");
 
   //register the players with the entity manager
   std::vector<PlayerBase*>::iterator it = m_Players.begin();

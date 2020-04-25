@@ -8,7 +8,6 @@ Server::Server()
 	mSoccerPitchIdCounter = 0;
 
 	mRunning = true;
-	printf("Server Constructor\n");
 }
 
 int Server::getNextSoccerPitchId()
@@ -19,10 +18,8 @@ int Server::getNextSoccerPitchId()
 
 void Server::update()
 {
-	printf("Server::update()\n");
 	for (int i = 0; i < mSoccerPitchVector.size(); i++)
 	{
-		printf("Server::update() 1\n");
 		mSoccerPitchVector.at(i)->Update();		
 	}                 
 

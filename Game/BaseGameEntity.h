@@ -28,11 +28,15 @@ class BaseGameEntity
 public:
   
   enum {default_entity_type = -1};
+  bool mEnterLogs;
+  bool mExecuteLogs;
+  bool mExitLogs;
 
 private:
   
   //each entity has a unique ID
   int         m_ID;
+
 
   //every entity has a type associated with it (health, troll, ammo etc)
   int         m_iType;

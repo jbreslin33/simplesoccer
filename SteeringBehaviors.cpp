@@ -27,7 +27,6 @@ SteeringBehaviors::SteeringBehaviors(PlayerBase*  agent,
              m_dInterposeDist(0.0),
              m_Antenna(5,Vector2D())
 {
-	printf("SteeringBehaviors::SteeringBehaviors()\n");
 }
 
 //--------------------- AccumulateForce ----------------------------------

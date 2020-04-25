@@ -53,23 +53,18 @@ private:
   //call this to update the FSM
 		void  Update()const
   		{
-			printf("Goalkeeper Statemachine::Update\n");
     			//if a global state exists, call its execute method, else do nothing
     			if(m_pGlobalState)   
 			{
 				m_pGlobalState->Execute(m_pOwner);
 			}
 
-			printf("Goalkeeper Statemachine::Update 1\n");
 
     			//same for the current state
     			if (m_pCurrentState) 
 			{
-				printf("if m_pCurrentState Goalkeeper Statemachine::Update 1\n");
-				printf("state:%s\n",GetNameOfCurrentState().c_str());
 				m_pCurrentState->Execute(m_pOwner);
 			}
-			printf("Goalkeeper Statemachine::Update END\n");
 
   		}
 

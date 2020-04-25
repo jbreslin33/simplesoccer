@@ -30,7 +30,6 @@ GlobalKeeperState* GlobalKeeperState::Instance()
 
 bool GlobalKeeperState::OnMessage(GoalKeeper* keeper, const Telegram& telegram)
 {
-	printf("GoalKeeperState::OnMessage\n");
 	switch(telegram.Msg)
   	{
     		case Msg_GoHome:
@@ -75,24 +74,19 @@ TendGoal* TendGoal::Instance()
 
 void TendGoal::Enter(GoalKeeper* keeper)
 {
-	printf("TendGoal::Enter()\n");
   //turn interpose on
   keeper->Steering()->InterposeOn(keeper->Team()->Pitch()->GoalKeeperTendingDistance);
-	printf("TendGoal::Enter() 1\n");
 
   //interpose will position the agent between the ball position and a target
   //position situated along the goal mouth. This call sets the target
   keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
-	printf("TendGoal::Enter() END\n");
 }
 
 void TendGoal::Execute(GoalKeeper* keeper)
 {
-	printf("TendGoal::Execute()\n");
   	//the rear interpose target will change as the ball's position changes
   	//so it must be updated each update-step 
   	keeper->Steering()->SetTarget(keeper->GetRearInterposeTarget());
-	printf("TendGoal::Execute() 1\n");
 
   	//if the ball comes in range the keeper traps it and then changes state
   	//to put the ball back in play
@@ -105,7 +99,6 @@ void TendGoal::Execute(GoalKeeper* keeper)
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
   	}
-	printf("TendGoal::Execute() 3\n");
 
   	//if ball is within a predefined distance, the keeper moves out from
   	//position to try and intercept it.
@@ -114,7 +107,6 @@ void TendGoal::Execute(GoalKeeper* keeper)
     		keeper->GetFSM()->ChangeState(InterceptBall::Instance());
   	}
 
-	printf("TendGoal::Execute() 4\n");
   	//if the keeper has ventured too far away from the goal-line and there
   	//is no threat from the opponents he should move back towards it
   	if (keeper->TooFarFromGoalMouth() && keeper->Team()->InControl())
@@ -123,13 +115,11 @@ void TendGoal::Execute(GoalKeeper* keeper)
 
     		return;
   	}
-	printf("TendGoal::Execute() END\n");
 }
 
 
 void TendGoal::Exit(GoalKeeper* keeper)
 {
-	printf("TendGoal::Exit()\n");
 	keeper->Steering()->InterposeOff();
 }
 

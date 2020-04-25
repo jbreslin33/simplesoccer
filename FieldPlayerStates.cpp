@@ -173,41 +173,51 @@ ChaseBall* ChaseBall::Instance()
 
 void ChaseBall::Enter(FieldPlayer* player)
 {
-  player->Steering()->SeekOn();
+	if (player->mEnterLogs)
+	{
+		printf("ChaseBall::Enter()\n");
+	}
+	player->Steering()->SeekOn();
 
-  #ifdef PLAYER_STATE_INFO_ON
-  //debug_con << "Player " << player->ID() << " enters chase state" << "";
-  #endif
+
 }
 
 void ChaseBall::Execute(FieldPlayer* player)                                     
 {
-  //if the ball is within kicking range the player changes state to KickBall.
-  if (player->BallWithinKickingRange())
-  {
-    player->GetFSM()->ChangeState(KickBall::Instance());
-    
-    return;
-  }
-                                                                              
-  //if the player is the closest player to the ball then he should keep
-  //chasing it
-  if (player->isClosestTeamMemberToBall())
-  {
-    player->Steering()->SetTarget(player->Ball()->Pos());
+	if (player->mExecuteLogs)
+	{
+		printf("ChaseBall::Execute() ID:%d\n", player->ID());
+	}
 
-    return;
-  }
+  	//if the ball is within kicking range the player changes state to KickBall.
+  	if (player->BallWithinKickingRange())
+  	{
+    		player->GetFSM()->ChangeState(KickBall::Instance());
+    
+    		return;
+  	}
+                                                                              
+  	//if the player is the closest player to the ball then he should keep
+  	//chasing it
+  	if (player->isClosestTeamMemberToBall())
+  	{
+    		player->Steering()->SetTarget(player->Ball()->Pos());
+    		return;
+  	}
   
-  //if the player is not closest to the ball anymore, he should return back
-  //to his home region and wait for another opportunity
-  player->GetFSM()->ChangeState(ReturnToHomeRegion::Instance());
+  	//if the player is not closest to the ball anymore, he should return back
+  	//to his home region and wait for another opportunity
+  	player->GetFSM()->ChangeState(ReturnToHomeRegion::Instance());
 }
 
 
 void ChaseBall::Exit(FieldPlayer* player)
 {
-  player->Steering()->SeekOff();
+	if (player->mExitLogs)
+	{
+		printf("ChaseBall::Exit() ID:%d\n", player->ID());
+	}
+  	player->Steering()->SeekOff();
 }
 
 
@@ -252,7 +262,6 @@ void SupportAttacker::Execute(FieldPlayer* player)
 
   //if this player has a shot at the goal AND the attacker can pass
   //the ball to him the attacker should pass the ball to this player
-  printf("SupportAttacker::Execute(FieldPlayer* player)\n");
   if( player->Team()->CanShoot(player->Pos(),
                                player->Pitch()->MaxShootingForce))
   {
@@ -465,7 +474,6 @@ void KickBall::Enter(FieldPlayer* player)
 void KickBall::Execute(FieldPlayer* player)
 { 
 
-	printf("KickBall::Execute()\n");
   	//calculate the dot product of the vector pointing to the ball
   	//and the player's heading
   	Vector2D ToBall = player->Ball()->Pos() - player->Pos();
@@ -500,11 +508,8 @@ void KickBall::Execute(FieldPlayer* player)
   	//if it is determined that the player could score a goal from this position
   	//OR if he should just kick the ball anyway, the player will attempt
   	//to make the shot
-	printf("KickBall::Execute() 1\n");
-	printf("KickBall::Execute(FieldPlayer* player) Pos.x:%f Pos.y:%f \n",player->Ball()->Pos().x, player->Ball()->Pos().y);
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power) ||  (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
   	{	 
-		printf("KickBall::Execute() 2\n");
    		#ifdef PLAYER_STATE_INFO_ON
    		//debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
    		#endif
@@ -525,7 +530,6 @@ void KickBall::Execute(FieldPlayer* player)
   
    		return;
  	}
-	printf("KickBall::Execute() 3\n");
 
   	/* Attempt a pass to a player */
 
@@ -533,7 +537,6 @@ void KickBall::Execute(FieldPlayer* player)
   	PlayerBase* receiver = NULL;
 
   	power = player->Pitch()->MaxPassingForce * dot;
-	printf("KickBall::Execute() 4\n");
   
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
@@ -543,7 +546,6 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Pitch()->MinPassDist))
   	{     
-		printf("KickBall::Execute() 5\n");
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -575,14 +577,10 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		printf("KickBall::Execute() 6\n");
     		player->FindSupport();
-		printf("KickBall::Execute() 7\n");
 
     		player->GetFSM()->ChangeState(Dribble::Instance());
-		printf("KickBall::Execute() 8\n");
   	}   
-	printf("KickBall::Execute() END\n");
 }
 
 

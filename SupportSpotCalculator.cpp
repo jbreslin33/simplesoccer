@@ -60,7 +60,6 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
 //-----------------------------------------------------------------------------
 Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 {
-	printf("SupportSpotCalculator::DetermineBestSupportingPosition()\n");
 	//only update the spots every few frames                              
 	//BRESLIN
   	/*
@@ -72,22 +71,17 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 
   	//reset the best supporting spot
   	m_pBestSupportingSpot = nullptr;
-	printf("SupportSpotCalculator::DetermineBestSupportingPosition() 1\n");
  
   	double BestScoreSoFar = 0.0;
-	printf("SupportSpotCalculator::DetermineBestSupportingPosition() 2\n");
 
   	std::vector<SupportSpot>::iterator curSpot;
-	printf("SupportSpotCalculator::DetermineBestSupportingPosition() 3\n");
 
   	for (curSpot = m_Spots.begin(); curSpot != m_Spots.end(); ++curSpot)
   	{
-		printf("SupportSpotCalculator::DetermineBestSupportingPosition() 4\n");
     		//first remove any previous score. (the score is set to one so that
     		//the viewer can see the positions of all the spots if he has the 
     		//aids turned on)
     		curSpot->m_dScore = 1.0;
-		printf("SupportSpotCalculator::DetermineBestSupportingPosition() 5\n");
 
     		//Test 1. is it possible to make a safe pass from the ball's position 
     		//to this position?
@@ -99,16 +93,13 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
       			curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
     		}
       
-		printf("SupportSpotCalculator::DetermineBestSupportingPosition() 6\n");
    
     		//Test 2. Determine if a goal can be scored from this position.  
-    		printf("SupportSpotCalculator::DetermineBestSupportingPosition() 7\n");
     		if( m_pTeam->CanShoot(curSpot->m_vPos,            
                           m_pTeam->Pitch()->MaxShootingForce))
     		{
       			curSpot->m_dScore += m_pTeam->Pitch()->Spot_CanScoreFromPositionScore;
     		}	   
-    		printf("SupportSpotCalculator::DetermineBestSupportingPosition() 8\n");
 
     
     		//Test 3. calculate how far this spot is away from the controlling
@@ -141,19 +132,15 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     		}    
     
   	}
-    	printf("SupportSpotCalculator::DetermineBestSupportingPosition() END\n");
 
-	//printf("m_pBestSupportingSpot->m_vPos.x:%f m_pBestSupportingSpot->m_vPos.y:%f \n", m_pBestSupportingSpot->m_vPos.x, m_pBestSupportingSpot->m_vPos.y);
 	if (m_pBestSupportingSpot)
 	{
-		printf("we have m_pBestSupportingSpot\n");
   		return m_pBestSupportingSpot->m_vPos;
 	}
 	else
 	{
 		Vector2D v;
 		return v;
-		printf("we do not have m_pBestSupportingSpot\n");
 	}
 }
 
@@ -165,15 +152,12 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 //-----------------------------------------------------------------------------
 Vector2D SupportSpotCalculator::GetBestSupportingSpot()
 {
-	printf("SupportSpotCalculator::GetBestSupportingSpot()\n");
   	if (m_pBestSupportingSpot)
   	{
-		printf("SupportSpotCalculator::GetBestSupportingSpot() if\n");
     		return m_pBestSupportingSpot->m_vPos;
   	}
   	else
   	{	 
-		printf("SupportSpotCalculator::GetBestSupportingSpot() else\n");
     		return DetermineBestSupportingPosition();
   	}
 }

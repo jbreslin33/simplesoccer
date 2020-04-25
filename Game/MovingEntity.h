@@ -63,7 +63,6 @@ public:
                                   m_dMaxTurnRate(turn_rate),
                                   m_dMaxForce(max_force)
   {
-	  printf("MovingEntity::MovingEntity()\n");
     m_vPosition = position;
     m_dBoundingRadius = radius; 
     m_vScale = scale;

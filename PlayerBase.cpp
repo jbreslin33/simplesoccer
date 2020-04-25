@@ -52,7 +52,6 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
    m_iDefaultRegion(home_region),
    m_PlayerRole(role)
 {
-	printf("PlayerBase::PlayerBase()\n");  
   //setup the vertex buffers and calculate the bounding radius
   const int NumPlayerVerts = 4;
   const Vector2D player[NumPlayerVerts] = {Vector2D(-3, 8),
@@ -76,17 +75,14 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
       m_dBoundingRadius = abs(player[vtx].y);
     }
   }
-	printf("PlayerBase::PlayerBase() 1\n");  
 
   //set up the steering behavior class
   m_pSteering = new SteeringBehaviors(this,
                                       m_pTeam->Pitch(),
                                       Ball());  
-	printf("PlayerBase::PlayerBase() 2\n");  
   
   //a player's start target is its start position (because it's just waiting)
   m_pSteering->SetTarget(home_team->Pitch()->GetRegionFromIndex(home_region)->Center());
-	printf("PlayerBase::PlayerBase() 3\n");  
 }
 
 
@@ -179,27 +175,21 @@ bool PlayerBase::isThreatened()const
 //-----------------------------------------------------------------------------
 void PlayerBase::FindSupport()const
 {    
-	printf("PlayerBase::FindSupport\n");
   
 	//if there is no support we need to find a suitable player.
   	if (Team()->SupportingPlayer() == NULL)
   	{
-		printf("PlayerBase::FindSupport 1\n");
     		PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
-		printf("PlayerBase::FindSupport 2\n");
 
     		Team()->SetSupportingPlayer(BestSupportPly);
-		printf("PlayerBase::FindSupport 3\n");
 
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                             ID(),
                             Team()->SupportingPlayer()->ID(),
                             Msg_SupportAttacker,
                             NULL);
-		printf("PlayerBase::FindSupport 4\n");
   	}
     
-	printf("PlayerBase::FindSupport 5\n");
   	PlayerBase* BestSupportPly = Team()->DetermineBestSupportingAttacker();
     
   	//if the best player available to support the attacker changes, update
@@ -225,7 +215,6 @@ void PlayerBase::FindSupport()const
                             Msg_SupportAttacker,
                             NULL);
   	}
-	printf("PlayerBase::FindSupport END\n");
 }
 
 

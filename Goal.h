@@ -42,7 +42,6 @@ class Goal
                                                        m_iNumGoalsScored(0),
                                                        m_vFacing(facing)
   		{  
- 			printf("Goal Constructur\n"); 
   		}
 
   		//Given the current ball position and the previous ball position,
