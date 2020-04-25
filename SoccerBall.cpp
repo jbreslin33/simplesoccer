@@ -1,7 +1,6 @@
 #include "SoccerBall.h"
 #include "SoccerPitch.h"
 #include "2D/geometry.h"
-#include "ParamLoader.h"
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"
 

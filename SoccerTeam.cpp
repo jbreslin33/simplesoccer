@@ -7,7 +7,6 @@
 #include "misc/utils.h"
 #include "SteeringBehaviors.h"
 #include "GoalKeeperStates.h"
-#include "ParamLoader.h"
 #include "2D/geometry.h"
 #include "Game/EntityManager.h"
 #include "Messaging/MessageDispatcher.h"

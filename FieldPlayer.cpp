@@ -7,7 +7,6 @@
 #include "Goal.h"
 #include "Game/Region.h"
 #include "Game/EntityFunctionTemplates.h"
-#include "ParamLoader.h"
 #include "SoccerTeam.h"
 #include "SoccerPitch.h"
 

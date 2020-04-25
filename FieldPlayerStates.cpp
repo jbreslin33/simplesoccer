@@ -6,7 +6,6 @@
 #include "Goal.h"
 #include "2D/geometry.h"
 #include "SoccerBall.h"
-#include "ParamLoader.h"
 #include "Messaging/Telegram.h"
 #include "Messaging/MessageDispatcher.h"
 #include "SoccerMessages.h"

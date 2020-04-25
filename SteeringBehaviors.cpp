@@ -4,9 +4,7 @@
 #include "misc/utils.h"
 #include "SoccerTeam.h"
 #include "misc/autolist.h"
-#include "ParamLoader.h"
 #include "SoccerBall.h"
-
 
 using std::string;
 using std::vector;

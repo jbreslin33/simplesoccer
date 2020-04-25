@@ -6,9 +6,6 @@
 #include "GoalKeeperStates.h"
 #include "Goal.h"
 #include "Game/EntityFunctionTemplates.h"
-#include "ParamLoader.h"
-
-
 
 //----------------------------- ctor ------------------------------------
 //-----------------------------------------------------------------------

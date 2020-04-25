@@ -4,7 +4,6 @@
 #include "SoccerBall.h"
 #include "constants.h"
 #include "SoccerTeam.h"
-#include "ParamLoader.h"
 #include "SoccerPitch.h"
 
 
