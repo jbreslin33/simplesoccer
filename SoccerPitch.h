@@ -169,9 +169,18 @@ class SoccerPitch
 
   		~SoccerPitch();
 
+		//tick and update
+               	long getCurrentMilliseconds();
+		void tick();
 	  	void  Update();
   		void processBuffer(std::vector<std::string> stringVector);
 	  	void processMove(std::vector<std::string> stringVector);
+
+		//time
+                long mGameStartTime;
+                long mLastTime;
+                long mDelta;
+                long mTickCount;
 
 
 

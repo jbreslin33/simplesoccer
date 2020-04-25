@@ -10,7 +10,7 @@
 #include "TeamStates.h"
 #include "misc/FrameCounter.h"
 #include "server.h"
-
+#include <sys/time.h>
 
 const int NumRegionsHorizontal = 6; 
 const int NumRegionsVertical   = 3;
@@ -87,6 +87,11 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	mId = id;
 	mServer = server;
 
+	//time
+        mGameStartTime = getCurrentMilliseconds();
+        mLastTime = mGameStartTime;
+        mDelta = 0;
+        mTickCount = 0;
 
   	//define the playing area
   	m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
@@ -192,12 +197,12 @@ SoccerPitch::~SoccerPitch()
 
 
 
-//----------------------------- Update -----------------------------------
-//
+//----------------------------- tick -----------------------------------
+//the following time has been chaneged to what buckland does... 
 //  this demo works on a fixed frame rate (60 by default) so we don't need
 //  to pass a time_elapsed as a parameter to the game entities
 //------------------------------------------------------------------------
-void SoccerPitch::Update()
+void SoccerPitch::tick()
 {
 
 	if (m_bPaused) 
@@ -230,6 +235,24 @@ void SoccerPitch::Update()
   	}
 }
 
+long SoccerPitch::getCurrentMilliseconds()
+{
+        struct timeval tp;
+        gettimeofday(&tp, NULL);
+        long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+        return ms;
+}
+
+void SoccerPitch::Update()
+{
+        mDelta = getCurrentMilliseconds() - mLastTime;
+
+        if (mDelta > 30)
+        {
+                tick();
+                mLastTime = getCurrentMilliseconds();
+        }
+}
 
 void SoccerPitch::processBuffer(std::vector<std::string> stringVector)
 {
