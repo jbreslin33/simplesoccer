@@ -71,7 +71,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
   	*/
 
   	//reset the best supporting spot
-  	m_pBestSupportingSpot = NULL;
+  	m_pBestSupportingSpot = nullptr;
 	printf("SupportSpotCalculator::DetermineBestSupportingPosition() 1\n");
  
   	double BestScoreSoFar = 0.0;
@@ -143,7 +143,18 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
   	}
     	printf("SupportSpotCalculator::DetermineBestSupportingPosition() END\n");
 
-  	return m_pBestSupportingSpot->m_vPos;
+	//printf("m_pBestSupportingSpot->m_vPos.x:%f m_pBestSupportingSpot->m_vPos.y:%f \n", m_pBestSupportingSpot->m_vPos.x, m_pBestSupportingSpot->m_vPos.y);
+	if (m_pBestSupportingSpot)
+	{
+		printf("we have m_pBestSupportingSpot\n");
+  		return m_pBestSupportingSpot->m_vPos;
+	}
+	else
+	{
+		Vector2D v;
+		return v;
+		printf("we do not have m_pBestSupportingSpot\n");
+	}
 }
 
 
