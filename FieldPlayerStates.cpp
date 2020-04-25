@@ -131,6 +131,17 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
      #ifdef PLAYER_STATE_INFO_ON
      //debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
      #endif
+
+            //let the receiver know a pass is coming
+	 Vector2D receiverPosition;
+	 receiverPosition.x = receiver->Pos().x;
+	 receiverPosition.y = receiver->Pos().y;
+      Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+                              player->ID(),
+                              receiver->ID(),
+                              Msg_ReceiveBall,
+                              //&receiver->Pos());
+                              &receiverPosition);
         
       //let the receiver know a pass is coming 
       /*
