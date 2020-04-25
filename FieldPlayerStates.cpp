@@ -320,55 +320,65 @@ ReturnToHomeRegion* ReturnToHomeRegion::Instance()
 
 void ReturnToHomeRegion::Enter(FieldPlayer* player)
 {
-  player->Steering()->ArriveOn();
+	if (player->mEnterLogs)
+	{
+		printf("ReturnToHomeRegion::Enter() ID:%d\n", player->ID());
+	}
+  
+	player->Steering()->ArriveOn();
 
-  if (!player->HomeRegion()->Inside(player->Steering()->Target(), Region::halfsize))
-  {
-    player->Steering()->SetTarget(player->HomeRegion()->Center());
-  }
-
-  #ifdef PLAYER_STATE_INFO_ON
-  //debug_con << "Player " << player->ID() << " enters ReturnToHome state" << "";
-  #endif
+  	if (!player->HomeRegion()->Inside(player->Steering()->Target(), Region::halfsize))
+  	{
+    		player->Steering()->SetTarget(player->HomeRegion()->Center());
+  	}
 }
 
 void ReturnToHomeRegion::Execute(FieldPlayer* player)
 {
-  if (player->Pitch()->GameOn())
-  {
-    //if the ball is nearer this player than any other team member  &&
-    //there is not an assigned receiver && the goalkeeper does not gave
-    //the ball, go chase it
-    if ( player->isClosestTeamMemberToBall() &&
-         (player->Team()->Receiver() == NULL) &&
-         !player->Pitch()->GoalKeeperHasBall())
-    {
-      player->GetFSM()->ChangeState(ChaseBall::Instance());
+	if (player->mExecuteLogs)
+	{
+		printf("ReturnToHomeRegion::Execute() ID:%d\n", player->ID());
+	}
 
-      return;
-    }
-  }
+  	if (player->Pitch()->GameOn())
+  	{
+    		//if the ball is nearer this player than any other team member  &&
+    		//there is not an assigned receiver && the goalkeeper does not gave
+    		//the ball, go chase it
+    		if ( player->isClosestTeamMemberToBall() &&
+         		(player->Team()->Receiver() == NULL) &&
+         		!player->Pitch()->GoalKeeperHasBall())
+    		{
+      			player->GetFSM()->ChangeState(ChaseBall::Instance());
+      			return;
+    		}
+  	}
 
-  //if game is on and close enough to home, change state to wait and set the 
-  //player target to his current position.(so that if he gets jostled out of 
-  //position he can move back to it)
-  if (player->Pitch()->GameOn() && player->HomeRegion()->Inside(player->Pos(),
+  	//if game is on and close enough to home, change state to wait and set the 
+  	//player target to his current position.(so that if he gets jostled out of 
+  	//position he can move back to it)
+  	if (player->Pitch()->GameOn() && player->HomeRegion()->Inside(player->Pos(),
                                                              Region::halfsize))
-  {
-    player->Steering()->SetTarget(player->Pos());
-    player->GetFSM()->ChangeState(Wait::Instance());
-  }
-  //if game is not on the player must return much closer to the center of his
-  //home region
-  else if(!player->Pitch()->GameOn() && player->AtTarget())
-  {
-    player->GetFSM()->ChangeState(Wait::Instance());
-  }
+  	{
+    		player->Steering()->SetTarget(player->Pos());
+    		player->GetFSM()->ChangeState(Wait::Instance());
+  	}
+  
+	//if game is not on the player must return much closer to the center of his
+  	//home region
+  	else if(!player->Pitch()->GameOn() && player->AtTarget())
+  	{
+    		player->GetFSM()->ChangeState(Wait::Instance());
+  	}
 }
 
 void ReturnToHomeRegion::Exit(FieldPlayer* player)
 {
-  player->Steering()->ArriveOff();
+	if (player->mExitLogs)
+	{
+		printf("ReturnToHomeRegion::Exit() ID:%d\n", player->ID());
+	}
+  	player->Steering()->ArriveOff();
 }
 
 
