@@ -396,69 +396,77 @@ Wait* Wait::Instance()
 
 void Wait::Enter(FieldPlayer* player)
 {
-  #ifdef PLAYER_STATE_INFO_ON
-  //debug_con << "Player " << player->ID() << " enters wait state" << "";
-  #endif
+	if (player->mEnterLogs)
+	{
+		printf("Wait::Enter() ID:%d\n", player->ID());
+	}
 
-  //if the game is not on make sure the target is the center of the player's
-  //home region. This is ensure all the players are in the correct positions
-  //ready for kick off
-  if (!player->Pitch()->GameOn())
-  {
-    player->Steering()->SetTarget(player->HomeRegion()->Center());
-  }
+  
+	//if the game is not on make sure the target is the center of the player's
+  	//home region. This is ensure all the players are in the correct positions
+	//ready for kick off
+  	if (!player->Pitch()->GameOn())
+  	{
+    		player->Steering()->SetTarget(player->HomeRegion()->Center());
+  	}
 }
 
 void Wait::Execute(FieldPlayer* player)
 {    
-  //if the player has been jostled out of position, get back in position  
-  if (!player->AtTarget())
-  {
-    player->Steering()->ArriveOn();
+	if (player->mExecuteLogs)
+	{
+		printf("Wait::Execute() ID:%d\n", player->ID());
+	}
 
-    return;
-  }
+	//if the player has been jostled out of position, get back in position  
+  	if (!player->AtTarget())
+  	{
+    		player->Steering()->ArriveOn();
+    		return;
+  	}
+  	else
+  	{
+    		player->Steering()->ArriveOff();
 
-  else
-  {
-    player->Steering()->ArriveOff();
+   		 player->SetVelocity(Vector2D(0,0));
 
-    player->SetVelocity(Vector2D(0,0));
+    		//the player should keep his eyes on the ball!
+    		player->TrackBall();
+  	}
 
-    //the player should keep his eyes on the ball!
-    player->TrackBall();
-  }
+  	//if this player's team is controlling AND this player is not the attacker
+  	//AND is further up the field than the attacker he should request a pass.
+  	if ( player->Team()->InControl()    &&
+     		(!player->isControllingPlayer()) &&
+       		player->isAheadOfAttacker() )
+  	{
+    		player->Team()->RequestPass(player);
+    		return;
+  	}
 
-  //if this player's team is controlling AND this player is not the attacker
-  //AND is further up the field than the attacker he should request a pass.
-  if ( player->Team()->InControl()    &&
-     (!player->isControllingPlayer()) &&
-       player->isAheadOfAttacker() )
-  {
-    player->Team()->RequestPass(player);
+  	if (player->Pitch()->GameOn())
+  	{
+   		//if the ball is nearer this player than any other team member  AND
+    		//there is not an assigned receiver AND neither goalkeeper has
+    		//the ball, go chase it
+   		if (player->isClosestTeamMemberToBall() &&
+       			player->Team()->Receiver() == NULL  &&
+       			!player->Pitch()->GoalKeeperHasBall())
+   		{
+     			player->GetFSM()->ChangeState(ChaseBall::Instance());
 
-    return;
-  }
-
-  if (player->Pitch()->GameOn())
-  {
-   //if the ball is nearer this player than any other team member  AND
-    //there is not an assigned receiver AND neither goalkeeper has
-    //the ball, go chase it
-   if (player->isClosestTeamMemberToBall() &&
-       player->Team()->Receiver() == NULL  &&
-       !player->Pitch()->GoalKeeperHasBall())
-   {
-     player->GetFSM()->ChangeState(ChaseBall::Instance());
-
-     return;
-   }
-  } 
+     			return;
+   		}
+ 	} 
 }
 
-void Wait::Exit(FieldPlayer* player){}
-
-
+void Wait::Exit(FieldPlayer* player)
+{
+	if (player->mExitLogs)
+	{
+		printf("Wait::Exit() ID:%d\n", player->ID());
+	}
+}
 
 
 //************************************************************************ KICK BALL
@@ -473,23 +481,27 @@ KickBall* KickBall::Instance()
 
 void KickBall::Enter(FieldPlayer* player)
 {
-  //let the team know this player is controlling
-   player->Team()->SetControllingPlayer(player);
+	if (player->mEnterLogs)
+	{
+		printf("KickBall::Enter() ID:%d\n", player->ID());
+	}
+  
+	//let the team know this player is controlling
+   	player->Team()->SetControllingPlayer(player);
    
-   //the player can only make so many kick attempts per second.
-   if (!player->isReadyForNextKick()) 
-   {
-     player->GetFSM()->ChangeState(ChaseBall::Instance());
-   }
-
-   
-  #ifdef PLAYER_STATE_INFO_ON
-  //debug_con << "Player " << player->ID() << " enters kick state" << "";
-  #endif
+   	//the player can only make so many kick attempts per second.
+   	if (!player->isReadyForNextKick()) 
+   	{
+     		player->GetFSM()->ChangeState(ChaseBall::Instance());
+   	}
 }
 
 void KickBall::Execute(FieldPlayer* player)
 { 
+	if (player->mExecuteLogs)
+	{
+		printf("KickBall::Execute() ID:%d\n", player->ID());
+	}
 
   	//calculate the dot product of the vector pointing to the ball
   	//and the player's heading
@@ -503,12 +515,7 @@ void KickBall::Execute(FieldPlayer* player)
       		player->Pitch()->GoalKeeperHasBall() ||
       		(dot < 0) ) 
   	{
-    		#ifdef PLAYER_STATE_INFO_ON
-    		//debug_con << "Goaly has ball / ball behind player" << "";
-    		#endif
-    
     		player->GetFSM()->ChangeState(ChaseBall::Instance());
-    	
 		return;
   	}
 
@@ -613,53 +620,57 @@ Dribble* Dribble::Instance()
 
 void Dribble::Enter(FieldPlayer* player)
 {
-  //let the team know this player is controlling
-  player->Team()->SetControllingPlayer(player);
-
-#ifdef PLAYER_STATE_INFO_ON
-  //debug_con << "Player " << player->ID() << " enters dribble state" << "";
-  #endif
+	if (player->mEnterLogs)
+	{
+		printf("Dribble::Enter() ID:%d\n", player->ID());
+	}
+  	//let the team know this player is controlling
+  	player->Team()->SetControllingPlayer(player);
 }
 
 void Dribble::Execute(FieldPlayer* player)
 {
-  double dot = player->Team()->HomeGoal()->Facing().Dot(player->Heading());
+	if (player->mExecuteLogs)
+	{
+		printf("Dribble::Execute() ID:%d\n", player->ID());
+	}
+  
+	double dot = player->Team()->HomeGoal()->Facing().Dot(player->Heading());
 
-  //if the ball is between the player and the home goal, it needs to swivel
-  // the ball around by doing multiple small kicks and turns until the player 
-  //is facing in the correct direction
-  if (dot < 0)
-  {
-    //the player's heading is going to be rotated by a small amount (Pi/4) 
-    //and then the ball will be kicked in that direction
-    Vector2D direction = player->Heading();
+  	//if the ball is between the player and the home goal, it needs to swivel
+  	// the ball around by doing multiple small kicks and turns until the player 
+  	//is facing in the correct direction
+  	if (dot < 0)
+  	{
+    		//the player's heading is going to be rotated by a small amount (Pi/4) 
+    		//and then the ball will be kicked in that direction
+    		Vector2D direction = player->Heading();
 
-    //calculate the sign (+/-) of the angle between the player heading and the 
-    //facing direction of the goal so that the player rotates around in the 
-    //correct direction
-    double angle = QuarterPi * -1 *
+    		//calculate the sign (+/-) of the angle between the player heading and the 
+    		//facing direction of the goal so that the player rotates around in the 
+    		//correct direction
+    		double angle = QuarterPi * -1 *
                  player->Team()->HomeGoal()->Facing().Sign(player->Heading());
 
-    Vec2DRotateAroundOrigin(direction, angle);
+    		Vec2DRotateAroundOrigin(direction, angle);
 
-    //this value works well whjen the player is attempting to control the
-    //ball and turn at the same time
-    const double KickingForce = 0.8;
+    		//this value works well whjen the player is attempting to control the
+    		//ball and turn at the same time
+    		const double KickingForce = 0.8;
 
-    player->Ball()->Kick(direction, KickingForce);
-  }
-
-  //kick the ball down the field
-  else
-  {
-    player->Ball()->Kick(player->Team()->HomeGoal()->Facing(),
+    		player->Ball()->Kick(direction, KickingForce);
+  	}
+  	//kick the ball down the field
+  	else
+  	{
+    		player->Ball()->Kick(player->Team()->HomeGoal()->Facing(),
                          player->Pitch()->MaxDribbleForce);  
-  }
+  	}
 
-  //the player has kicked the ball so he must now change state to follow it
-  player->GetFSM()->ChangeState(ChaseBall::Instance());
+  	//the player has kicked the ball so he must now change state to follow it
+  	player->GetFSM()->ChangeState(ChaseBall::Instance());
     
-  return;  
+  	return;  
 }
 
 
@@ -676,75 +687,81 @@ ReceiveBall* ReceiveBall::Instance()
 
 void ReceiveBall::Enter(FieldPlayer* player)
 {
-  //let the team know this player is receiving the ball
-  player->Team()->SetReceiver(player);
+	if (player->mEnterLogs)
+	{
+		printf("ReceiveBall::Enter() ID:%d\n", player->ID());
+	}
+	
+	//let the team know this player is receiving the ball
+  	player->Team()->SetReceiver(player);
   
-  //this player is also now the controlling player
-  player->Team()->SetControllingPlayer(player);
+  	//this player is also now the controlling player
+  	player->Team()->SetControllingPlayer(player);
 
-  //there are two types of receive behavior. One uses arrive to direct
-  //the receiver to the position sent by the passer in its telegram. The
-  //other uses the pursuit behavior to pursue the ball. 
-  //This statement selects between them dependent on the probability
-  //ChanceOfUsingArriveTypeReceiveBehavior, whether or not an opposing
-  //player is close to the receiving player, and whether or not the receiving
-  //player is in the opponents 'hot region' (the third of the pitch closest
-  //to the opponent's goal
-  const double PassThreatRadius = 70.0;
+  	//there are two types of receive behavior. One uses arrive to direct
+  	//the receiver to the position sent by the passer in its telegram. The
+  	//other uses the pursuit behavior to pursue the ball. 
+  	//This statement selects between them dependent on the probability
+  	//ChanceOfUsingArriveTypeReceiveBehavior, whether or not an opposing
+  	//player is close to the receiving player, and whether or not the receiving
+  	//player is in the opponents 'hot region' (the third of the pitch closest
+  	//to the opponent's goal
+  	const double PassThreatRadius = 70.0;
 
-  if (( player->InHotRegion() ||
-        RandFloat() < player->Pitch()->ChanceOfUsingArriveTypeReceiveBehavior) &&
-     !player->Team()->isOpponentWithinRadius(player->Pos(), PassThreatRadius))
-  {
-    player->Steering()->ArriveOn();
+  	if (( player->InHotRegion() ||
+        	RandFloat() < player->Pitch()->ChanceOfUsingArriveTypeReceiveBehavior) &&
+     	!player->Team()->isOpponentWithinRadius(player->Pos(), PassThreatRadius))
+  	{
+    		player->Steering()->ArriveOn();
     
-    #ifdef PLAYER_STATE_INFO_ON
-    //debug_con << "Player " << player->ID() << " enters receive state (Using Arrive)" << "";
-    #endif
-  }
-  else
-  {
-    player->Steering()->PursuitOn();
-
-    #ifdef PLAYER_STATE_INFO_ON
-    //debug_con << "Player " << player->ID() << " enters receive state (Using Pursuit)" << "";
-    #endif
-  }
+  	}
+  	else
+  	{
+    		player->Steering()->PursuitOn();
+  	}
 }
 
 void ReceiveBall::Execute(FieldPlayer* player)
 {
-  //if the ball comes close enough to the player or if his team lose control
-  //he should change state to chase the ball
-  if (player->BallWithinReceivingRange() || !player->Team()->InControl())
-  {
-    player->GetFSM()->ChangeState(ChaseBall::Instance());
+	if (player->mExecuteLogs)
+	{
+		printf("ReceiveBall::Execute() ID:%d\n", player->ID());
+	}
+  
+	//if the ball comes close enough to the player or if his team lose control
+  	//he should change state to chase the ball
+  	if (player->BallWithinReceivingRange() || !player->Team()->InControl())
+  	{
+    		player->GetFSM()->ChangeState(ChaseBall::Instance());
+    		return;
+  	}  
 
-    return;
-  }  
+  	if (player->Steering()->PursuitIsOn())
+  	{
+    		player->Steering()->SetTarget(player->Ball()->Pos());
+  	}
 
-  if (player->Steering()->PursuitIsOn())
-  {
-    player->Steering()->SetTarget(player->Ball()->Pos());
-  }
-
-  //if the player has 'arrived' at the steering target he should wait and
-  //turn to face the ball
-  if (player->AtTarget())
-  {
-    player->Steering()->ArriveOff();
-    player->Steering()->PursuitOff();
-    player->TrackBall();    
-    player->SetVelocity(Vector2D(0,0));
-  } 
+  	//if the player has 'arrived' at the steering target he should wait and
+  	//turn to face the ball
+  	if (player->AtTarget())
+  	{
+    		player->Steering()->ArriveOff();
+    		player->Steering()->PursuitOff();
+    		player->TrackBall();    
+    		player->SetVelocity(Vector2D(0,0));
+  	}	 
 }
 
 void ReceiveBall::Exit(FieldPlayer* player)
 {
-  player->Steering()->ArriveOff();
-  player->Steering()->PursuitOff();
+	if (player->mExitLogs)
+	{
+		printf("ReceiveBall::Exit() ID:%d\n", player->ID());
+	}
+  	player->Steering()->ArriveOff();
+  	player->Steering()->PursuitOff();
 
-  player->Team()->SetReceiver(NULL);
+  	player->Team()->SetReceiver(NULL);
 }
 
 
