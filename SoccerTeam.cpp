@@ -493,22 +493,6 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
 //------------------------------------------------------------------------
 void SoccerTeam::CreatePlayers()
 {
-	//TendGoal::Instance();
-
-		 	new GoalKeeper
-			(
-				this,
-                               	16,
-                               	TendGoal::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-				m_pPitch->PlayerMass,
-                               	m_pPitch->PlayerMaxForce,
-                               	m_pPitch->PlayerMaxSpeedWithoutBall,
-                               	m_pPitch->PlayerMaxTurnRate,
-                               	m_pPitch->PlayerScale
-			);
-
 
 	if (Color() == blue)
   	{
