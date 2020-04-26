@@ -28,6 +28,7 @@ class SoccerBall;
 class SoccerTeam;
 class PlayerBase;
 class Server;
+class Client;
 
 
 class SoccerPitch
@@ -175,6 +176,13 @@ class SoccerPitch
 	  	void  Update();
   		void processBuffer(std::vector<std::string> stringVector);
 	  	void processMove(std::vector<std::string> stringVector);
+		void requestClient(std::vector<std::string> stringVector);
+		void sendMovesToClients();
+
+               	//client
+                int getNextClientId();
+                std::vector<Client*> mClientVector;
+                int mClientIdCounter;
 
 		//time
                 long mGameStartTime;
@@ -207,6 +215,9 @@ class SoccerPitch
   		bool  GameOn()const{return m_bGameOn;}
   		void  SetGameOn(){m_bGameOn = true;}
   		void  SetGameOff(){m_bGameOn = false;}
+
+		void sendToClient(Client* client, std::string message);
+		void sendDataToNewClients();
 
 };
 

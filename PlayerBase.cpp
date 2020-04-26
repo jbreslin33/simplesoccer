@@ -10,6 +10,7 @@
 #include "Goal.h"
 #include "SoccerBall.h"
 #include "SoccerPitch.h"
+#include "client.h"
 
 
 using std::vector;
@@ -50,6 +51,9 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
    m_iDefaultRegion(home_region),
    m_PlayerRole(role)
 {
+	mClient = nullptr;
+
+
   //setup the vertex buffers and calculate the bounding radius
   const int NumPlayerVerts = 4;
   const Vector2D player[NumPlayerVerts] = {Vector2D(-3, 8),

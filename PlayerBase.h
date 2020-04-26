@@ -26,7 +26,7 @@ class SoccerPitch;
 class SoccerBall;
 class SteeringBehaviors;
 class Region;
-
+class Client;
 
 
 class PlayerBase : public MovingEntity,
@@ -36,6 +36,8 @@ class PlayerBase : public MovingEntity,
 public:
   
   enum player_role{goal_keeper, attacker, defender};
+
+  Client* mClient;
 
 protected:
 

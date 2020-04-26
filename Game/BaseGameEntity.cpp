@@ -10,10 +10,11 @@ BaseGameEntity::BaseGameEntity(int ID):m_dBoundingRadius(0.0),
                                        m_iType(default_entity_type),
                                        m_bTag(false)
 {
-  SetID(ID);
-  mEnterLogs = true;
-  mExecuteLogs = false;
-  mExitLogs = true;
+	SetID(ID);
+
+  	mEnterLogs = false;
+  	mExecuteLogs = false;
+  	mExitLogs = false;
 }
 
 //----------------------------- SetID -----------------------------------------
