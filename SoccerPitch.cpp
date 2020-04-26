@@ -404,11 +404,9 @@ void SoccerPitch::sendMovesToClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
         {
-		printf("SoccerPitch::sendMovesToClients 1\n");
                 //only clients with ports
                 if (mClientVector.at(c)->mPort != 0 && mClientVector.at(c)->mSentToClient == true)
                 {
-			printf("SoccerPitch::sendMovesToClients 2\n");
                         //we could just send 5 a pop with no id??? that would be 20...
                         std::string message = "";
                         message.append(std::to_string(mId)); //game id
@@ -416,7 +414,6 @@ void SoccerPitch::sendMovesToClients()
                         message.append("m"); //move code
                         message.append(",");
 			
-			printf("SoccerPitch::sendMovesToClients 3\n");
                         
 			for (int p = 0; p < m_pRedTeam->Members().size(); p++)
                         {
@@ -436,7 +433,6 @@ void SoccerPitch::sendMovesToClients()
                                 message.append(",");
                         }
 
-			printf("SoccerPitch::sendMovesToClients 4\n");
 
                         for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
                         {
@@ -455,7 +451,6 @@ void SoccerPitch::sendMovesToClients()
                                 message.append(headingAngle);
                                 message.append(",");
                         }
-			printf("SoccerPitch::sendMovesToClients 5\n");
 
                         //add ball
                         std::string x  = std::to_string(Ball()->Pos().x); //ball x
@@ -464,19 +459,15 @@ void SoccerPitch::sendMovesToClients()
                         message.append(",");
                         message.append(y);
                         message.append(",");
-			printf("SoccerPitch::sendMovesToClients 6\n");
 
                         if (c == 0)
                         {
                                 printf("Game sending this message to clients: %s\n",message.c_str()); //print to console what we are about to send
                         }
-			printf("SoccerPitch::sendMovesToClients 7\n");
 
                         sendToClient(mClientVector.at(c),message);
-			printf("SoccerPitch::sendMovesToClients 8\n");
 
                 }
-		printf("SoccerPitch::sendMovesToClients 9\n");
         }
 }
 
@@ -510,7 +501,6 @@ void SoccerPitch::sendDataToNewClients()
 
 void SoccerPitch::sendToClient(Client* client, std::string message)
 {
-	printf("SoccerPitch::sendToClient() \n");
         int sock;
         struct sockaddr_in sa;
         int bytes_sent;
@@ -548,7 +538,6 @@ void SoccerPitch::sendToClient(Client* client, std::string message)
 
         close(sock); /* close the socket */
 	
-	printf("SoccerPitch::sendToClient() END\n");
 }
 
 
