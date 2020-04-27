@@ -538,9 +538,9 @@ void KickBall::Execute(FieldPlayer* player)
   	//if it is determined that the player could score a goal from this position
   	//OR if he should just kick the ball anyway, the player will attempt
   	//to make the shot
-  	if (player->Team()->CanShoot(player->Ball()->Pos(), power) ||  (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
+  	if (player->Team()->CanShoot(player->Ball()->Pos(), power))
   	{	 
-		printf("POT SHOT\n");
+		printf("SHOT\n");
    		//add some noise to the kick. We don't want players who are 
    		//too accurate! The amount of noise can be adjusted by altering
    		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
@@ -557,6 +557,27 @@ void KickBall::Execute(FieldPlayer* player)
   
    		return;
  	}
+
+        if ( (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
+        {
+                printf("POT SHOT\n");
+                //add some noise to the kick. We don't want players who are
+                //too accurate! The amount of noise can be adjusted by altering
+                BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
+
+                //this is the direction the ball will be kicked in
+                Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+
+                player->Ball()->Kick(KickDirection, power);
+
+                //change state
+                player->GetFSM()->ChangeState(Wait::Instance());
+
+                player->FindSupport();
+
+                return;
+        }
+
 
   	/* Attempt a pass to a player */
 
