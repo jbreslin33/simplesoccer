@@ -40,8 +40,9 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 
 	//params
 	GoalWidth 				= 100;
-	NumSweetSpotsX                  	= 13;
-	NumSweetSpotsY                  	= 6;
+	NumSupportSpotsX = 13;
+        NumSupportSpotsY = 6;
+
 	Spot_CanPassScore                     	= 2.0;
 	Spot_CanScoreFromPositionScore        	= 1.0;
 	Spot_DistFromControllingPlayerScore    	= 2.0;

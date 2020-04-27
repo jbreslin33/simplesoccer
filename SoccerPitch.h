@@ -51,9 +51,6 @@ class SoccerPitch
     		int NumSupportSpotsX;    
     		int NumSupportSpotsY;   
 
-		int NumSweetSpotsX;
-		int NumSweetSpotsY;
-
 		double Spot_CanPassScore;
 		double WithinRangeOfSweetSpot;
     

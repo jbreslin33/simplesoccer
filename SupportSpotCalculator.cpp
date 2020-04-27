@@ -21,37 +21,39 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
                                              SoccerTeam*   team):m_pBestSupportingSpot(NULL),
                                                                   m_pTeam(team)
 {
-  const Region* PlayingField = team->Pitch()->PlayingArea();
+	printf("SupportSpotCalculator::SupportSpotCalculator\n");
+	const Region* PlayingField = team->Pitch()->PlayingArea();
 
-  //calculate the positions of each sweet spot, create them and 
-  //store them in m_Spots
-  double HeightOfSSRegion = PlayingField->Height() * 0.8;
-  double WidthOfSSRegion  = PlayingField->Width() * 0.9;
-  double SliceX = WidthOfSSRegion / numX ;
-  double SliceY = HeightOfSSRegion / numY;
+  	//calculate the positions of each sweet spot, create them and 
+  	//store them in m_Spots
+  	double HeightOfSSRegion = PlayingField->Height() * 0.8;
+  	double WidthOfSSRegion  = PlayingField->Width() * 0.9;
+  	double SliceX = WidthOfSSRegion / numX ;
+  	double SliceY = HeightOfSSRegion / numY;
 
-  double left  = PlayingField->Left() + (PlayingField->Width()-WidthOfSSRegion)/2.0 + SliceX/2.0;
-  double right = PlayingField->Right() - (PlayingField->Width()-WidthOfSSRegion)/2.0 - SliceX/2.0;
-  double top   = PlayingField->Top() + (PlayingField->Height()-HeightOfSSRegion)/2.0 + SliceY/2.0;
+  	double left  = PlayingField->Left() + (PlayingField->Width()-WidthOfSSRegion)/2.0 + SliceX/2.0;
+  	double right = PlayingField->Right() - (PlayingField->Width()-WidthOfSSRegion)/2.0 - SliceX/2.0;
+  	double top   = PlayingField->Top() + (PlayingField->Height()-HeightOfSSRegion)/2.0 + SliceY/2.0;
 
-  for (int x=0; x<(numX/2)-1; ++x)
-  {
-    for (int y=0; y<numY; ++y)
-    {      
-      if (m_pTeam->Color() == SoccerTeam::blue)
-      {
-        m_Spots.push_back(SupportSpot(Vector2D(left+x*SliceX, top+y*SliceY), 0.0));
-      }
+	printf("numX:%d\n",numX);
 
-      else
-      {
-        m_Spots.push_back(SupportSpot(Vector2D(right-x*SliceX, top+y*SliceY), 0.0));
-      }
-    }
-  }
-  
+  	for (int x=0; x<(numX/2)-1; ++x)
+  	{
+    		for (int y=0; y<numY; ++y)
+    		{      
+      			if (m_pTeam->Color() == SoccerTeam::blue)
+      			{
+        			m_Spots.push_back(SupportSpot(Vector2D(left+x*SliceX, top+y*SliceY), 0.0));
+				printf("push spot blue");
+      			}
+      			else
+      			{
+				printf("push spot red");
+        			m_Spots.push_back(SupportSpot(Vector2D(right-x*SliceX, top+y*SliceY), 0.0));
+      			}
+    		}
+  	}
 }
-
 
 //--------------------------- DetermineBestSupportingPosition -----------------
 //
@@ -61,12 +63,10 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
 {
 	//only update the spots every few frames                              
 	//BRESLIN
-  	/*
-  	if (!m_pRegulator->isReady() && m_pBestSupportingSpot)
-  	{
-    		return m_pBestSupportingSpot->m_vPos;
-  	}
-  	*/
+  	//if (!m_pRegulator->isReady() && m_pBestSupportingSpot)
+  	//{
+    	//	return m_pBestSupportingSpot->m_vPos;
+  	//}
 
   	//reset the best supporting spot
   	m_pBestSupportingSpot = nullptr;
@@ -74,9 +74,11 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
   	double BestScoreSoFar = 0.0;
 
   	std::vector<SupportSpot>::iterator curSpot;
+	//printf("SupportSpotCalculator::DetermineBestSupportingPosition \n");
 
   	for (curSpot = m_Spots.begin(); curSpot != m_Spots.end(); ++curSpot)
   	{
+		//printf("SupportSpotCalculator::DetermineBestSupportingPosition 1\n");
     		//first remove any previous score. (the score is set to one so that
     		//the viewer can see the positions of all the spots if he has the 
     		//aids turned on)
@@ -91,6 +93,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     		{
       			curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
     		}
+		//printf("SupportSpotCalculator::DetermineBestSupportingPosition 3\n");
       
    
     		//Test 2. Determine if a goal can be scored from this position.  
@@ -126,21 +129,11 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     		if (curSpot->m_dScore > BestScoreSoFar)
     		{
       			BestScoreSoFar = curSpot->m_dScore;
-
       			m_pBestSupportingSpot = &(*curSpot);
     		}    
     
   	}
-
-	if (m_pBestSupportingSpot)
-	{
-  		return m_pBestSupportingSpot->m_vPos;
-	}
-	else
-	{
-		Vector2D v;
-		return v;
-	}
+  	return m_pBestSupportingSpot->m_vPos;
 }
 
 
