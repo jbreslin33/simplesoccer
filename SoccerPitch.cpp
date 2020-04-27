@@ -2,7 +2,6 @@
 #include "SoccerBall.h"
 #include "Goal.h"
 #include "Game/Region.h"
-#include "2D/Transformations.h"
 #include "2D/geometry.h"
 #include "SoccerTeam.h"
 #include "Game/EntityManager.h"

@@ -1,4 +1,4 @@
- #ifndef STATEMACHINE_H
+#ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
 //------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 #ifndef SUPPORTSPOTCALCULATOR
 #define SUPPORTSPOTCALCULATOR
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name:   SupportSpotCalculator.h

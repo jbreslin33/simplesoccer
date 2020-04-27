@@ -1,6 +1,5 @@
 #ifndef SOCCERPITCH_H
 #define SOCCERPITCH_H
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name:   SoccerPitch.h
@@ -13,7 +12,6 @@
 //  Author: Mat Buckland 2003 (fup@ai-junkie.com)
 //
 //------------------------------------------------------------------------
-//#include <windows.h>
 #include <vector>
 #include <cassert>
 

@@ -14,12 +14,6 @@
 
 #include "Vector2D.h"
 #include "C2DMatrix.h"
-#include "Transformations.h"
-
-
-
-
-
 
 //--------------------------- WorldTransform -----------------------------
 //
@@ -138,8 +132,7 @@ inline Vector2D VectorToWorldSpace(const Vector2D &vec,
 //--------------------- PointToLocalSpace --------------------------------
 //
 //------------------------------------------------------------------------
-/*
-Vector2D PointToLocalSpace(const Vector2D &point,
+inline Vector2D PointToLocalSpace(const Vector2D &point,
                              Vector2D &AgentHeading,
                              Vector2D &AgentSide,
                               Vector2D &AgentPosition)
@@ -164,7 +157,7 @@ Vector2D PointToLocalSpace(const Vector2D &point,
 
   return TransPoint;
 }
-*/
+
 //--------------------- VectorToLocalSpace --------------------------------
 //
 //------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-#pragma warning (disable:4786)
 #ifndef PLAYERBASE_H
 #define PLAYERBASE_H
 //------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 #ifndef SOCCERTEAM_H
 #define SOCCERTEAM_H
-#pragma warning (disable:4786)
 
 //------------------------------------------------------------------------
 //

@@ -1,6 +1,5 @@
 #ifndef ENTITYMANAGER_H
 #define ENTITYMANAGER_H
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name:   EntityManager.h

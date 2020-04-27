@@ -1,6 +1,5 @@
 #ifndef MESSAGE_DISPATCHER_H
 #define MESSAGE_DISPATCHER_H
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name:   MessageDispatcher.h

@@ -2,7 +2,6 @@
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
 #include "SoccerPitch.h"
-#include "2D/Transformations.h"
 #include "GoalKeeperStates.h"
 #include "Goal.h"
 #include "Game/EntityFunctionTemplates.h"

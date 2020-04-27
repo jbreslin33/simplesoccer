@@ -298,11 +298,32 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
     		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
 		if (dist < ClosestSoFar)
 		{
-			printf("if");
+			printf("if\n");
 		}
 		else
 		{
-			printf("else");
+			printf("else\n");
+		}
+
+		if (Pitch()->PlayingArea()->Inside(Passes[pass]))
+		{
+			printf("if 2\n");
+		}
+		else
+		{
+			printf("else 2\n");
+		}
+
+		if (isPassSafeFromAllOpponents(Pitch()->Ball()->Pos(),
+                                   Passes[pass],
+                                   receiver,
+                                   power))
+		{
+			printf("if 3\n");
+		}
+		else
+		{
+			printf("else 3\n");
 		}
 
     		if (( dist < ClosestSoFar) &&
@@ -335,73 +356,68 @@ bool SoccerTeam::isPassSafeFromOpponent(Vector2D    from,
                                         const PlayerBase* const opp,
                                         double       PassingForce)const
 {
-  //move the opponent into local space.
-  Vector2D ToTarget = target - from;
-  Vector2D ToTargetNormalized = Vec2DNormalize(ToTarget);
+	//move the opponent into local space.
+  	Vector2D ToTarget = target - from;
+  	Vector2D ToTargetNormalized = Vec2DNormalize(ToTarget);
 
 	Vector2D v = ToTargetNormalized.Perp();
 	//needs fixing as i hacked it
-  Vector2D LocalPosOpp;
-/*
-  Vector2D LocalPosOpp = PointToLocalSpace(opp->Pos(),
-                                         ToTargetNormalized,
+  	//Vector2D LocalPosOpp;
+  	Vector2D LocalPosOpp = PointToLocalSpace(opp->Pos(),
+                                        ToTargetNormalized,
                                          v,
                                          from);
-*/
-  //if opponent is behind the kicker then pass is considered okay(this is 
-  //based on the assumption that the ball is going to be kicked with a 
-  //velocity greater than the opponent's max velocity)
-  if ( LocalPosOpp.x < 0 )
-  {     
-    return true;
-  }
+  	//if opponent is behind the kicker then pass is considered okay(this is 
+  	//based on the assumption that the ball is going to be kicked with a 
+  	//velocity greater than the opponent's max velocity)
+  	if ( LocalPosOpp.x < 0 )
+  	{     
+    		return true;
+  	}
   
-  //if the opponent is further away than the target we need to consider if
-  //the opponent can reach the position before the receiver.
-  if (Vec2DDistanceSq(from, target) < Vec2DDistanceSq(opp->Pos(), from))
-  {
-    if (receiver)
-    {
-      if ( Vec2DDistanceSq(target, opp->Pos())  > 
-           Vec2DDistanceSq(target, receiver->Pos()) )
-      {
-        return true;
-      }
-
-      else
-      {
-        return false;
-      }
-
-    }
-
-    else
-    {
-      return true;
-    } 
-  }
+  	//if the opponent is further away than the target we need to consider if
+  	//the opponent can reach the position before the receiver.
+  	if (Vec2DDistanceSq(from, target) < Vec2DDistanceSq(opp->Pos(), from))
+  	{
+    		if (receiver)
+    		{
+      			if ( Vec2DDistanceSq(target, opp->Pos())  > 
+           		Vec2DDistanceSq(target, receiver->Pos()) )
+      			{
+        			return true;
+      			}
+      			else
+      			{
+        			return false;
+      			}
+    		}
+    		else
+    		{
+      			return true;
+    		} 
+  	}
   
-  //calculate how long it takes the ball to cover the distance to the 
-  //position orthogonal to the opponents position
-  double TimeForBall = 
-  Pitch()->Ball()->TimeToCoverDistance(Vector2D(0,0),
+  	//calculate how long it takes the ball to cover the distance to the 
+  	//position orthogonal to the opponents position
+  	double TimeForBall = 
+  	Pitch()->Ball()->TimeToCoverDistance(Vector2D(0,0),
                                        Vector2D(LocalPosOpp.x, 0),
                                        PassingForce);
 
-  //now calculate how far the opponent can run in this time
-  double reach = opp->MaxSpeed() * TimeForBall +
+  	//now calculate how far the opponent can run in this time
+  	double reach = opp->MaxSpeed() * TimeForBall +
                 Pitch()->Ball()->BRadius()+
                 opp->BRadius();
 
-  //if the distance to the opponent's y position is less than his running
-  //range plus the radius of the ball and the opponents radius then the
-  //ball can be intercepted
-  if ( fabs(LocalPosOpp.y) < reach )
-  {
-    return false;
-  }
+  	//if the distance to the opponent's y position is less than his running
+  	//range plus the radius of the ball and the opponents radius then the
+  	//ball can be intercepted
+  	if ( fabs(LocalPosOpp.y) < reach )
+  	{
+    		return false;
+  	}
 
-  return true;
+  	return true;
 }
 
 //---------------------- isPassSafeFromAllOpponents ----------------------
@@ -415,19 +431,17 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
                                             const PlayerBase* const receiver,
                                             double     PassingForce)const
 {
-  std::vector<PlayerBase*>::const_iterator opp = Opponents()->Members().begin();
+	std::vector<PlayerBase*>::const_iterator opp = Opponents()->Members().begin();
 
-  for (opp; opp != Opponents()->Members().end(); ++opp)
-  {
-    if (!isPassSafeFromOpponent(from, target, receiver, *opp, PassingForce))
-    {
-      //debug_on
-        
-      return false;
-    }
-  }
+  	for (opp; opp != Opponents()->Members().end(); ++opp)
+  	{
+    		if (!isPassSafeFromOpponent(from, target, receiver, *opp, PassingForce))
+    		{
+      			return false;
+    		}
+  	}
 
-  return true;
+  	return true;
 }
 
 //------------------------ CanShoot --------------------------------------

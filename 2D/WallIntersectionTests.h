@@ -1,3 +1,6 @@
+#ifndef WALLINTER_H
+#define WALLINTER_H
+
 //-----------------------------------------------------------------------------
 //
 //  Name:   WallIntersectionTests.h
@@ -137,4 +140,4 @@ inline bool doWallsIntersectCircle(const ContWall& walls, Vector2D p, double r)
   return false;
 }
 
-
+#endif

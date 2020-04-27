@@ -16,7 +16,6 @@
 //          to sychronize the entity and the cell space it occupies
 //
 //-----------------------------------------------------------------------------
-#pragma warning (disable:4786)
 
 #include <vector>
 #include <list>

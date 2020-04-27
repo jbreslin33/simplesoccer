@@ -1,6 +1,5 @@
 #ifndef SOCCERBALL_H
 #define SOCCERBALL_H
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name: SoccerBall.h

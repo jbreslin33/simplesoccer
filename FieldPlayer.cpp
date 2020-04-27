@@ -1,7 +1,6 @@
 #include "FieldPlayer.h"
 #include "PlayerBase.h"
 #include "SteeringBehaviors.h"
-#include "2D/Transformations.h"
 #include "2D/geometry.h"
 #include "2D/C2DMatrix.h"
 #include "Goal.h"

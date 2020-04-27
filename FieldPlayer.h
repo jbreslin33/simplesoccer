@@ -1,4 +1,3 @@
-#pragma warning (disable:4786)
 #ifndef FIELDPLAYER_H
 #define FIELDPLAYER_H
 //------------------------------------------------------------------------

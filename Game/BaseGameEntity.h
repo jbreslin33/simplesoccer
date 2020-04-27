@@ -1,6 +1,5 @@
- #ifndef BASE_GAME_ENTITY_H
+#ifndef BASE_GAME_ENTITY_H
 #define BASE_GAME_ENTITY_H
-#pragma warning (disable:4786)
 //------------------------------------------------------------------------
 //
 //  Name: BaseGameEntity.h
