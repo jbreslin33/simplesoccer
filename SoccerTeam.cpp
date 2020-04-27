@@ -296,6 +296,14 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
   	{   	 
 		printf("SoccerTeam::GetBestPassToReceiver 1\n");
     		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
+		if (dist < ClosestSoFar)
+		{
+			printf("if");
+		}
+		else
+		{
+			printf("else");
+		}
 
     		if (( dist < ClosestSoFar) &&
         		Pitch()->PlayingArea()->Inside(Passes[pass]) &&
