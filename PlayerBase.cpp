@@ -54,7 +54,7 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
 	mClient = nullptr;
 
 	//kicks
-	mKickCounterThreshold = 2;
+	mKickCounterThreshold = 4;
   	mKickCounter = 0;
 
 
