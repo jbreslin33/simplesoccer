@@ -423,11 +423,7 @@ void SoccerPitch::sendMovesToClients()
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
                                 std::string headingAngle = std::to_string(0); //left foot angle
 
-			//	if (m_pRedTeam->Members().at(p)->ID() == 5)
-			//	{
-					//m_pRedTeam->Members().at(p)->mEnterLogs = true;
-					printf("Player ID: %d  State: %s\n", m_pRedTeam->Members().at(p)->ID(), m_pRedTeam->Members().at(p)->mStateName.c_str());
-			//	}
+				//printf("Player ID: %d  State: %s\n", m_pRedTeam->Members().at(p)->ID(), m_pRedTeam->Members().at(p)->mStateName.c_str());
 
                                 message.append(id);
                                 message.append(",");
@@ -436,6 +432,8 @@ void SoccerPitch::sendMovesToClients()
                                 message.append(y);
                                 message.append(",");
                                 message.append(headingAngle);
+                                message.append(",");
+				message.append(m_pRedTeam->Members().at(p)->mStateName);
                                 message.append(",");
                         }
 
@@ -455,6 +453,8 @@ void SoccerPitch::sendMovesToClients()
                                 message.append(y);
                                 message.append(",");
                                 message.append(headingAngle);
+                                message.append(",");
+				message.append(m_pBlueTeam->Members().at(p)->mStateName);
                                 message.append(",");
                         }
 
