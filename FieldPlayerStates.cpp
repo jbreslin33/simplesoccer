@@ -95,46 +95,40 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
                         //get the position of the player requesting the pass
                         FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
 
-                        //#ifdef PLAYER_STATE_INFO_ON
-                        //debug_con << "Player " << player->ID() << " received request from " <<
-                        //receiver->ID() << " to make pass" << "";
-                        //#endif
-
                         //if the ball is not within kicking range or their is already a
                         //receiving player, this player cannot pass the ball to the player
                         //making the request.
                         if (player->Team()->Receiver() != NULL ||
                                 !player->BallWithinKickingRange() )
                         {
-                                //#ifdef PLAYER_STATE_INFO_ON
-                                //debug_con << "Player " << player->ID() << " cannot make requested pass <cannot kick ball>" << "";
-                                //#endif
-
                                 return true;
                         }
 
                         //make the pass
+			if (player->Team()->Pitch()->m_pRedTeam == player->Team())
+                	{
+                        	printf("PASS VIA REQUEST RED\n");
+                	}
+                	else
+                	{
+                        	printf("PASS VIA REQUEST BLUE\n");
+                	}
+
 			Vector2D v = receiver->Pos() - player->Ball()->Pos();
-			printf("passX:%f passY:%f\n",v.x,v.y);
-                        player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
+                        
+			player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
                            player->Team()->Pitch()->MaxPassingForce);
 
-                        //#ifdef PLAYER_STATE_INFO_ON
-                        //debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
-                        //#endif
-                       
 			//let the receiver know a pass is coming
                         Vector2D receiverPosition;
                         receiverPosition.x = receiver->Pos().x;
                         receiverPosition.y = receiver->Pos().y;
-
 
                         //let the receiver know a pass is coming
                         Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                               player->ID(),
                               receiver->ID(),
                               Msg_ReceiveBall,
-                              //&receiver->Pos());
                               &receiverPosition);
 
                         //change state
@@ -144,7 +138,6 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 
                         return true;
                 }
-
 
     		break;
 
@@ -540,13 +533,25 @@ void KickBall::Execute(FieldPlayer* player)
   	//to make the shot
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power))
   	{	 
-		printf("SHOT\n");
+		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		{
+			printf("SHOT RED\n");
+		}
+		else
+		{
+			printf("SHOT BLUE\n");
+		}
    		//add some noise to the kick. We don't want players who are 
    		//too accurate! The amount of noise can be adjusted by altering
-   		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
+		
+		//took out noise
+   		//BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
    		//this is the direction the ball will be kicked in
-   		Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+   		//Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+
+   		//Vector2D KickDirection = player->Ball()->Pos() - player->Team()->OpponentsGoal()->Center();
+   		Vector2D KickDirection = player->Team()->OpponentsGoal()->Center() - player->Ball()->Pos();
    
    		player->Ball()->Kick(KickDirection, power);
     
@@ -560,7 +565,15 @@ void KickBall::Execute(FieldPlayer* player)
 
         if ( (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
         {
-                printf("POT SHOT\n");
+		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		{
+                	printf("POT SHOT RED\n");
+		}
+		else
+		{
+                	printf("POT SHOT BLUE\n");
+		}
+
                 //add some noise to the kick. We don't want players who are
                 //too accurate! The amount of noise can be adjusted by altering
                 BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
@@ -594,7 +607,14 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Pitch()->MinPassDist))
   	{     
-		printf("PASS\n");
+		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		{
+			printf("PASS RED\n");
+		}
+		else
+		{
+			printf("PASS BLUE\n");
+		}
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -621,7 +641,14 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		printf("DRIBBLE\n");
+		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		{
+			printf("DRIBBLE RED\n");
+		}
+		else
+		{
+			printf("DRIBBLE BLUE\n");
+		}
     		player->FindSupport();
 
     		player->GetFSM()->ChangeState(Dribble::Instance());
