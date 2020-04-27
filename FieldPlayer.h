@@ -60,8 +60,6 @@ public:
 
   StateMachine<FieldPlayer>* GetFSM()const{return m_pStateMachine;}
 
-  //bool        isReadyForNextKick()const{return m_pKickLimiter->isReady();}
-  bool        isReadyForNextKick()const{return true;}
 
          
 };

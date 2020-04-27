@@ -53,6 +53,11 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
 {
 	mClient = nullptr;
 
+	//kicks
+	mKickCounterThreshold = 2;
+  	mKickCounter = 0;
+
+
 
   //setup the vertex buffers and calculate the bounding radius
   const int NumPlayerVerts = 4;

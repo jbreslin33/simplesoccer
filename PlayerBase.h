@@ -41,6 +41,11 @@ public:
 
   std::string mStateName;
 
+  //kicks
+  int mKickCounterThreshold;
+  int mKickCounter;
+
+
 protected:
 
   //this player's role in the team

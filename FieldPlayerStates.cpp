@@ -468,13 +468,15 @@ void KickBall::Enter(FieldPlayer* player)
   
 	//let the team know this player is controlling
    	player->Team()->SetControllingPlayer(player);
-   
-   	//the player can only make so many kick attempts per second.
-   	if (!player->isReadyForNextKick()) 
-   	{
+		
+	player->mKickCounter++;
+
+	if (player->mKickCounter > player->mKickCounterThreshold)
+	{
+		player->mKickCounter = 0;
      		player->GetFSM()->ChangeState(ChaseBall::Instance());
-   	}
-}
+	}
+} 
 
 void KickBall::Execute(FieldPlayer* player)
 { 
