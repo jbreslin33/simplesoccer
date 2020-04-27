@@ -250,6 +250,7 @@ void SupportAttacker::Execute(FieldPlayer* player)
   	}	 
 
   	//if the best supporting spot changes, change the steering target
+	//Breslin: this should be multiple states ie back support wide support depth support, permament support etc..
   	if (player->Team()->GetSupportSpot() != player->Steering()->Target())
   	{    
     		player->Steering()->SetTarget(player->Team()->GetSupportSpot());
