@@ -183,45 +183,54 @@ bool SoccerTeam::FindPass(const PlayerBase*const passer,
                          double                  power,
                          double                  MinPassingDistance)const
 {  
-  
-  std::vector<PlayerBase*>::const_iterator curPlyr = Members().begin();
+	//printf("SoccerTeam::FindPass\n");
+	std::vector<PlayerBase*>::const_iterator curPlyr = Members().begin();
 
-  double    ClosestToGoalSoFar = MaxFloat;
-  Vector2D Target;
+  	double    ClosestToGoalSoFar = MaxFloat;
+  	Vector2D Target;
 
-  //iterate through all this player's team members and calculate which
-  //one is in a position to be passed the ball 
-  for (curPlyr; curPlyr != Members().end(); ++curPlyr)
-  {   
-    //make sure the potential receiver being examined is not this player
-    //and that it is further away than the minimum pass distance
-    if ( (*curPlyr != passer) &&            
-        (Vec2DDistanceSq(passer->Pos(), (*curPlyr)->Pos()) > 
-         MinPassingDistance*MinPassingDistance))                  
-    {           
-      if (GetBestPassToReceiver(passer, *curPlyr, Target, power))
-      {
-        //if the pass target is the closest to the opponent's goal line found
-        // so far, keep a record of it
-        double Dist2Goal = fabs(Target.x - OpponentsGoal()->Center().x);
+  	//iterate through all this player's team members and calculate which
+  	//one is in a position to be passed the ball 
+  	for (curPlyr; curPlyr != Members().end(); ++curPlyr)
+  	{   
+		//printf("SoccerTeam::FindPass 1\n");
+    		//make sure the potential receiver being examined is not this player
+    		//and that it is further away than the minimum pass distance
+    		if ( (*curPlyr != passer) &&            
+        		(Vec2DDistanceSq(passer->Pos(), (*curPlyr)->Pos()) > 
+         		MinPassingDistance*MinPassingDistance))                  
+    		{           
+			//printf("SoccerTeam::FindPass 2\n");
+      			if (GetBestPassToReceiver(passer, *curPlyr, Target, power))
+      			{
+				printf("SoccerTeam::FindPass 3\n");
+        			//if the pass target is the closest to the opponent's goal line found
+        			// so far, keep a record of it
+        			double Dist2Goal = fabs(Target.x - OpponentsGoal()->Center().x);
 
-        if (Dist2Goal < ClosestToGoalSoFar)
-        {
-          ClosestToGoalSoFar = Dist2Goal;
+        			if (Dist2Goal < ClosestToGoalSoFar)
+        			{
+					printf("SoccerTeam::FindPass 4\n");
+          				ClosestToGoalSoFar = Dist2Goal;
           
-          //keep a record of this player
-          receiver = *curPlyr;
+          				//keep a record of this player
+          				receiver = *curPlyr;
 
-          //and the target
-          PassTarget = Target;
-        }     
-      }
-    }
-  }//next team member
+          				//and the target
+          				PassTarget = Target;
+        			}     
+      			}
+    		}
+  	}//next team member
 
-  if (receiver) return true;
- 
-  else return false;
+  	if (receiver) 
+	{
+		return true;
+	}
+  	else 
+	{
+		return false;
+	}
 }
 
 
@@ -241,66 +250,70 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
                                        Vector2D&               PassTarget,
                                        double                   power)const
 {  
-  //first, calculate how much time it will take for the ball to reach 
-  //this receiver, if the receiver was to remain motionless 
-  double time = Pitch()->Ball()->TimeToCoverDistance(Pitch()->Ball()->Pos(),
+	printf("SoccerTeam::GetBestPassToReceiver\n");
+	//first, calculate how much time it will take for the ball to reach 
+  	//this receiver, if the receiver was to remain motionless 
+  	double time = Pitch()->Ball()->TimeToCoverDistance(Pitch()->Ball()->Pos(),
                                                     receiver->Pos(),
                                                     power);
 
-  //return false if ball cannot reach the receiver after having been
-  //kicked with the given power
-  if (time < 0) return false;
+  	//return false if ball cannot reach the receiver after having been
+  	//kicked with the given power
+  	if (time < 0) return false;
 
-  //the maximum distance the receiver can cover in this time
-  double InterceptRange = time * receiver->MaxSpeed();
+  	//the maximum distance the receiver can cover in this time
+  	double InterceptRange = time * receiver->MaxSpeed();
   
-  //Scale the intercept range
-  const double ScalingFactor = 0.3;
-  InterceptRange *= ScalingFactor;
+  	//Scale the intercept range
+  	const double ScalingFactor = 0.3;
+  	InterceptRange *= ScalingFactor;
 
-  //now calculate the pass targets which are positioned at the intercepts
-  //of the tangents from the ball to the receiver's range circle.
-  Vector2D ip1, ip2;
+  	//now calculate the pass targets which are positioned at the intercepts
+  	//of the tangents from the ball to the receiver's range circle.
+  	Vector2D ip1, ip2;
 
-  GetTangentPoints(receiver->Pos(),
+  	GetTangentPoints(receiver->Pos(),
                    InterceptRange,
                    Pitch()->Ball()->Pos(),
                    ip1,
                    ip2);
  
-  const int NumPassesToTry = 3;
-  Vector2D Passes[NumPassesToTry] = {ip1, receiver->Pos(), ip2};
+  	const int NumPassesToTry = 3;
+  	Vector2D Passes[NumPassesToTry] = {ip1, receiver->Pos(), ip2};
   
   
-  // this pass is the best found so far if it is:
-  //
-  //  1. Further upfield than the closest valid pass for this receiver
-  //     found so far
-  //  2. Within the playing area
-  //  3. Cannot be intercepted by any opponents
+  	// this pass is the best found so far if it is:
+  	//
+  	//  1. Further upfield than the closest valid pass for this receiver
+  	//     found so far
+  	//  2. Within the playing area
+  	//  3. Cannot be intercepted by any opponents
 
-  double ClosestSoFar = MaxFloat;
-  bool  bResult      = false;
+  	double ClosestSoFar = MaxFloat;
+  	bool  bResult      = false;
 
-  for (int pass=0; pass<NumPassesToTry; ++pass)
-  {    
-    double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
+  	for (int pass=0; pass<NumPassesToTry; ++pass)
+  	{   	 
+		printf("SoccerTeam::GetBestPassToReceiver 1\n");
+    		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
 
-    if (( dist < ClosestSoFar) &&
-        Pitch()->PlayingArea()->Inside(Passes[pass]) &&
-        isPassSafeFromAllOpponents(Pitch()->Ball()->Pos(),
+    		if (( dist < ClosestSoFar) &&
+        		Pitch()->PlayingArea()->Inside(Passes[pass]) &&
+        		isPassSafeFromAllOpponents(Pitch()->Ball()->Pos(),
                                    Passes[pass],
                                    receiver,
                                    power))
         
-    {
-      ClosestSoFar = dist;
-      PassTarget   = Passes[pass];
-      bResult      = true;
-    }
-  }
+    		{
+			//not getting here...
+			printf("SoccerTeam::GetBestPassToReceiver 2\n");
+      			ClosestSoFar = dist;
+      			PassTarget   = Passes[pass];
+      			bResult      = true;
+    		}
+  	}
 
-  return bResult;
+  	return bResult;
 }
 
 //----------------------- isPassSafeFromOpponent -------------------------

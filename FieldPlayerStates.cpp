@@ -486,7 +486,7 @@ void KickBall::Enter(FieldPlayer* player)
 
 void KickBall::Execute(FieldPlayer* player)
 { 
-	printf("KickBall::Execute\n");
+	//printf("KickBall::Execute\n");
 	if (player->mExecuteLogs)
 	{
 		printf("KickBall::Execute() ID:%d\n", player->ID());
@@ -507,7 +507,7 @@ void KickBall::Execute(FieldPlayer* player)
     		player->GetFSM()->ChangeState(ChaseBall::Instance());
 		return;
   	}
-	printf("KickBall::Execute 1 Attempt shot code\n");
+	//printf("KickBall::Execute 1 Attempt shot code\n");
 
   	/* Attempt a shot at the goal */
 
@@ -541,7 +541,7 @@ void KickBall::Execute(FieldPlayer* player)
   
    		return;
  	}
-	printf("KickBall::Execute 2 Attempt pass code\n");
+	//printf("KickBall::Execute 2 Attempt pass code\n");
 
   	/* Attempt a pass to a player */
 
@@ -549,6 +549,20 @@ void KickBall::Execute(FieldPlayer* player)
   	PlayerBase* receiver = NULL;
 
   	power = player->Pitch()->MaxPassingForce * dot;
+
+	if (player->Team()->FindPass(player,
+                              receiver,
+                              BallTarget,
+                              power,
+                              player->Pitch()->MinPassDist))
+	{
+		printf("found a pass");
+	}
+	else
+	{
+		printf("no pass");
+	}
+
   
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
@@ -558,7 +572,7 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Pitch()->MinPassDist))
   	{     
-		printf("KickBall::Execute 3 pass code\n");
+		//printf("KickBall::Execute 3 pass code\n");
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -585,7 +599,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		printf("KickBall::Execute 4  dribble code\n");
+		//printf("KickBall::Execute 4  dribble code\n");
     		player->FindSupport();
 
     		player->GetFSM()->ChangeState(Dribble::Instance());
