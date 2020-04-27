@@ -21,7 +21,6 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
                                              SoccerTeam*   team):m_pBestSupportingSpot(NULL),
                                                                   m_pTeam(team)
 {
-	printf("SupportSpotCalculator::SupportSpotCalculator\n");
 	const Region* PlayingField = team->Pitch()->PlayingArea();
 
   	//calculate the positions of each sweet spot, create them and 
@@ -35,8 +34,6 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
   	double right = PlayingField->Right() - (PlayingField->Width()-WidthOfSSRegion)/2.0 - SliceX/2.0;
   	double top   = PlayingField->Top() + (PlayingField->Height()-HeightOfSSRegion)/2.0 + SliceY/2.0;
 
-	printf("numX:%d\n",numX);
-
   	for (int x=0; x<(numX/2)-1; ++x)
   	{
     		for (int y=0; y<numY; ++y)
@@ -44,11 +41,9 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
       			if (m_pTeam->Color() == SoccerTeam::blue)
       			{
         			m_Spots.push_back(SupportSpot(Vector2D(left+x*SliceX, top+y*SliceY), 0.0));
-				printf("push spot blue");
       			}
       			else
       			{
-				printf("push spot red");
         			m_Spots.push_back(SupportSpot(Vector2D(right-x*SliceX, top+y*SliceY), 0.0));
       			}
     		}

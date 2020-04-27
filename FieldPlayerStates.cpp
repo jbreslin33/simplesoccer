@@ -114,6 +114,8 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
                         }
 
                         //make the pass
+			Vector2D v = receiver->Pos() - player->Ball()->Pos();
+			printf("passX:%f passY:%f\n",v.x,v.y);
                         player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
                            player->Team()->Pitch()->MaxPassingForce);
 
@@ -143,47 +145,6 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
                         return true;
                 }
 
-/*
-  		case Msg_PassToMe:
-    		{ 	 
-      
-      			//get the position of the player requesting the pass 
-      			FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
-
-      			//if the ball is not within kicking range or their is already a 
-      			//receiving player, this player cannot pass the ball to the player
-      			//making the request.
-      			if (player->Team()->Receiver() != NULL ||
-         			!player->BallWithinKickingRange() )
-      			{
-
-        			return true;
-      			}
-      
-      			//make the pass   
-      			player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
-                        player->Pitch()->MaxPassingForce);
-
-          
-            		//let the receiver know a pass is coming
-	 		Vector2D receiverPosition;
-	 		receiverPosition.x = receiver->Pos().x;
-	 		receiverPosition.y = receiver->Pos().y;
-      			Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
-                              player->ID(),
-                              receiver->ID(),
-                              Msg_ReceiveBall,
-                              //&receiver->Pos());
-                              &receiverPosition);
-        
-      			//change state   
-      			player->GetFSM()->ChangeState(Wait::Instance());
-
-      			player->FindSupport();
-
-      			return true;
-    		}
-		*/
 
     		break;
 
@@ -563,7 +524,6 @@ void KickBall::Execute(FieldPlayer* player)
     		player->GetFSM()->ChangeState(ChaseBall::Instance());
 		return;
   	}
-	//printf("KickBall::Execute 1 Attempt shot code\n");
 
   	/* Attempt a shot at the goal */
 
@@ -580,7 +540,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//to make the shot
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power) ||  (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
   	{	 
-
+		printf("POT SHOT\n");
    		//add some noise to the kick. We don't want players who are 
    		//too accurate! The amount of noise can be adjusted by altering
    		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
@@ -597,7 +557,6 @@ void KickBall::Execute(FieldPlayer* player)
   
    		return;
  	}
-	//printf("KickBall::Execute 2 Attempt pass code\n");
 
   	/* Attempt a pass to a player */
 
@@ -606,20 +565,6 @@ void KickBall::Execute(FieldPlayer* player)
 
   	power = player->Pitch()->MaxPassingForce * dot;
 
-	if (player->Team()->FindPass(player,
-                              receiver,
-                              BallTarget,
-                              power,
-                              player->Pitch()->MinPassDist))
-	{
-		printf("found a pass");
-	}
-	else
-	{
-		printf("no pass");
-	}
-
-  
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
       		player->Team()->FindPass(player,
@@ -628,7 +573,7 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Pitch()->MinPassDist))
   	{     
-		//printf("KickBall::Execute 3 pass code\n");
+		printf("PASS\n");
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -655,7 +600,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		//printf("KickBall::Execute 4  dribble code\n");
+		printf("DRIBBLE\n");
     		player->FindSupport();
 
     		player->GetFSM()->ChangeState(Dribble::Instance());
