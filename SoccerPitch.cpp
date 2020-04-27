@@ -423,6 +423,12 @@ void SoccerPitch::sendMovesToClients()
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
                                 std::string headingAngle = std::to_string(0); //left foot angle
 
+			//	if (m_pRedTeam->Members().at(p)->ID() == 5)
+			//	{
+					//m_pRedTeam->Members().at(p)->mEnterLogs = true;
+					printf("Player ID: %d  State: %s\n", m_pRedTeam->Members().at(p)->ID(), m_pRedTeam->Members().at(p)->mStateName.c_str());
+			//	}
+
                                 message.append(id);
                                 message.append(",");
                                 message.append(x);
@@ -462,7 +468,7 @@ void SoccerPitch::sendMovesToClients()
 
                         if (c == 0)
                         {
-                                printf("Game sending this message to clients: %s\n",message.c_str()); //print to console what we are about to send
+                                //printf("Game sending this message to clients: %s\n",message.c_str()); //print to console what we are about to send
                         }
 
                         sendToClient(mClientVector.at(c),message);

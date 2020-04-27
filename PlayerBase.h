@@ -39,6 +39,8 @@ public:
 
   Client* mClient;
 
+  std::string mStateName;
+
 protected:
 
   //this player's role in the team

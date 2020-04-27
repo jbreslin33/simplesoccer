@@ -154,6 +154,7 @@ void ChaseBall::Enter(FieldPlayer* player)
 	{
 		printf("ChaseBall::Enter()\n");
 	}
+	player->mStateName = "ChaseBall";
 	player->Steering()->SeekOn();
 }
 
@@ -213,6 +214,7 @@ void SupportAttacker::Enter(FieldPlayer* player)
 	{
 		printf("SupportAttacker::Enter() ID:%d\n", player->ID());
 	}
+	player->mStateName = "SupportAttacker";
   	player->Steering()->ArriveOn();
 
   	player->Steering()->SetTarget(player->Team()->GetSupportSpot());
@@ -299,6 +301,7 @@ void ReturnToHomeRegion::Enter(FieldPlayer* player)
 	{
 		printf("ReturnToHomeRegion::Enter() ID:%d\n", player->ID());
 	}
+	player->mStateName = "ReturnToHomeRegion";
   
 	player->Steering()->ArriveOn();
 
@@ -375,6 +378,7 @@ void Wait::Enter(FieldPlayer* player)
 	{
 		printf("Wait::Enter() ID:%d\n", player->ID());
 	}
+	player->mStateName = "Wait";
 
   
 	//if the game is not on make sure the target is the center of the player's
@@ -460,6 +464,7 @@ void KickBall::Enter(FieldPlayer* player)
 	{
 		printf("KickBall::Enter() ID:%d\n", player->ID());
 	}
+	player->mStateName = "KickBall";
   
 	//let the team know this player is controlling
    	player->Team()->SetControllingPlayer(player);
@@ -599,6 +604,9 @@ void Dribble::Enter(FieldPlayer* player)
 	{
 		printf("Dribble::Enter() ID:%d\n", player->ID());
 	}
+
+	player->mStateName = "Dribble";
+
   	//let the team know this player is controlling
   	player->Team()->SetControllingPlayer(player);
 }
@@ -666,6 +674,7 @@ void ReceiveBall::Enter(FieldPlayer* player)
 	{
 		printf("ReceiveBall::Enter() ID:%d\n", player->ID());
 	}
+	player->mStateName = "ReceiveBall";
 	
 	//let the team know this player is receiving the ball
   	player->Team()->SetReceiver(player);
