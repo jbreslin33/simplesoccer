@@ -169,7 +169,6 @@ void ChaseBall::Execute(FieldPlayer* player)
   	if (player->BallWithinKickingRange())
   	{
     		player->GetFSM()->ChangeState(KickBall::Instance());
-    
     		return;
   	}
                                                                               
@@ -516,9 +515,6 @@ void KickBall::Execute(FieldPlayer* player)
   	//to make the shot
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power) ||  (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
   	{	 
-   		#ifdef PLAYER_STATE_INFO_ON
-   		//debug_con << "Player " << player->ID() << " attempts a shot at " << BallTarget << "";
-   		#endif
 
    		//add some noise to the kick. We don't want players who are 
    		//too accurate! The amount of noise can be adjusted by altering
@@ -559,11 +555,6 @@ void KickBall::Execute(FieldPlayer* player)
    
     		player->Ball()->Kick(KickDirection, power);
 
-    		#ifdef PLAYER_STATE_INFO_ON
-    		//debug_con << "Player " << player->ID() << " passes the ball with force " << power << "  to player " 
-     		//         << receiver->ID() << "  Target is " << BallTarget << "";
-    		#endif
-    
     		//let the receiver know a pass is coming 
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
                             player->ID(),

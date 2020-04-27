@@ -277,7 +277,7 @@ void SoccerPitch::Update()
 {
         mDelta = getCurrentMilliseconds() - mLastTime;
 
-        if (mDelta > 30)
+        if (mDelta > 60)
         {
                 tick();
                 mLastTime = getCurrentMilliseconds();
