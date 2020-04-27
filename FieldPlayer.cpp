@@ -118,15 +118,6 @@ void FieldPlayer::Update()
   	{
     		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   	}
-
-	//print
-	//printf("m_ID:%d\n",ID());
-	/*
-	if (ID() == 4)
-	{
-		printf("x:%f y:%f \n", m_vPosition.x, m_vPosition.y);
-	}
-	*/
 }
 
 //-------------------- HandleMessage -------------------------------------

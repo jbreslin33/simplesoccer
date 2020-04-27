@@ -578,7 +578,6 @@ inline bool   LineSegmentCircleIntersection(Vector2D A,
 //
 //  returns false if no intersection point is found
 //-----------------------------------------------------------------------------
-/*
 inline bool GetLineSegmentCircleClosestIntersectionPoint(Vector2D A,
                                                          Vector2D B,
                                                          Vector2D pos,
@@ -630,7 +629,6 @@ inline bool GetLineSegmentCircleClosestIntersectionPoint(Vector2D A,
 
   return ipFound;
 }
-*/
 
 #endif
 

@@ -298,31 +298,6 @@ inline double Vec2DLengthSq(const Vector2D& v)
   return (v.x*v.x + v.y*v.y);
 }
 
-/*
-inline Vector2D POINTtoVector(const POINT& p)
-{
-  return Vector2D((double)p.x, (double)p.y);
-}
-
-inline POINT VectorToPOINTS(const Vector2D& v)
-{
-  POINT p;
-  p.x = (short)v.x;
-  p.y = (short)v.y;
-
-  return p;
-}
-
-inline POINT VectorToPOINT(const Vector2D& v)
-{
-  POINT p;
-  p.x = (long)v.x;
-  p.y = (long)v.y;
-
-  return p;
-}
-*/
-
 
 
 //------------------------------------------------------------------------operator overloads

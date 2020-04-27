@@ -89,6 +89,61 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 
     		break;
 
+                case Msg_PassToMe:
+                {
+
+                        //get the position of the player requesting the pass
+                        FieldPlayer* receiver = static_cast<FieldPlayer*>(telegram.ExtraInfo);
+
+                        //#ifdef PLAYER_STATE_INFO_ON
+                        //debug_con << "Player " << player->ID() << " received request from " <<
+                        //receiver->ID() << " to make pass" << "";
+                        //#endif
+
+                        //if the ball is not within kicking range or their is already a
+                        //receiving player, this player cannot pass the ball to the player
+                        //making the request.
+                        if (player->Team()->Receiver() != NULL ||
+                                !player->BallWithinKickingRange() )
+                        {
+                                //#ifdef PLAYER_STATE_INFO_ON
+                                //debug_con << "Player " << player->ID() << " cannot make requested pass <cannot kick ball>" << "";
+                                //#endif
+
+                                return true;
+                        }
+
+                        //make the pass
+                        player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
+                           player->Team()->Pitch()->MaxPassingForce);
+
+                        //#ifdef PLAYER_STATE_INFO_ON
+                        //debug_con << "Player " << player->ID() << " Passed ball to requesting player" << "";
+                        //#endif
+                       
+			//let the receiver know a pass is coming
+                        Vector2D receiverPosition;
+                        receiverPosition.x = receiver->Pos().x;
+                        receiverPosition.y = receiver->Pos().y;
+
+
+                        //let the receiver know a pass is coming
+                        Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+                              player->ID(),
+                              receiver->ID(),
+                              Msg_ReceiveBall,
+                              //&receiver->Pos());
+                              &receiverPosition);
+
+                        //change state
+                        player->GetFSM()->ChangeState(Wait::Instance());
+
+                        player->FindSupport();
+
+                        return true;
+                }
+
+/*
   		case Msg_PassToMe:
     		{ 	 
       
@@ -128,6 +183,7 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 
       			return true;
     		}
+		*/
 
     		break;
 
