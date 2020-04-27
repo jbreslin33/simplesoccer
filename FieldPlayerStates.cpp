@@ -155,7 +155,12 @@ void ChaseBall::Enter(FieldPlayer* player)
 		printf("ChaseBall::Enter()\n");
 	}
 	player->mStateName = "ChaseBall";
+    	player->Steering()->ArriveOff();
 	player->Steering()->SeekOn();
+	player->Steering()->PursuitOff();
+	player->Steering()->SeparationOff();
+	player->Steering()->InterposeOff();
+
 }
 
 void ChaseBall::Execute(FieldPlayer* player)                                     
