@@ -21,23 +21,28 @@
 
 #include <string.h>
 
-const int NumRegionsHorizontal = 6; 
-const int NumRegionsVertical   = 3;
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
-SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
-                                         m_cyClient(cy),
-                                         m_bPaused(false),
-                                         m_bGoalKeeperHasBall(false),
-                                         m_Regions(NumRegionsHorizontal*NumRegionsVertical),
-                                         m_bGameOn(true)
+SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 {
+
+	NumRegionsHorizontal = 6; 
+	NumRegionsVertical   = 3;
+	m_cxClient = cx;
+	m_cyClient = cy;
+	m_bPaused = false;
+	m_bGoalKeeperHasBall = false;
+	m_Regions.resize(NumRegionsHorizontal * NumRegionsVertical);
+
+	m_bGameOn = true;
 
 	//params
 	GoalWidth 				= 100;
 	NumSupportSpotsX = 13;
         NumSupportSpotsY = 6;
+
+
 
 	Spot_CanPassScore                     	= 2.0;
 	Spot_CanScoreFromPositionScore        	= 1.0;

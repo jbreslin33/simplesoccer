@@ -45,6 +45,9 @@ class SoccerPitch
   
 		//params
   		double GoalWidth; 
+
+		int NumRegionsHorizontal;
+		int NumRegionsVertical;
     
     		int NumSupportSpotsX;    
     		int NumSupportSpotsY;   
