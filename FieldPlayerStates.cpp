@@ -172,6 +172,8 @@ void ChaseBall::Enter(FieldPlayer* player)
 	player->Steering()->PursuitOff();
 	player->Steering()->SeparationOff();
 	player->Steering()->InterposeOff();
+    		
+	player->TrackBall();
 
 }
 
@@ -181,6 +183,8 @@ void ChaseBall::Execute(FieldPlayer* player)
 	{
 		printf("ChaseBall::Execute() ID:%d\n", player->ID());
 	}
+	
+	player->TrackBall();
 
   	//if the ball is within kicking range the player changes state to KickBall.
   	if (player->BallWithinKickingRange())
