@@ -421,9 +421,57 @@ void SoccerPitch::sendMovesToClients()
                                 std::string id = std::to_string(m_pRedTeam->Members().at(p)->ID()); //player id
                                 std::string x  = std::to_string(m_pRedTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
-                                std::string headingAngle = std::to_string(0); //left foot angle
 
-				//printf("Player ID: %d  State: %s\n", m_pRedTeam->Members().at(p)->ID(), m_pRedTeam->Members().at(p)->mStateName.c_str());
+                                double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+                                std::string headingAngle = std::to_string(rotDegrees); //left foot angle
+
+				if (m_pRedTeam->Members().at(p)->ID() == 4)
+				{
+					printf("angle:%f\n",rotDegrees);	
+				}
+
+			/*	
+				double X = cos(0 * 3.14/180);
+				double Y = sin(0 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",0.0, Y,X);
+				
+				X = cos(45 * 3.14/180);
+				Y = sin(45 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",45.0, Y,X);
+
+
+				X = cos(90 * 3.14/180);
+				Y = sin(90 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",90.0, Y,X);
+
+				X = cos(135 * 3.14/180);
+				Y = sin(135 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",135.0, Y,X);
+				
+				X = cos(180 * 3.14/180);
+				Y = sin(180 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",180.0, Y,X);
+				
+				X = cos(225 * 3.14/180);
+				Y = sin(225 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",225.0, Y,X);
+			
+				X = cos(270 * 3.14/180);
+				Y = sin(270 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",270.0, Y,X);
+				
+				X = cos(315 * 3.14/180);
+				Y = sin(315 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",315.0, Y,X);
+				
+				X = cos(360 * 3.14/180);
+				Y = sin(360 * 3.14/180);
+				printf("a:%f x:%f y:%f \n",360.0, Y,X);
+
+				printf("-----------------\n");
+				*/
+                                	
+
 
                                 message.append(id);
                                 message.append(",");
@@ -444,7 +492,9 @@ void SoccerPitch::sendMovesToClients()
                                 std::string id = std::to_string(m_pBlueTeam->Members().at(p)->ID()); //player id
                                 std::string x  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().y); //player y
-                                std::string headingAngle = std::to_string(0); //left foot angle
+				
+				double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().y,m_pBlueTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+                                std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
                                 message.append(id);
                                 message.append(",");
@@ -510,7 +560,7 @@ void SoccerPitch::sendToClient(Client* client, std::string message)
         int sock;
         struct sockaddr_in sa;
         int bytes_sent;
-        char buffer[500];
+        char buffer[1000];
 
         strcpy(buffer, message.c_str());
 
