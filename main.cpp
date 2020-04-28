@@ -16,7 +16,6 @@
 #include "SoccerPitch.h"
 
 
-
 void serverThread(Server* server)
 {
         while (server->mRunning == true)

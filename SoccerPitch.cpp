@@ -21,9 +21,6 @@
 
 #include <string.h>
 
-
-
-
 const int NumRegionsHorizontal = 6; 
 const int NumRegionsVertical   = 3;
 
@@ -83,7 +80,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id):m_cxClient(cx),
 	bShowControllingTeam                	= 1;
 	ViewTargets                         	= 0;
 	HighlightIfThreatened               	= 0;
-	FrameRate                           	= 60;
+	FrameRate                           	= 30;
 	SeparationCoefficient                	= 10.0;
 	ViewDistance                        	= 30.0;
 	bNonPenetrationConstraint           	= 0;
@@ -277,7 +274,7 @@ void SoccerPitch::Update()
 {
         mDelta = getCurrentMilliseconds() - mLastTime;
 
-        if (mDelta > 60)
+        if (mDelta > FrameRate)
         {
                 tick();
                 mLastTime = getCurrentMilliseconds();
