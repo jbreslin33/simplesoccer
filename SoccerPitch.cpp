@@ -425,54 +425,6 @@ void SoccerPitch::sendMovesToClients()
                                 double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
-				if (m_pRedTeam->Members().at(p)->ID() == 4)
-				{
-					printf("angle:%f\n",rotDegrees);	
-				}
-
-			/*	
-				double X = cos(0 * 3.14/180);
-				double Y = sin(0 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",0.0, Y,X);
-				
-				X = cos(45 * 3.14/180);
-				Y = sin(45 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",45.0, Y,X);
-
-
-				X = cos(90 * 3.14/180);
-				Y = sin(90 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",90.0, Y,X);
-
-				X = cos(135 * 3.14/180);
-				Y = sin(135 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",135.0, Y,X);
-				
-				X = cos(180 * 3.14/180);
-				Y = sin(180 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",180.0, Y,X);
-				
-				X = cos(225 * 3.14/180);
-				Y = sin(225 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",225.0, Y,X);
-			
-				X = cos(270 * 3.14/180);
-				Y = sin(270 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",270.0, Y,X);
-				
-				X = cos(315 * 3.14/180);
-				Y = sin(315 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",315.0, Y,X);
-				
-				X = cos(360 * 3.14/180);
-				Y = sin(360 * 3.14/180);
-				printf("a:%f x:%f y:%f \n",360.0, Y,X);
-
-				printf("-----------------\n");
-				*/
-                                	
-
-
                                 message.append(id);
                                 message.append(",");
                                 message.append(x);
