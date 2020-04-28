@@ -33,6 +33,11 @@ class SoccerPitch
 { 
 	public:
 
+  		SoccerPitch(int cxClient, int cyClient, Server* server, int id);
+  		~SoccerPitch();
+  		
+		Server* mServer;
+
 		SoccerBall*          m_pBall;
 		double MinPassDistance                  = 120.0;
 		double GoalkeeperMinPassDistance;
@@ -160,13 +165,6 @@ class SoccerPitch
  	 	//themselves
   		void CreateRegions(double width, double height);
 
-  		Server* mServer;
-
-	public:
-
-  		SoccerPitch(int cxClient, int cyClient, Server* server, int id);
-
-  		~SoccerPitch();
 
 		//tick and update
                	long getCurrentMilliseconds();

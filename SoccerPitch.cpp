@@ -42,8 +42,6 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 	NumSupportSpotsX = 13;
         NumSupportSpotsY = 6;
 
-
-
 	Spot_CanPassScore                     	= 2.0;
 	Spot_CanScoreFromPositionScore        	= 1.0;
 	Spot_DistFromControllingPlayerScore    	= 2.0;
@@ -387,21 +385,7 @@ void SoccerPitch::CreateRegions(double width, double height)
     		}
   	}
 }
-//Game sending this message to clients: 1,m,
-//2,-nan,-nan,0,
-//
-//3,49.383342,68.147893,0,
-//4,723.016325,68.887522,0,
-//5,326.820060,486.674330,0,
-//6,210.043380,290.842605,0,
-//
-//8,775.271641,244.005153,0,
-//9,407.223145,486.219261,0,
-//10,407.927494,101.106716,0,
-//11,580.469619,486.644198,0,
-//12,742.387647,79.174584,0,
-//
-//734.228040,75.278572,
+
 void SoccerPitch::sendMovesToClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
