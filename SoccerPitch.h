@@ -27,6 +27,7 @@ class SoccerTeam;
 class PlayerBase;
 class Server;
 class Client;
+class Utility;
 
 
 class SoccerPitch
@@ -37,6 +38,8 @@ class SoccerPitch
   		~SoccerPitch();
   		
 		Server* mServer;
+
+		Utility* mUtility;
 
 		SoccerBall*          m_pBall;
 		double MinPassDistance                  = 120.0;

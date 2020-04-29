@@ -10,6 +10,7 @@
 #include "misc/FrameCounter.h"
 #include "server.h"
 #include "client.h"
+#include "utility.h"
 #include <sys/time.h>
 
 //Berkeley
@@ -402,7 +403,7 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pRedTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
 
-                                double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().x,m_pRedTeam->Members().at(p)->Heading().y) * 180 / 3.14;
+				double rotDegrees = mUtility->getRotationInDegreesFromVector(m_pRedTeam->Members().at(p)->Heading());
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
                                 message.append(id);
@@ -425,7 +426,7 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().y); //player y
 				
-                                double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().x,m_pBlueTeam->Members().at(p)->Heading().y) * 180 / 3.14;
+				double rotDegrees = mUtility->getRotationInDegreesFromVector(m_pBlueTeam->Members().at(p)->Heading());
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
                                 message.append(id);

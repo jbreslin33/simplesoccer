@@ -11,6 +11,8 @@ class Utility
 	public:
 		Utility();
 		std::vector<std::string> split(const std::string str, const std::string delim);
+		double getRotationInDegreesFromVector(Vector2D v);
+
 };
 
 #endif

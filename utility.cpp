@@ -23,3 +23,10 @@ std::vector<std::string> Utility::split(std::string s, std::string delim)
 	return stringVector;
 }
 
+double Utility::getRotationInDegreesFromVector(Vector2D v)
+{
+	double rotDegrees = atan2(v.x,v.y) * 180 / 3.14;
+	return rotDegrees;
+}
+
+
