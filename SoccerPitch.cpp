@@ -402,16 +402,9 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pRedTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
 
-				Vector2D v;
-				v = m_pRedTeam->Members().at(p)->Pos() - m_pRedTeam->Members().at(p)->Ball()->Pos();
-                                //double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
-                                double rotDegrees = atan2(v.x,v.y) * 180 / 3.14;
+                                double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().x,m_pRedTeam->Members().at(p)->Heading().y) * 180 / 3.14;
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
-				if ( m_pRedTeam->Members().at(p)->ID() == 4)
-				{
-					printf("a:%f\n",rotDegrees);
-				}
                                 message.append(id);
                                 message.append(",");
                                 message.append(x);
@@ -432,14 +425,8 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().y); //player y
 				
-				Vector2D v;
-				v = m_pBlueTeam->Members().at(p)->Ball()->Pos() - m_pBlueTeam->Members().at(p)->Pos();
-                                //double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
-                                double rotDegrees = atan2(v.y,v.x) * 180 / 3.14;
+                                double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().x,m_pBlueTeam->Members().at(p)->Heading().y) * 180 / 3.14;
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
-
-				//double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().y,m_pBlueTeam->Members().at(p)->Heading().x) * 180 / 3.14;
-                                //std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
                                 message.append(id);
                                 message.append(",");
