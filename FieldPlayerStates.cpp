@@ -34,6 +34,7 @@ void GlobalPlayerState::Execute(FieldPlayer* player)
   	{
      		player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithoutBall);
   	}
+	player->TrackBall();
 }
 
 bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)

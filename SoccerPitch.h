@@ -41,12 +41,6 @@ class SoccerPitch
 		SoccerBall*          m_pBall;
 		double MinPassDistance                  = 120.0;
 		double GoalkeeperMinPassDistance;
-		int ViewStates;
-		int ViewIDs;
-		int ViewSupportSpots;
-		int ViewRegions;
-		int ViewTargets;
-		int HighlightIfThreatened;
   
 		//params
   		double GoalWidth; 

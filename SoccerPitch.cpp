@@ -76,13 +76,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 	GoalKeeperTendingDistance       	= 20.0;
 	GoalKeeperInterceptRange                = 100.0;
 	BallWithinReceivingRange        	= 10.0;
-	ViewStates                          	= 1;
-	ViewIDs                             	= 1;
-	ViewSupportSpots                    	= 1;
-	ViewRegions                         	= 0;
 	bShowControllingTeam                	= 1;
-	ViewTargets                         	= 0;
-	HighlightIfThreatened               	= 0;
 	FrameRate                           	= 30;
 	SeparationCoefficient                	= 10.0;
 	ViewDistance                        	= 30.0;
@@ -408,9 +402,16 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pRedTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
 
-                                double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+				Vector2D v;
+				v = m_pRedTeam->Members().at(p)->Pos() - m_pRedTeam->Members().at(p)->Ball()->Pos();
+                                //double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+                                double rotDegrees = atan2(v.x,v.y) * 180 / 3.14;
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
+				if ( m_pRedTeam->Members().at(p)->ID() == 4)
+				{
+					printf("a:%f\n",rotDegrees);
+				}
                                 message.append(id);
                                 message.append(",");
                                 message.append(x);
@@ -431,8 +432,14 @@ void SoccerPitch::sendMovesToClients()
                                 std::string x  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().x); //player x
                                 std::string y  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().y); //player y
 				
-				double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().y,m_pBlueTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+				Vector2D v;
+				v = m_pBlueTeam->Members().at(p)->Ball()->Pos() - m_pBlueTeam->Members().at(p)->Pos();
+                                //double rotDegrees = atan2(m_pRedTeam->Members().at(p)->Heading().y,m_pRedTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+                                double rotDegrees = atan2(v.y,v.x) * 180 / 3.14;
                                 std::string headingAngle = std::to_string(rotDegrees); //left foot angle
+
+				//double rotDegrees = atan2(m_pBlueTeam->Members().at(p)->Heading().y,m_pBlueTeam->Members().at(p)->Heading().x) * 180 / 3.14;
+                                //std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
                                 message.append(id);
                                 message.append(",");
