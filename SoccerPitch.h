@@ -36,16 +36,101 @@ class SoccerPitch
 
   		SoccerPitch(int cxClient, int cyClient, Server* server, int id);
   		~SoccerPitch();
-  		
+		
+		/******       outside variables ***************/
 		Server* mServer;
+  	
+		/******       game life ***************/
+		bool  GameOn()const{return m_bGameOn;}
+  		void  SetGameOn(){m_bGameOn = true;}
+  		void  SetGameOff(){m_bGameOn = false;}
+  		//true if the game is in play. Set to false whenever the players
+  		//are getting ready for kickoff
+  		bool                 m_bGameOn;
 
-		Utility* mUtility;
+  		//set true to pause the motion
+  		bool                 m_bPaused;
+		
+		void  TogglePause(){m_bPaused = !m_bPaused;}
+  		bool  Paused()const{return m_bPaused;}
 
+		//client
+		void sendToClient(Client* client, std::string message);
+		void sendDataToNewClients();
+                int getNextClientId();
+                std::vector<Client*> mClientVector;
+                int mClientIdCounter;
+  	
+		//id	
+		int mId;
+
+		/******       Teams   ***************/
+  		SoccerTeam*          m_pRedTeam;
+  		SoccerTeam*          m_pBlueTeam;
+
+		/******       Goals   ***************/
+  		Goal*                m_pRedGoal;
+  		Goal*                m_pBlueGoal;
+  		
+		/******       Ball   ***************/
+		SoccerBall*const           Ball()const{return m_pBall;}
 		SoccerBall*          m_pBall;
-		double MinPassDistance                  = 120.0;
-		double GoalkeeperMinPassDistance;
   
-		//params
+		/******       Bounds   ***************/
+
+  		const Region*const         PlayingArea()const{return m_pPlayingArea;}
+  		const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
+
+  		int   cxClient()const{return m_cxClient;}
+  		int   cyClient()const{return m_cyClient;}
+
+	       	//walls	
+  		//container for the boundary walls
+  		std::vector<Wall2D>  m_vecWalls;
+
+ 		//defines the dimensions of the playing area
+  		Region*              m_pPlayingArea;
+  	
+		//the playing field is broken up into regions that the team
+  		//can make use of to implement strategies.
+  		std::vector<Region*> m_Regions;
+  		
+		//local copy of client window dimensions
+  		int                  m_cxClient;
+       		int               m_cyClient;  
+  
+  		//this instantiates the regions the players utilize to  position
+ 	 	//themselves
+  		void CreateRegions(double width, double height);
+
+
+		/******       Utility ***************/
+		Utility* mUtility;
+               
+		/******       Time and ticks ***************/
+		long getCurrentMilliseconds();
+		void tick();
+	  	void  Update();
+  		void processBuffer(std::vector<std::string> stringVector);
+	  	void processMove(std::vector<std::string> stringVector);
+		//time
+                long mGameStartTime;
+                long mLastTime;
+                long mDelta;
+                long mTickCount;
+
+		//client
+		void requestClient(std::vector<std::string> stringVector);
+		void sendMovesToClients();
+		
+		/******       game play member variables ***************/
+		
+		//true if a goal keeper has possession
+  		bool                 m_bGoalKeeperHasBall;
+
+		double MinPassDistance;
+		double GoalkeeperMinPassDistance;
+
   		double GoalWidth; 
 
 		int NumRegionsHorizontal;
@@ -125,78 +210,9 @@ class SoccerPitch
 		double GoalKeeperInterceptRangeSq;
 		double WithinRangeOfSupportSpotSq;
 
-
-  		int mId;
-
-  		SoccerTeam*          m_pRedTeam;
-  		SoccerTeam*          m_pBlueTeam;
-
-  		Goal*                m_pRedGoal;
-  		Goal*                m_pBlueGoal;
-   
-  		//container for the boundary walls
-  		std::vector<Wall2D>  m_vecWalls;
-
- 		//defines the dimensions of the playing area
-  		Region*              m_pPlayingArea;
-
-  		//the playing field is broken up into regions that the team
-  		//can make use of to implement strategies.
-  		std::vector<Region*> m_Regions;
-
-  		//true if a goal keeper has possession
-  		bool                 m_bGoalKeeperHasBall;
-
-  		//true if the game is in play. Set to false whenever the players
-  		//are getting ready for kickoff
-  		bool                 m_bGameOn;
-
-  		//set true to pause the motion
-  		bool                 m_bPaused;
-
-  		//local copy of client window dimensions
-  		int                  m_cxClient;
-       		int               m_cyClient;  
-  
-  		//this instantiates the regions the players utilize to  position
- 	 	//themselves
-  		void CreateRegions(double width, double height);
-
-
-		//tick and update
-               	long getCurrentMilliseconds();
-		void tick();
-	  	void  Update();
-  		void processBuffer(std::vector<std::string> stringVector);
-	  	void processMove(std::vector<std::string> stringVector);
-		void requestClient(std::vector<std::string> stringVector);
-		void sendMovesToClients();
-
-               	//client
-                int getNextClientId();
-                std::vector<Client*> mClientVector;
-                int mClientIdCounter;
-
-		//time
-                long mGameStartTime;
-                long mLastTime;
-                long mDelta;
-                long mTickCount;
-
-
-
-		void  TogglePause(){m_bPaused = !m_bPaused;}
-  		bool  Paused()const{return m_bPaused;}
-
-  		int   cxClient()const{return m_cxClient;}
-  		int   cyClient()const{return m_cyClient;}
-
  		bool  GoalKeeperHasBall()const{return m_bGoalKeeperHasBall;}
   		void  SetGoalKeeperHasBall(bool b){m_bGoalKeeperHasBall = b;}
 
-  		const Region*const         PlayingArea()const{return m_pPlayingArea;}
-  		const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
-  		SoccerBall*const           Ball()const{return m_pBall;}
 
   		const Region* const GetRegionFromIndex(int idx)                                
   		{
@@ -205,12 +221,7 @@ class SoccerPitch
     			return m_Regions[idx];
   		}
 
-  		bool  GameOn()const{return m_bGameOn;}
-  		void  SetGameOn(){m_bGameOn = true;}
-  		void  SetGameOff(){m_bGameOn = false;}
 
-		void sendToClient(Client* client, std::string message);
-		void sendDataToNewClients();
 
 };
 

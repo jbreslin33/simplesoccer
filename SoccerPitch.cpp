@@ -28,6 +28,7 @@
 SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 {
 
+	//member variables
 	NumRegionsHorizontal = 6; 
 	NumRegionsVertical   = 3;
 	m_cxClient = cx;
