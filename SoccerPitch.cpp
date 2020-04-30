@@ -494,11 +494,19 @@ void SoccerPitch::sendDataToNewClients()
 			message.append( std::to_string( m_pPlayingArea->Bottom()  )); 
                         message.append(",");     //extra comma
 
-			//players
+			//ballsize radius
+			message.append( std::to_string( BallSize  )); 
+                        message.append(",");     //extra comma
+			
                         for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
 			{
 				message.append( std::to_string( m_pBlueTeam->Members().at(p)->ID() )); 
                         	message.append(",");     //extra comma
+
+				//size radius
+				message.append( std::to_string( m_pBlueTeam->Members().at(p)->BRadius() ));
+                                message.append(",");     //extra comma
+
 
 				if (p < (m_pBlueTeam->Members().size() - 1))
 				{
@@ -516,6 +524,10 @@ void SoccerPitch::sendDataToNewClients()
                         for (int p = 0; p < m_pRedTeam->Members().size(); p++)
                         {
                                 message.append( std::to_string( m_pRedTeam->Members().at(p)->ID() ));
+                                message.append(",");     //extra comma
+				
+				//size radius
+				message.append( std::to_string( m_pRedTeam->Members().at(p)->BRadius() ));
                                 message.append(",");     //extra comma
 
                                 if (p < (m_pRedTeam->Members().size() - 1))
