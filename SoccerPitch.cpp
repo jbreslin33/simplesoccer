@@ -478,6 +478,69 @@ void SoccerPitch::sendDataToNewClients()
                         message.append(std::to_string(mClientVector.at(c)->mId)); //client id
                         message.append(",");     //extra comma
 
+                        message.append( std::to_string( m_pBlueTeam->Members().size() )); 
+                        message.append(",");     //extra comma
+                        
+			message.append("blue"); 
+                        message.append(",");     //extra comma
+			
+			message.append("violet"); 
+                        message.append(",");     //extra comma
+                        
+			message.append( std::to_string( m_pRedTeam->Members().size() )); 
+                        message.append(",");     //extra comma
+                        
+			message.append("red"); 
+                        message.append(",");     //extra comma
+			
+			message.append("purple"); 
+                        message.append(",");     //extra comma
+
+			//top left x
+			message.append( std::to_string( m_pPlayingArea->Left()  )); 
+                        message.append(",");     //extra comma
+			
+			//top left y 
+			message.append( std::to_string( m_pPlayingArea->Top()  )); 
+                        message.append(",");     //extra comma
+			
+			//bottom right x 
+			message.append( std::to_string( m_pPlayingArea->Right()  )); 
+                        message.append(",");     //extra comma
+			
+			//bottom right y 
+			message.append( std::to_string( m_pPlayingArea->Bottom()  )); 
+                        message.append(",");     //extra comma
+
+/*
+			        //create the walls
+        Vector2D TopLeft(m_pPlayingArea->Left(), m_pPlayingArea->Top());
+        Vector2D TopRight(m_pPlayingArea->Right(), m_pPlayingArea->Top());
+        Vector2D BottomRight(m_pPlayingArea->Right(), m_pPlayingArea->Bottom());
+        Vector2D BottomLeft(m_pPlayingArea->Left(), m_pPlayingArea->Bottom());
+	*/
+
+
+
+			//this is game dependent, is this where we make a child of soccer pitch to have less players....
+				
+
+			/*
+			   APPLICATION.getCurrentScreen().mPitch.mNumberOfAwayPlayers = dataArray[3];
+                APPLICATION.getCurrentScreen().mPitch.mColorOfAwayPlayers = dataArray[4];
+                APPLICATION.getCurrentScreen().mPitch.mColorOfAwayPlayerKeeper = dataArray[5]; //0 if no keeper
+
+                APPLICATION.getCurrentScreen().mPitch.mNumberOfHomePlayers = dataArray[6];
+                APPLICATION.getCurrentScreen().mPitch.mColorOfHomePlayers = dataArray[7];
+                APPLICATION.getCurrentScreen().mPitch.mColorOfHomePlayerKeeper = dataArray[8]; //0 if no keeper
+
+                APPLICATION.getCurrentScreen().mPitch.mTopRightOfPitch.x = dataArray[9];
+                APPLICATION.getCurrentScreen().mPitch.mTopRightOfPitch.y = dataArray[10];
+                APPLICATION.getCurrentScreen().mPitch.mBottomRightOfPitch.x = dataArray[11];
+                APPLICATION.getCurrentScreen().mPitch.mBottomRightOfPitch.y = dataArray[12];
+ 
+			 */
+
                         printf("TO NEW CLIENT:%s AND mSentToClient set true.\n",message.c_str());
                         sendToClient(mClientVector.at(c),message);
 
