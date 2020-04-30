@@ -494,23 +494,6 @@ void SoccerTeam::CreatePlayers()
 
 	if (Color() == blue)
   	{
-    		//goalkeeper
-    		m_Players.push_back
-		(
-			new GoalKeeper
-			(
-				this,
-                        	1,
-                               	TendGoal::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale
-			)
-		);
  
 		//create the players
     		m_Players.push_back
@@ -586,20 +569,16 @@ void SoccerTeam::CreatePlayers()
 			       	PlayerBase::defender
 			)
 		);
-  	}
-
-  	else
-  	{
-
-     		//goalkeeper
+    		
+		//goalkeeper
     		m_Players.push_back
 		(
-		 	new GoalKeeper
+			new GoalKeeper
 			(
 				this,
-                               	16,
+                        	1,
                                	TendGoal::Instance(),
-                               	Vector2D(0,-1),
+                               	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
                                 m_pPitch->PlayerMass,
                                 m_pPitch->PlayerMaxForce,
@@ -608,6 +587,11 @@ void SoccerTeam::CreatePlayers()
                                 m_pPitch->PlayerScale
 			)
 		);
+  	}
+
+  	else
+  	{
+
 
 
     		//create the players
@@ -682,6 +666,24 @@ void SoccerTeam::CreatePlayers()
                                 m_pPitch->PlayerMaxTurnRate,
                                 m_pPitch->PlayerScale,
                                	PlayerBase::defender
+			)
+		);
+     		
+		//goalkeeper
+    		m_Players.push_back
+		(
+		 	new GoalKeeper
+			(
+				this,
+                               	16,
+                               	TendGoal::Instance(),
+                               	Vector2D(0,-1),
+                               	Vector2D(0.0, 0.0),
+                                m_pPitch->PlayerMass,
+                                m_pPitch->PlayerMaxForce,
+                                m_pPitch->PlayerMaxSpeedWithoutBall,
+                                m_pPitch->PlayerMaxTurnRate,
+                                m_pPitch->PlayerScale
 			)
 		);
   	}

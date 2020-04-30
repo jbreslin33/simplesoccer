@@ -478,24 +478,6 @@ void SoccerPitch::sendDataToNewClients()
                         message.append(std::to_string(mClientVector.at(c)->mId)); //client id
                         message.append(",");     //extra comma
 
-                        message.append( std::to_string( m_pBlueTeam->Members().size() - 1 )); //-1 for keeper 
-                        message.append(",");     //extra comma
-                        
-			message.append("blue"); 
-                        message.append(",");     //extra comma
-			
-			message.append("violet"); 
-                        message.append(",");     //extra comma
-                        
-			message.append( std::to_string( m_pRedTeam->Members().size() - 1 ));  //-1 for keeper
-                        message.append(",");     //extra comma
-                        
-			message.append("red"); 
-                        message.append(",");     //extra comma
-			
-			message.append("purple"); 
-                        message.append(",");     //extra comma
-
 			//top left x
 			message.append( std::to_string( m_pPlayingArea->Left()  )); 
                         message.append(",");     //extra comma
@@ -511,6 +493,42 @@ void SoccerPitch::sendDataToNewClients()
 			//bottom right y 
 			message.append( std::to_string( m_pPlayingArea->Bottom()  )); 
                         message.append(",");     //extra comma
+
+			//players
+                        for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
+			{
+				message.append( std::to_string( m_pBlueTeam->Members().at(p)->ID() )); 
+                        	message.append(",");     //extra comma
+
+				if (p < (m_pBlueTeam->Members().size() - 1))
+				{
+					message.append("blue"); 
+                        		message.append(",");     //extra comma
+				}
+				else
+				{
+					message.append("violet"); 
+                        		message.append(",");     //extra comma
+				}
+			}
+
+                        //players
+                        for (int p = 0; p < m_pRedTeam->Members().size(); p++)
+                        {
+                                message.append( std::to_string( m_pRedTeam->Members().at(p)->ID() ));
+                                message.append(",");     //extra comma
+
+                                if (p < (m_pRedTeam->Members().size() - 1))
+                                {       
+                                        message.append("red");
+                                        message.append(",");     //extra comma
+                                }
+                                else
+                                {
+                                        message.append("purple");    
+                                        message.append(",");     //extra comma
+                                }
+                        }
 
                         printf("TO NEW CLIENT:%s AND mSentToClient set true.\n",message.c_str());
                         sendToClient(mClientVector.at(c),message);
