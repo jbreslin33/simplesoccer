@@ -21,7 +21,7 @@ SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,
                   0),                  //max force - unused
      m_PitchBoundary(PitchBoundary)
 {
-
+	m_vPosition = Vector2D((double)soccerPitch->m_cxClient/2.0, (double)soccerPitch->m_cyClient/2.0);
 	m_pPitch = soccerPitch;
 }
 
