@@ -54,18 +54,19 @@ public:
                double   mass,
                Vector2D scale,
                double   turn_rate,
-               double   max_force):BaseGameEntity(BaseGameEntity::GetNextValidID()),
-                                  m_vHeading(heading),
-                                  m_vVelocity(velocity),
-                                  m_dMass(mass),
-                                  m_vSide(m_vHeading.Perp()),
-                                  m_dMaxSpeed(max_speed),
-                                  m_dMaxTurnRate(turn_rate),
-                                  m_dMaxForce(max_force)
+               double   max_force):BaseGameEntity(BaseGameEntity::GetNextValidID())
   {
     m_vPosition = position;
     m_dBoundingRadius = radius; 
     m_vScale = scale;
+                                  
+    	m_vHeading = heading;
+	m_vVelocity = velocity;
+        m_dMass = mass;
+        m_vSide = m_vHeading.Perp();
+        m_dMaxSpeed = max_speed;
+        m_dMaxTurnRate = turn_rate;
+        m_dMaxForce = max_force;
   }
 
 
