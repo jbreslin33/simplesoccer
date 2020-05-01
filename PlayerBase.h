@@ -45,6 +45,7 @@ public:
   int mKickCounter;
 
 
+  double mPlayerMaxSpeedWithBall;
 protected:
 
   //this player's role in the team
@@ -82,6 +83,7 @@ public:
              double          mass,
              double          max_force,
              double          max_speed,
+             double          max_speed_with_ball,
              double          max_turn_rate,
              double          scale,
              player_role    role);

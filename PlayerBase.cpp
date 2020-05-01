@@ -31,6 +31,7 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
                        double    mass,
                        double    max_force,
                        double    max_speed,
+                       double    max_speed_with_ball,
                        double    max_turn_rate,
                        double    scale,
                        player_role role):    
@@ -61,6 +62,7 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
    	m_PlayerRole = role;
 
 
+	mPlayerMaxSpeedWithBall = max_speed_with_ball;
 
   //setup the vertex buffers and calculate the bounding radius
   const int NumPlayerVerts = 4;

@@ -28,11 +28,11 @@ void GlobalPlayerState::Execute(FieldPlayer* player)
 	//if a player is in possession and close to the ball reduce his max speed
   	if((player->BallWithinReceivingRange()) && (player->isControllingPlayer()))
   	{
-    		player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithBall);
+    		player->SetMaxSpeed(player->mPlayerMaxSpeedWithBall);
   	}
   	else
   	{
-     		player->SetMaxSpeed(player->Pitch()->PlayerMaxSpeedWithoutBall);
+     		player->SetMaxSpeed(player->MaxSpeed());
   	}
 	player->TrackBall();
 }

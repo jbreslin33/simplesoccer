@@ -59,12 +59,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 	PlayerInTargetRange             	= 10.0;
 	PlayerKickingDistance           	= 6.0;
 	PlayerKickFrequency               	= 8;
-	PlayerMass                      	= 3.0;
-	PlayerMaxForce                  	= 1.0;
-	PlayerMaxSpeedWithBall          	= 1.2;
-	PlayerMaxSpeedWithoutBall       	= 1.6;
-	PlayerMaxTurnRate               	= 0.4;
-	PlayerScale                     	= 1.0;
+
 	PlayerComfortZone               	= 60.0;
 	PlayerKickingAccuracy           	= 0.99;
 	NumAttemptsToFindValidStrike    	= 5;

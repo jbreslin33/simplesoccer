@@ -30,6 +30,7 @@ FieldPlayer::FieldPlayer(SoccerTeam* home_team,
                       double    mass,
                       double    max_force,
                       double    max_speed,
+                      double    max_speed_with_ball,
                       double    max_turn_rate,
                       double    scale,
                       player_role role): PlayerBase(home_team,
@@ -39,6 +40,7 @@ FieldPlayer::FieldPlayer(SoccerTeam* home_team,
                                                     mass,
                                                     max_force,
                                                     max_speed,
+                                                    max_speed_with_ball,
                                                     max_turn_rate,
                                                     scale,
                                                     role)                                    
@@ -86,7 +88,7 @@ void FieldPlayer::Update()
   	//can only turn by PlayerMaxTurnRate rads per update.
   	double TurningForce =   m_pSteering->SideComponent();
 
-  	Clamp(TurningForce, -Pitch()->PlayerMaxTurnRate, Pitch()->PlayerMaxTurnRate);
+  	Clamp(TurningForce, -MaxTurnRate(), MaxTurnRate());
 
   	//rotate the heading vector
   	Vec2DRotateAroundOrigin(m_vHeading, TurningForce);

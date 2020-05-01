@@ -492,6 +492,15 @@ void SoccerTeam::ReturnAllFieldPlayersToHome()const
 void SoccerTeam::CreatePlayers()
 {
 
+	//vars
+        double PlayerMass                              = 3.0;
+        double PlayerMaxForce                          = 1.0;
+        double PlayerMaxSpeedWithBall                  = 1.2;
+        double PlayerMaxSpeedWithoutBall               = 1.6;
+        double PlayerMaxTurnRate                       = 0.4;
+        double PlayerScale                             = 1.0;
+
+	
 	if (Color() == blue)
   	{
  
@@ -505,11 +514,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
 				PlayerBase::attacker
 			)
 		);
@@ -525,11 +535,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
 			       	PlayerBase::attacker
 			)
 		);
@@ -543,11 +554,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
 			       	PlayerBase::defender
 			)
 		);
@@ -561,11 +573,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
 			       	PlayerBase::defender
 			)
 		);
@@ -580,11 +593,12 @@ void SoccerTeam::CreatePlayers()
                                	TendGoal::Instance(),
                                	Vector2D(0,1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale
 			)
 		);
   	}
@@ -604,11 +618,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,-1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
 				PlayerBase::attacker
 			)
 		);
@@ -622,11 +637,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,-1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
                                	PlayerBase::attacker
 			)
 		);
@@ -642,11 +658,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,-1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
                                	PlayerBase::defender
 			)
 		);
@@ -660,11 +677,12 @@ void SoccerTeam::CreatePlayers()
                                	Wait::Instance(),
                                	Vector2D(0,-1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale,
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale,
                                	PlayerBase::defender
 			)
 		);
@@ -679,11 +697,12 @@ void SoccerTeam::CreatePlayers()
                                	TendGoal::Instance(),
                                	Vector2D(0,-1),
                                	Vector2D(0.0, 0.0),
-                                m_pPitch->PlayerMass,
-                                m_pPitch->PlayerMaxForce,
-                                m_pPitch->PlayerMaxSpeedWithoutBall,
-                                m_pPitch->PlayerMaxTurnRate,
-                                m_pPitch->PlayerScale
+                                PlayerMass,
+                                PlayerMaxForce,
+                                PlayerMaxSpeedWithoutBall,
+                                PlayerMaxSpeedWithBall,
+                                PlayerMaxTurnRate,
+                                PlayerScale
 			)
 		);
   	}

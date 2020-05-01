@@ -162,12 +162,6 @@ class SoccerPitch
     		double PlayerKickingDistance; 
     		double PlayerKickFrequency;
 
-    		double PlayerMass; 
-    		double PlayerMaxForce;    
-    		double PlayerMaxSpeedWithBall;   
-    		double PlayerMaxSpeedWithoutBall;   
-    		double PlayerMaxTurnRate;   
-    		double PlayerScale;      
     		double PlayerComfortZone;  
     		double PlayerKickingAccuracy;
 
