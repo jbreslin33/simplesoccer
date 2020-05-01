@@ -4,13 +4,13 @@
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"
 
-SoccerBall::SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,            
+SoccerBall::SoccerBall(SoccerPitch* soccerPitch,            
              double               BallSize,
              double               mass,
              std::vector<Wall2D>& PitchBoundary):
   
       //set up the base class
-      MovingEntity(pos,
+      MovingEntity(
                   BallSize,
                   Vector2D(0,0),
                   -1.0,                //max speed - unused

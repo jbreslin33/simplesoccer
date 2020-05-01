@@ -46,7 +46,7 @@ protected:
 public:
 
 
-  MovingEntity(Vector2D position,
+  MovingEntity(
                double   radius,
                Vector2D velocity,
                double   max_speed,

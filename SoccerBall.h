@@ -45,7 +45,7 @@ class SoccerBall : public MovingEntity
              	const std::vector<Wall2D>& PitchBoundary);
  		*/ 
  
-		SoccerBall(SoccerPitch* soccerPitch, Vector2D           pos,            
+		SoccerBall(SoccerPitch* soccerPitch,             
              		double               BallSize,
              		double               mass,
              		std::vector<Wall2D>& PitchBoundary); 

@@ -35,7 +35,7 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
                        double    scale,
                        player_role role):    
 
-    MovingEntity(home_team->Pitch()->GetRegionFromIndex(home_region)->Center(),
+    MovingEntity(
                  scale*10.0,
                  velocity,
                  max_speed,

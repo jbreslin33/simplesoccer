@@ -150,7 +150,6 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
   	m_pBall = new SoccerBall
 	(
 	 	this,
-		Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0),
                 BallSize,
                 BallMass,
                 m_vecWalls
