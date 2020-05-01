@@ -43,18 +43,19 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
                  mass,
                  Vector2D(scale,scale),
                  max_turn_rate,
-                 max_force),
-   m_pTeam(home_team),
-   m_dDistSqToBall(MaxFloat),
-   m_iHomeRegion(home_region),
-   m_iDefaultRegion(home_region),
-   m_PlayerRole(role)
+                 max_force)
 {
 	mClient = nullptr;
 
 	//kicks
 	mKickCounterThreshold = 4;
   	mKickCounter = 0;
+
+	m_pTeam = home_team;
+   	m_dDistSqToBall = MaxFloat;
+   	m_iHomeRegion = home_region;
+   	m_iDefaultRegion = home_region;
+   	m_PlayerRole = role;
 
 
 
