@@ -33,13 +33,10 @@ PlayerBase
   	m_pStateMachine->CurrentState()->Enter(this);        
 }
 
-
-
 //-------------------------- Update --------------------------------------
 
 void GoalKeeper::Update()
 { 
-
   
 	//run the logic for the current state
   	m_pStateMachine->Update();
@@ -84,16 +81,15 @@ void GoalKeeper::Update()
   	}
 }
 
-
 bool GoalKeeper::BallWithinRangeForIntercept()const
 {
-  return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), Ball()->Pos()) <=
+	return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), Ball()->Pos()) <=
           Pitch()->GoalKeeperInterceptRangeSq);
 }
 
 bool GoalKeeper::TooFarFromGoalMouth()const
 {
-  return (Vec2DDistanceSq(Pos(), GetRearInterposeTarget()) >
+	return (Vec2DDistanceSq(Pos(), GetRearInterposeTarget()) >
           Pitch()->GoalKeeperInterceptRangeSq);
 }
 
@@ -114,6 +110,6 @@ Vector2D GoalKeeper::GetRearInterposeTarget()const
 //------------------------------------------------------------------------
 bool GoalKeeper::HandleMessage(const Telegram& msg)
 {
-  return m_pStateMachine->HandleMessage(msg);
+	return m_pStateMachine->HandleMessage(msg);
 }
 

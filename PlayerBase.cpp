@@ -109,7 +109,7 @@ void PlayerBase::TrackBall()
 //------------------------------------------------------------------------
 void PlayerBase::TrackTarget()
 {
-  SetHeading(Vec2DNormalize(Steering()->Target() - Pos()));
+	SetHeading(Vec2DNormalize(Steering()->Target() - Pos()));
 }
 
 
@@ -120,13 +120,13 @@ void PlayerBase::TrackTarget()
 bool  SortByDistanceToOpponentsGoal(const PlayerBase*const p1,
                                     const PlayerBase*const p2)
 {
-  return (p1->DistToOppGoal() < p2->DistToOppGoal());
+	return (p1->DistToOppGoal() < p2->DistToOppGoal());
 }
 
 bool  SortByReversedDistanceToOpponentsGoal(const PlayerBase*const p1,
                                             const PlayerBase*const p2)
 {
-  return (p1->DistToOppGoal() > p2->DistToOppGoal());
+	return (p1->DistToOppGoal() > p2->DistToOppGoal());
 }
 
 
@@ -136,15 +136,16 @@ bool  SortByReversedDistanceToOpponentsGoal(const PlayerBase*const p1,
 //-----------------------------------------------------------------------
 bool PlayerBase::PositionInFrontOfPlayer(Vector2D position)const
 {
-  Vector2D ToSubject = position - Pos();
+	Vector2D ToSubject = position - Pos();
 
-  if (ToSubject.Dot(Heading()) > 0) 
-    
-    return true;
-
-  else
-
-    return false;
+  	if (ToSubject.Dot(Heading()) > 0) 
+	{
+    		return true;
+	}
+  	else
+	{
+    		return false;
+	}
 }
 
 //------------------------- IsThreatened ---------------------------------
@@ -154,24 +155,23 @@ bool PlayerBase::PositionInFrontOfPlayer(Vector2D position)const
 //------------------------------------------------------------------------
 bool PlayerBase::isThreatened()const
 {
-  //check against all opponents to make sure non are within this
-  //player's comfort zone
-  std::vector<PlayerBase*>::const_iterator curOpp;  
-  curOpp = Team()->Opponents()->Members().begin();
+	//check against all opponents to make sure non are within this
+  	//player's comfort zone
+  	std::vector<PlayerBase*>::const_iterator curOpp;  
+  	curOpp = Team()->Opponents()->Members().begin();
  
-  for (curOpp; curOpp != Team()->Opponents()->Members().end(); ++curOpp)
-  {
-    //calculate distance to the player. if dist is less than our
-    //comfort zone, and the opponent is infront of the player, return true
-    if (PositionInFrontOfPlayer((*curOpp)->Pos()) &&
-       (Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Pitch()->PlayerComfortZoneSq))
-    {        
-      return true;
-    }
-   
-  }// next opp
+  	for (curOpp; curOpp != Team()->Opponents()->Members().end(); ++curOpp)
+  	{
+    		//calculate distance to the player. if dist is less than our
+    		//comfort zone, and the opponent is infront of the player, return true
+    		if (PositionInFrontOfPlayer((*curOpp)->Pos()) &&
+       			(Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Pitch()->PlayerComfortZoneSq))
+    		{        
+      			return true;
+    		}
+  	}// next opp
 
-  return false;
+  	return false;
 }
 
 //----------------------------- FindSupport -----------------------------------
@@ -258,57 +258,57 @@ bool PlayerBase::BallWithinKickingRange()const
 
 bool PlayerBase::InHomeRegion()const
 {
-  if (m_PlayerRole == goal_keeper)
-  {
-    return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
-  }
-  else
-  {
-    return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
-  }
+	if (m_PlayerRole == goal_keeper)
+  	{
+    		return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
+  	}
+  	else
+  	{
+    		return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
+  	}
 }
 
 bool PlayerBase::AtTarget()const
 {
-  return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Pitch()->PlayerInTargetRangeSq);
+	return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Pitch()->PlayerInTargetRangeSq);
 }
 
 bool PlayerBase::isClosestTeamMemberToBall()const
 {
-  return Team()->PlayerClosestToBall() == this;
+	return Team()->PlayerClosestToBall() == this;
 }
 
 bool PlayerBase::isClosestPlayerOnPitchToBall()const
 {
-  return isClosestTeamMemberToBall() && 
+	return isClosestTeamMemberToBall() && 
          (DistSqToBall() < Team()->Opponents()->ClosestDistToBallSq());
 }
 
 bool PlayerBase::InHotRegion()const
 {
-  return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
+	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
          Pitch()->PlayingArea()->Length()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const
 {
-  return fabs(Pos().x - Team()->OpponentsGoal()->Center().x) <
+	return fabs(Pos().x - Team()->OpponentsGoal()->Center().x) <
          fabs(Team()->ControllingPlayer()->Pos().x - Team()->OpponentsGoal()->Center().x);
 }
 
 SoccerBall* const PlayerBase::Ball()const
 {
-  return Team()->Pitch()->Ball();
+	return Team()->Pitch()->Ball();
 }
 
 SoccerPitch* const PlayerBase::Pitch()const
 {
-  return Team()->Pitch();
+	return Team()->Pitch();
 }
 
 const Region* const PlayerBase::HomeRegion()const
 {
-  return Pitch()->GetRegionFromIndex(m_iHomeRegion);
+	return Pitch()->GetRegionFromIndex(m_iHomeRegion);
 }
 
 

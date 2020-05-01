@@ -13,12 +13,6 @@
 
 using std::vector;
 
-//------------------------------- dtor ---------------------------------------
-//----------------------------------------------------------------------------
-FieldPlayer::~FieldPlayer()
-{
-  delete m_pStateMachine;
-}
 
 //----------------------------- ctor -------------------------------------
 //------------------------------------------------------------------------
@@ -52,6 +46,13 @@ PlayerBase
     		m_pStateMachine->CurrentState()->Enter(this);
   	}    
   	m_pSteering->SeparationOn();
+}
+
+//------------------------------- dtor ---------------------------------------
+//----------------------------------------------------------------------------
+FieldPlayer::~FieldPlayer()
+{
+	delete m_pStateMachine;
 }
 
 //------------------------------ Update ----------------------------------
@@ -121,7 +122,7 @@ void FieldPlayer::Update()
 //------------------------------------------------------------------------
 bool FieldPlayer::HandleMessage(const Telegram& msg)
 {
-  return m_pStateMachine->HandleMessage(msg);
+	return m_pStateMachine->HandleMessage(msg);
 }
 
 

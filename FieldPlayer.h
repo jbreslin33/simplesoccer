@@ -55,7 +55,4 @@ class FieldPlayer : public PlayerBase
   		StateMachine<FieldPlayer>* GetFSM()const{return m_pStateMachine;}
 };
 
-
-
-
 #endif
