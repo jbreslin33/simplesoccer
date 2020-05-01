@@ -22,43 +22,45 @@ FieldPlayer::~FieldPlayer()
 
 //----------------------------- ctor -------------------------------------
 //------------------------------------------------------------------------
-FieldPlayer::FieldPlayer(SoccerTeam* home_team,
-                      int   home_region,
-                      State<FieldPlayer>* start_state,
-                      Vector2D  heading,
-                      Vector2D velocity,
-                      double    mass,
-                      double    max_force,
-                      double    max_speed,
-                      double    max_speed_with_ball,
-                      double    max_turn_rate,
-                      double    scale,
-                      player_role role): PlayerBase(home_team,
-                                                    home_region,
-                                                    heading,
-                                                    velocity,
-                                                    mass,
-                                                    max_force,
-                                                    max_speed,
-                                                    max_speed_with_ball,
-                                                    max_turn_rate,
-                                                    scale,
-                                                    role)                                    
+FieldPlayer::FieldPlayer
+(
+	SoccerTeam* home_team,
+	int   home_region,
+        State<FieldPlayer>* start_state,
+        Vector2D  heading,
+        Vector2D velocity,
+        double    mass,
+        double    max_force,
+        double    max_speed,
+        double    max_speed_with_ball,
+        double    max_turn_rate,
+        double    scale,
+        player_role role)
+		: 
+			PlayerBase(home_team,
+                        home_region,
+                        heading,
+                        velocity,
+                        mass,
+                        max_force,
+                        max_speed,
+                        max_speed_with_ball,
+                        max_turn_rate,
+                        scale,
+                        role)                                    
 {
-  //set up the state machine
-  m_pStateMachine =  new StateMachine<FieldPlayer>(this);
+	//set up the state machine
+  	m_pStateMachine =  new StateMachine<FieldPlayer>(this);
 
-  if (start_state)
-  {    
-    m_pStateMachine->SetCurrentState(start_state);
-    m_pStateMachine->SetPreviousState(start_state);
-    m_pStateMachine->SetGlobalState(GlobalPlayerState::Instance());
+	if (start_state)
+  	{    
+    		m_pStateMachine->SetCurrentState(start_state);
+    		m_pStateMachine->SetPreviousState(start_state);
+    		m_pStateMachine->SetGlobalState(GlobalPlayerState::Instance());
 
-    m_pStateMachine->CurrentState()->Enter(this);
-  }    
-
-  m_pSteering->SeparationOn();
-
+    		m_pStateMachine->CurrentState()->Enter(this);
+  	}    
+  	m_pSteering->SeparationOn();
 }
 
 //------------------------------ Update ----------------------------------
