@@ -30,7 +30,6 @@ class SoccerBall : public MovingEntity
   		Vector2D                  m_vOldPos;
 
   		//a local reference to the Walls that make up the pitch boundary
-  		const std::vector<Wall2D>& m_PitchBoundary;                                      
 
 	public:
 
@@ -44,11 +43,20 @@ class SoccerBall : public MovingEntity
              	double               mass,
              	const std::vector<Wall2D>& PitchBoundary);
  		*/ 
- 
+
+		SoccerBall
+		(
+        		int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
+			SoccerPitch* soccerPitch
+		);
+
+/* 
 		SoccerBall(SoccerPitch* soccerPitch,             
              		double               BallSize,
              		double               mass,
              		std::vector<Wall2D>& PitchBoundary); 
+			*/
 
   		//implement base class Update
   		void      Update();

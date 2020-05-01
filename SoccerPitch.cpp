@@ -140,8 +140,15 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 		)
 	);
 
+	m_pBall = new SoccerBall
+        (
+        	0, Vector2D( (double) this->m_cxClient/2.0, (double) this->m_cyClient/2.0), Vector2D(1,1), 5.0, //BaseGameEntity
+                Vector2D(0.0,0.0), Vector2D(0,1), 1, 0, 0, 0,        //MovingEntity
+		this
+        );
 
 	//create the soccer ball
+	/*
   	m_pBall = new SoccerBall
 	(
 	 	this,
@@ -149,6 +156,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
                 BallMass,
                 m_vecWalls
 	);
+	*/
 
 	//create the teams 
   	//m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);

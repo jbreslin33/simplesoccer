@@ -500,7 +500,15 @@ void SoccerTeam::CreatePlayers()
         double PlayerMaxTurnRate                       = 0.4;
         double PlayerScale                             = 1.0;
 
-	
+
+/*
+        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate         //MovingEntity
+        SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role, //PlayerBase 
+        State<FieldPlayer>* startState //FieldPlayer
+	*/
+
+
 	if (Color() == blue)
   	{
  
@@ -509,18 +517,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-				this,
-                               	6,
-                               	Wait::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-				PlayerBase::attacker
+        			0, this->Pitch()->GetRegionFromIndex(6)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 6, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
 
@@ -530,18 +530,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-			 	this,
-                               	8,
-                               	Wait::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-			       	PlayerBase::attacker
+        			0, this->Pitch()->GetRegionFromIndex(8)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 8, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
         	
@@ -549,18 +541,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-			 	this,
-                               	3,
-                               	Wait::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-			       	PlayerBase::defender
+        			0, this->Pitch()->GetRegionFromIndex(3)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 3, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
         	
@@ -568,18 +552,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-			 	this,
-                               	5,
-                               	Wait::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-			       	PlayerBase::defender
+        			0, this->Pitch()->GetRegionFromIndex(5)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 5, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
     		
@@ -588,17 +564,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new GoalKeeper
 			(
-				this,
-                        	1,
-                               	TendGoal::Instance(),
-                               	Vector2D(0,1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale
+        			0, this->Pitch()->GetRegionFromIndex(1)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 1, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
+        			TendGoal::Instance() //FieldPlayer
 			)
 		);
   	}
@@ -613,18 +582,10 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-			 	this,
-                               	9,
-                               	Wait::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-				PlayerBase::attacker
+        			0, this->Pitch()->GetRegionFromIndex(9)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 9, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
 
@@ -632,18 +593,10 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-			 	this,
-                               	11,
-                               	Wait::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-                               	PlayerBase::attacker
+        			0, this->Pitch()->GetRegionFromIndex(11)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 11, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
 
@@ -653,18 +606,10 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-			 	this,
-                               	12,
-                               	Wait::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-                               	PlayerBase::defender
+        			0, this->Pitch()->GetRegionFromIndex(12)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 12, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
 
@@ -672,18 +617,10 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-				this,
-                              	14,
-                               	Wait::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale,
-                               	PlayerBase::defender
+        			0, this->Pitch()->GetRegionFromIndex(14)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 14, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
+        			Wait::Instance() //FieldPlayer
 			)
 		);
      		
@@ -692,17 +629,10 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new GoalKeeper
 			(
-				this,
-                               	16,
-                               	TendGoal::Instance(),
-                               	Vector2D(0,-1),
-                               	Vector2D(0.0, 0.0),
-                                PlayerMass,
-                                PlayerMaxForce,
-                                PlayerMaxSpeedWithoutBall,
-                                PlayerMaxSpeedWithBall,
-                                PlayerMaxTurnRate,
-                                PlayerScale
+        			0, this->Pitch()->GetRegionFromIndex(16)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
+        			this, 16, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
+        			TendGoal::Instance() //FieldPlayer
 			)
 		);
   	}

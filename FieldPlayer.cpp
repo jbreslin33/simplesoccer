@@ -24,38 +24,29 @@ FieldPlayer::~FieldPlayer()
 //------------------------------------------------------------------------
 FieldPlayer::FieldPlayer
 (
-	SoccerTeam* home_team,
-	int   home_region,
-        State<FieldPlayer>* start_state,
-        Vector2D  heading,
-        Vector2D velocity,
-        double    mass,
-        double    max_force,
-        double    max_speed,
-        double    max_speed_with_ball,
-        double    max_turn_rate,
-        double    scale,
-        player_role role)
-		: 
-			PlayerBase(home_team,
-                        home_region,
-                        heading,
-                        velocity,
-                        mass,
-                        max_force,
-                        max_speed,
-                        max_speed_with_ball,
-                        max_turn_rate,
-                        scale,
-                        role)                                    
+	int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+	Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,         //MovingEntity
+	SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role, //PlayerBase 
+	State<FieldPlayer>* startState //FieldPlayer
+)
+
+: 
+
+PlayerBase
+(
+	id, position, scale, boundingRadius, //BaseGameEntity
+        velocity, heading, mass, maxSpeed, maxForce, maxTurnRate,         //MovingEntity
+        soccerTeam, homeRegion, maxSpeedWithBall, role //PlayerBase
+)
+
 {
 	//set up the state machine
   	m_pStateMachine =  new StateMachine<FieldPlayer>(this);
 
-	if (start_state)
+	if (startState)
   	{    
-    		m_pStateMachine->SetCurrentState(start_state);
-    		m_pStateMachine->SetPreviousState(start_state);
+    		m_pStateMachine->SetCurrentState(startState);
+    		m_pStateMachine->SetPreviousState(startState);
     		m_pStateMachine->SetGlobalState(GlobalPlayerState::Instance());
 
     		m_pStateMachine->CurrentState()->Enter(this);

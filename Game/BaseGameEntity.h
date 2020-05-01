@@ -65,7 +65,10 @@ protected:
   double    m_dBoundingRadius;
 
   
-  BaseGameEntity(int ID);
+		BaseGameEntity
+		(
+     			int id, Vector2D position, Vector2D scale, double boundingRadius
+		);
 
 public:
 

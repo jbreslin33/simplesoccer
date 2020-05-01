@@ -4,27 +4,25 @@
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"
 
-SoccerBall::SoccerBall(SoccerPitch* soccerPitch,            
-             double               BallSize,
-             double               mass,
-             std::vector<Wall2D>& PitchBoundary):
-  
-      //set up the base class
-      MovingEntity(
-                  BallSize,
-                  Vector2D(0,0),
-                  -1.0,                //max speed - unused
-                  Vector2D(0,1),
-                  mass,
-                  Vector2D(1.0,1.0),  //scale     - unused
-                  0,                   //turn rate - unused
-                  0),                  //max force - unused
-     m_PitchBoundary(PitchBoundary)
+SoccerBall::SoccerBall
+(
+        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+       	Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
+	SoccerPitch* soccerPitch
+)
+ 
+:
+
+MovingEntity
+(
+        id, position, scale, boundingRadius, //BaseGameEntity
+        velocity, heading, mass, maxSpeed, maxForce, maxTurnRate         //MovingEntity
+)
+ 
 {
-	m_vPosition = Vector2D((double)soccerPitch->m_cxClient/2.0, (double)soccerPitch->m_cyClient/2.0);
+	//m_vPosition = Vector2D((double)soccerPitch->m_cxClient/2.0, (double)soccerPitch->m_cyClient/2.0);
 	m_pPitch = soccerPitch;
 }
-
 
 SoccerPitch* const SoccerBall::Pitch()const
 {
@@ -80,7 +78,7 @@ void SoccerBall::Update()
   	m_vOldPos = m_vPosition;
 
       	//Test for collisions
-    	TestCollisionWithWalls(m_PitchBoundary);
+    	TestCollisionWithWalls(Pitch()->Walls());
 
   	//Simulate Friction. Make sure the speed is positive 
   	//first though

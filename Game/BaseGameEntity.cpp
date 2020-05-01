@@ -5,19 +5,24 @@ int BaseGameEntity::m_iNextValidID = 0;
 
 //------------------------------ ctor -----------------------------------------
 //-----------------------------------------------------------------------------
-BaseGameEntity::BaseGameEntity(int ID)
+BaseGameEntity::BaseGameEntity
+(
+        int id, Vector2D position, Vector2D scale, double boundingRadius //BaseGameEntity
+)
 {
-	SetID(ID);
-
+		
   	mEnterLogs = false;
   	mExecuteLogs = false;
   	mExitLogs = false;
 
-        m_dBoundingRadius = 0.0;
-        m_vScale = Vector2D(1.0,1.0);
+	m_vPosition = position;
+        m_vScale = scale;
+        m_dBoundingRadius = boundingRadius;
         m_iType = default_entity_type;
         m_bTag = false;
-
+	
+       	id = GetNextValidID();		
+	SetID(id);
 }
 
 //----------------------------- SetID -----------------------------------------
@@ -29,10 +34,10 @@ BaseGameEntity::BaseGameEntity(int ID)
 //-----------------------------------------------------------------------------
 void BaseGameEntity::SetID(int val)
 {
-  //make sure the val is equal to or greater than the next available ID
-  assert ( (val >= m_iNextValidID) && "<BaseGameEntity::SetID>: invalid ID");
+	//make sure the val is equal to or greater than the next available ID
+  	assert ( (val >= m_iNextValidID) && "<BaseGameEntity::SetID>: invalid ID");
 
-  m_ID = val;
+  	m_ID = val;
     
-  m_iNextValidID = m_ID + 1;
+  	m_iNextValidID = m_ID + 1;
 }

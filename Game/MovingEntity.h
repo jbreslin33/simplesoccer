@@ -43,31 +43,32 @@ protected:
   //the maximum rate (radians per second)this vehicle can rotate         
   double      m_dMaxTurnRate;
 
-public:
+	public: 
 
+MovingEntity
+(
+        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate         //MovingEntity
+)
 
-  MovingEntity(
-               double   radius,
-               Vector2D velocity,
-               double   max_speed,
-               Vector2D heading,
-               double   mass,
-               Vector2D scale,
-               double   turn_rate,
-               double   max_force):BaseGameEntity(BaseGameEntity::GetNextValidID())
-  {
-    //m_vPosition = position;
-    m_dBoundingRadius = radius; 
-    m_vScale = scale;
+:
+		  
+BaseGameEntity
+(
+        id, position, scale, boundingRadius //BaseGameEntity
+)
+{
+    	m_dBoundingRadius = boundingRadius; 
+    	m_vScale = scale;
                                   
     	m_vHeading = heading;
 	m_vVelocity = velocity;
         m_dMass = mass;
         m_vSide = m_vHeading.Perp();
-        m_dMaxSpeed = max_speed;
-        m_dMaxTurnRate = turn_rate;
-        m_dMaxForce = max_force;
-  }
+        m_dMaxSpeed = maxSpeed;
+        m_dMaxTurnRate = maxTurnRate;
+        m_dMaxForce = maxForce;
+} 
 
 
   virtual ~MovingEntity(){}

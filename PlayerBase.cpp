@@ -24,30 +24,25 @@ PlayerBase::~PlayerBase()
 
 //----------------------------- ctor -------------------------------------
 //------------------------------------------------------------------------
-PlayerBase::PlayerBase(SoccerTeam* home_team,
-                       int   home_region,
-                       Vector2D  heading,
-                       Vector2D velocity,
-                       double    mass,
-                       double    max_force,
-                       double    max_speed,
-                       double    max_speed_with_ball,
-                       double    max_turn_rate,
-                       double    scale,
-                       player_role role):    
+//
+//
+PlayerBase::PlayerBase
+(
+        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
+        SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role //PlayerBase 
+)
 
-    MovingEntity(
-                 scale*10.0,
-                 velocity,
-                 max_speed,
-                 heading,
-                 mass,
-                 Vector2D(scale,scale),
-                 max_turn_rate,
-                 max_force)
+:
+
+MovingEntity
+(
+        id, position, scale, boundingRadius, //BaseGameEntity
+        velocity, heading, mass, maxSpeed, maxForce, maxTurnRate         //MovingEntity
+)	
 {
 	//set position here even though it belongs to BaseGame	
-	m_vPosition = home_team->Pitch()->GetRegionFromIndex(home_region)->Center();	
+	//m_vPosition = home_team->Pitch()->GetRegionFromIndex(home_region)->Center();	
 
 	mClient = nullptr;
 
@@ -55,46 +50,45 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
 	mKickCounterThreshold = 4;
   	mKickCounter = 0;
 
-	m_pTeam = home_team;
+	m_pTeam = soccerTeam;
    	m_dDistSqToBall = MaxFloat;
-   	m_iHomeRegion = home_region;
-   	m_iDefaultRegion = home_region;
+   	m_iHomeRegion = homeRegion;
+   	m_iDefaultRegion = homeRegion;
    	m_PlayerRole = role;
 
+	mPlayerMaxSpeedWithBall = maxSpeedWithBall;
 
-	mPlayerMaxSpeedWithBall = max_speed_with_ball;
-
-  //setup the vertex buffers and calculate the bounding radius
-  const int NumPlayerVerts = 4;
-  const Vector2D player[NumPlayerVerts] = {Vector2D(-3, 8),
+	//setup the vertex buffers and calculate the bounding radius
+  	const int NumPlayerVerts = 4;
+  	const Vector2D player[NumPlayerVerts] = {Vector2D(-3, 8),
                                             Vector2D(3,10),
                                             Vector2D(3,-10),
                                             Vector2D(-3,-8)};
 
-  for (int vtx=0; vtx<NumPlayerVerts; ++vtx)
-  {
-    m_vecPlayerVB.push_back(player[vtx]);
+  	for (int vtx=0; vtx<NumPlayerVerts; ++vtx)
+  	{
+    		m_vecPlayerVB.push_back(player[vtx]);
 
-    //set the bounding radius to the length of the 
-    //greatest extent
-    if (abs(player[vtx].x) > m_dBoundingRadius)
-    {
-      m_dBoundingRadius = abs(player[vtx].x);
-    }
+    		//set the bounding radius to the length of the 
+    		//greatest extent
+    		if (abs(player[vtx].x) > m_dBoundingRadius)
+    		{
+      			m_dBoundingRadius = abs(player[vtx].x);
+    		}
 
-    if (abs(player[vtx].y) > m_dBoundingRadius)
-    {
-      m_dBoundingRadius = abs(player[vtx].y);
-    }
-  }
+    		if (abs(player[vtx].y) > m_dBoundingRadius)
+    		{
+     			m_dBoundingRadius = abs(player[vtx].y);
+    		}
+  	}
 
-  //set up the steering behavior class
-  m_pSteering = new SteeringBehaviors(this,
+  	//set up the steering behavior class
+  	m_pSteering = new SteeringBehaviors(this,
                                       m_pTeam->Pitch(),
                                       Ball());  
   
-  //a player's start target is its start position (because it's just waiting)
-  m_pSteering->SetTarget(home_team->Pitch()->GetRegionFromIndex(home_region)->Center());
+  	//a player's start target is its start position (because it's just waiting)
+  	m_pSteering->SetTarget(soccerTeam->Pitch()->GetRegionFromIndex(homeRegion)->Center());
 }
 
 

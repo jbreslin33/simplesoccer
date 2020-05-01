@@ -31,37 +31,28 @@ struct Telegram;
 
 class FieldPlayer : public PlayerBase
 {
-private:
+	private:
 
-   //an instance of the state machine class
-  StateMachine<FieldPlayer>*  m_pStateMachine;
+   		//an instance of the state machine class
+  		StateMachine<FieldPlayer>*  m_pStateMachine;
   
-public:
+	public:
+  		FieldPlayer
+		(
+        		int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
+        		SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role, //PlayerBase
+        		State<FieldPlayer>* startState //FieldPlayer
+		);
 
-  FieldPlayer(SoccerTeam*    home_team,
-             int        home_region,
-             State<FieldPlayer>* start_state,
-             Vector2D  heading,
-             Vector2D      velocity,
-             double         mass,
-             double         max_force,
-             double         max_speed,
-             double         max_speed_with_ball,
-             double         max_turn_rate,
-             double         scale,
-             player_role    role);   
-  
-  ~FieldPlayer();
+  		~FieldPlayer();
 
-  //call this to update the player's position and orientation
-  void        Update();   
+  		//call this to update the player's position and orientation
+  		void        Update();   
 
-  bool        HandleMessage(const Telegram& msg);
+  		bool        HandleMessage(const Telegram& msg);
 
-  StateMachine<FieldPlayer>* GetFSM()const{return m_pStateMachine;}
-
-
-         
+  		StateMachine<FieldPlayer>* GetFSM()const{return m_pStateMachine;}
 };
 
 
