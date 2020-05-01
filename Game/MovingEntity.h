@@ -56,7 +56,7 @@ public:
                double   turn_rate,
                double   max_force):BaseGameEntity(BaseGameEntity::GetNextValidID())
   {
-    m_vPosition = position;
+    //m_vPosition = position;
     m_dBoundingRadius = radius; 
     m_vScale = scale;
                                   

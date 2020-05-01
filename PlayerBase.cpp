@@ -45,6 +45,9 @@ PlayerBase::PlayerBase(SoccerTeam* home_team,
                  max_turn_rate,
                  max_force)
 {
+	//set position here even though it belongs to BaseGame	
+	m_vPosition = home_team->Pitch()->GetRegionFromIndex(home_region)->Center();	
+
 	mClient = nullptr;
 
 	//kicks
