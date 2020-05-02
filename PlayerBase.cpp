@@ -10,6 +10,7 @@
 #include "SoccerBall.h"
 #include "SoccerPitch.h"
 #include "client.h"
+#include "Game/MovingEntity.h"
 
 
 using std::vector;
@@ -100,7 +101,7 @@ MovingEntity
 //------------------------------------------------------------------------
 void PlayerBase::TrackBall()
 {
-  RotateHeadingToFacePosition(Ball()->Pos());  
+	RotateHeadingToFacePosition(Ball()->Pos());  
 }
 
 //----------------------------- TrackTarget --------------------------------
