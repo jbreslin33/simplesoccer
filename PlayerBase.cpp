@@ -8,7 +8,7 @@
 #include "SoccerTeam.h"
 #include "Goal.h"
 #include "SoccerBall.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "client.h"
 #include "Game/MovingEntity.h"
 

@@ -7,7 +7,7 @@
 #include "Game/Region.h"
 #include "Game/EntityFunctionTemplates.h"
 #include "SoccerTeam.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 
 #include <limits>
 

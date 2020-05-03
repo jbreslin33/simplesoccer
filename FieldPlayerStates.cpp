@@ -1,5 +1,5 @@
 #include "FieldPlayerStates.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "FieldPlayer.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"

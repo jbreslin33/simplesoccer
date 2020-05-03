@@ -1,5 +1,5 @@
 #include "SoccerBall.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "2D/geometry.h"
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"

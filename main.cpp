@@ -13,7 +13,7 @@
 
 #include "server.h"
 #include "utility.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 
 
 void serverThread(Server* server)

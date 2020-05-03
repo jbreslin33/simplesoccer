@@ -4,7 +4,7 @@
 #include "SoccerBall.h"
 #include "constants.h"
 #include "SoccerTeam.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 
 
 //------------------------------- dtor ----------------------------------------

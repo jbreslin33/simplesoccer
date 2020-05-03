@@ -1,4 +1,4 @@
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "SoccerBall.h"
 #include "Goal.h"
 #include "Game/Region.h"

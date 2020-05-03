@@ -1,6 +1,6 @@
 #include "server.h"
 #include "utility.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 
 Server::Server()
 {

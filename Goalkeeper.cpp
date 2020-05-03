@@ -1,7 +1,7 @@
 #include "Goalkeeper.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "GoalKeeperStates.h"
 #include "Goal.h"
 #include "Game/EntityFunctionTemplates.h"

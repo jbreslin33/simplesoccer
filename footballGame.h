@@ -1,8 +1,8 @@
-#ifndef SOCCERPITCH_H
-#define SOCCERPITCH_H
+#ifndef FOOTBALLGAME_H
+#define FOOTBALLGAME_H
 //------------------------------------------------------------------------
 //
-//  Name:   FootballGame.h
+//  Name:   footballGame.h
 //
 //  Desc:   A FootballGame is the main game object. It owns instances of
 //          two soccer teams, two goals, the playing area, the ball

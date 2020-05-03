@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "client.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "SoccerTeam.h"
 #include "PlayerBase.h"
 #include "2D/Vector2D.h"

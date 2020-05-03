@@ -2,7 +2,7 @@
 
 #include "clientStateMachine.h"
 #include "clientStates.h"
-#include "FootballGame.h"
+#include "footballGame.h"
 #include "client.h"
 
 Client::Client(FootballGame* footballGame, int id, int port, int personId)
