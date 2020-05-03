@@ -2,9 +2,9 @@
 #define SOCCERPITCH_H
 //------------------------------------------------------------------------
 //
-//  Name:   SoccerPitch.h
+//  Name:   FootballGame.h
 //
-//  Desc:   A SoccerPitch is the main game object. It owns instances of
+//  Desc:   A FootballGame is the main game object. It owns instances of
 //          two soccer teams, two goals, the playing area, the ball
 //          etc. This is the root class for all the game updates and
 //          renders etc
@@ -30,12 +30,12 @@ class Client;
 class Utility;
 
 
-class SoccerPitch
+class FootballGame
 { 
 	public:
 
-  		SoccerPitch(int cxClient, int cyClient, Server* server, int id);
-  		~SoccerPitch();
+  		FootballGame(int cxClient, int cyClient, Server* server, int id);
+  		~FootballGame();
 		
 		/******       outside variables ***************/
 		Server* mServer;

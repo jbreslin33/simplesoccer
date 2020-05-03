@@ -4,7 +4,7 @@
 //
 //Name:   Goal.h
 //
-//Desc:   class to define a goal for a soccer pitch. The goal is defined
+//Desc:   class to define a goal for a soccer game. The goal is defined
 //        by two 2D vectors representing the left and right posts.
 //
 //        Each time-step the method Scored should be called to determine

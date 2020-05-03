@@ -2,12 +2,12 @@
 
 #include "clientStateMachine.h"
 #include "clientStates.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "client.h"
 
-Client::Client(SoccerPitch* soccerPitch, int id, int port, int personId)
+Client::Client(FootballGame* footballGame, int id, int port, int personId)
 {
-	mSoccerPitch = soccerPitch;
+	mFootballGame = footballGame;
 
 	mId = id;
 	mPort = port;

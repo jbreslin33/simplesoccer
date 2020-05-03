@@ -16,7 +16,7 @@
 #include "2D/Vector2D.h"
 
 class PlayerBase;
-class SoccerPitch;
+class FootballGame;
 class SoccerBall;
 class CWall;
 class CObstacle;
@@ -108,7 +108,7 @@ private:
 public:
 
   SteeringBehaviors(PlayerBase*       agent,
-                    SoccerPitch*  world,
+                    FootballGame*  world,
                     SoccerBall*   ball);
 
   virtual ~SteeringBehaviors(){}

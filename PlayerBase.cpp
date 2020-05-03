@@ -8,7 +8,7 @@
 #include "SoccerTeam.h"
 #include "Goal.h"
 #include "SoccerBall.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "client.h"
 #include "Game/MovingEntity.h"
 
@@ -43,7 +43,7 @@ MovingEntity
 )	
 {
 	//set position here even though it belongs to BaseGame	
-	//m_vPosition = home_team->Pitch()->GetRegionFromIndex(home_region)->Center();	
+	//m_vPosition = home_team->Game()->GetRegionFromIndex(home_region)->Center();	
 
 	mClient = nullptr;
 
@@ -85,11 +85,11 @@ MovingEntity
 
   	//set up the steering behavior class
   	m_pSteering = new SteeringBehaviors(this,
-                                      m_pTeam->Pitch(),
+                                      m_pTeam->Game(),
                                       Ball());  
   
   	//a player's start target is its start position (because it's just waiting)
-  	m_pSteering->SetTarget(soccerTeam->Pitch()->GetRegionFromIndex(homeRegion)->Center());
+  	m_pSteering->SetTarget(soccerTeam->Game()->GetRegionFromIndex(homeRegion)->Center());
 }
 
 
@@ -166,7 +166,7 @@ bool PlayerBase::isThreatened()const
     		//calculate distance to the player. if dist is less than our
     		//comfort zone, and the opponent is infront of the player, return true
     		if (PositionInFrontOfPlayer((*curOpp)->Pos()) &&
-       			(Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Pitch()->PlayerComfortZoneSq))
+       			(Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Game()->PlayerComfortZoneSq))
     		{        
       			return true;
     		}
@@ -243,17 +243,17 @@ bool PlayerBase::isControllingPlayer()const
 
 bool PlayerBase::BallWithinKeeperRange()const
 {
-	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->KeeperInBallRange);
+	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Game()->KeeperInBallRange);
 }
 
 bool PlayerBase::BallWithinReceivingRange()const
 {
-	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Pitch()->BallWithinReceivingRangeSq);
+	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Game()->BallWithinReceivingRangeSq);
 }
 
 bool PlayerBase::BallWithinKickingRange()const
 {
-	return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Pitch()->PlayerKickingDistanceSq);
+	return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Game()->PlayerKickingDistanceSq);
 }
 
 
@@ -261,17 +261,17 @@ bool PlayerBase::InHomeRegion()const
 {
 	if (m_PlayerRole == goal_keeper)
   	{
-    		return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
+    		return Game()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
   	}
   	else
   	{
-    		return Pitch()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
+    		return Game()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
   	}
 }
 
 bool PlayerBase::AtTarget()const
 {
-	return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Pitch()->PlayerInTargetRangeSq);
+	return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Game()->PlayerInTargetRangeSq);
 }
 
 bool PlayerBase::isClosestTeamMemberToBall()const
@@ -279,7 +279,7 @@ bool PlayerBase::isClosestTeamMemberToBall()const
 	return Team()->PlayerClosestToBall() == this;
 }
 
-bool PlayerBase::isClosestPlayerOnPitchToBall()const
+bool PlayerBase::isClosestPlayerOnGameToBall()const
 {
 	return isClosestTeamMemberToBall() && 
          (DistSqToBall() < Team()->Opponents()->ClosestDistToBallSq());
@@ -288,7 +288,7 @@ bool PlayerBase::isClosestPlayerOnPitchToBall()const
 bool PlayerBase::InHotRegion()const
 {
 	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
-         Pitch()->PlayingArea()->Length()/3.0;
+         Game()->PlayingArea()->Length()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const
@@ -299,17 +299,17 @@ bool PlayerBase::isAheadOfAttacker()const
 
 SoccerBall* const PlayerBase::Ball()const
 {
-	return Team()->Pitch()->Ball();
+	return Team()->Game()->Ball();
 }
 
-SoccerPitch* const PlayerBase::Pitch()const
+FootballGame* const PlayerBase::Game()const
 {
-	return Team()->Pitch();
+	return Team()->Game();
 }
 
 const Region* const PlayerBase::HomeRegion()const
 {
-	return Pitch()->GetRegionFromIndex(m_iHomeRegion);
+	return Game()->GetRegionFromIndex(m_iHomeRegion);
 }
 
 

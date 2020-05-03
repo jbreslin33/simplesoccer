@@ -17,7 +17,7 @@
 
 
 class GoalKeeper;
-class SoccerPitch;
+class FootballGame;
 
 
 class GlobalKeeperState: public State<GoalKeeper>

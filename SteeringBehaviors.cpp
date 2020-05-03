@@ -12,7 +12,7 @@ using std::vector;
 //
 //------------------------------------------------------------------------
 SteeringBehaviors::SteeringBehaviors(PlayerBase*  agent,
-                                     SoccerPitch* world,
+                                     FootballGame* world,
                                      SoccerBall*  ball):
                                   
              m_pPlayer(agent),

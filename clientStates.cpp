@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "client.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "SoccerTeam.h"
 #include "PlayerBase.h"
 #include "2D/Vector2D.h"
@@ -20,9 +20,9 @@ void GlobalClientState::enter(Client* client)
 }
 void GlobalClientState::execute(Client* client)
 {
-	for (int p = 0; p < client->mSoccerPitch->m_pRedTeam->Members().size(); p++)
+	for (int p = 0; p < client->mFootballGame->m_pRedTeam->Members().size(); p++)
 	{
-		if (client->mSoccerPitch->m_pRedTeam->Members().at(p)->mClient == client)
+		if (client->mFootballGame->m_pRedTeam->Members().at(p)->mClient == client)
 		{
 			//switch to human
                 	if (client->mClientStateMachine->mCurrentState != client->mHumanClientState)
@@ -31,9 +31,9 @@ void GlobalClientState::execute(Client* client)
 			}
 		}
 	}
-	for (int p = 0; p < client->mSoccerPitch->m_pBlueTeam->Members().size(); p++)
+	for (int p = 0; p < client->mFootballGame->m_pBlueTeam->Members().size(); p++)
 	{
-		if (client->mSoccerPitch->m_pBlueTeam->Members().at(p)->mClient == client)
+		if (client->mFootballGame->m_pBlueTeam->Members().at(p)->mClient == client)
 		{
 			//switch to human
                 	if (client->mClientStateMachine->mCurrentState != client->mHumanClientState)
@@ -104,17 +104,17 @@ void HumanClientState::execute(Client* client)
 	//check if human still
 	bool human = false;
 
-	for (int p = 0; p < client->mSoccerPitch->m_pRedTeam->Members().size(); p++)
+	for (int p = 0; p < client->mFootballGame->m_pRedTeam->Members().size(); p++)
         {
-		if (client->mSoccerPitch->m_pRedTeam->Members().at(p)->mClient == client)
+		if (client->mFootballGame->m_pRedTeam->Members().at(p)->mClient == client)
                 {
 			human = true;
                 }
         }
 
-	for (int p = 0; p < client->mSoccerPitch->m_pBlueTeam->Members().size(); p++)
+	for (int p = 0; p < client->mFootballGame->m_pBlueTeam->Members().size(); p++)
         {
-		if (client->mSoccerPitch->m_pBlueTeam->Members().at(p)->mClient == client)
+		if (client->mFootballGame->m_pBlueTeam->Members().at(p)->mClient == client)
                 {
 			human = true;
                 }

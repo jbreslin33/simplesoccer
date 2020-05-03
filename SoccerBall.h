@@ -19,7 +19,7 @@
 
 class Wall2D;
 class PlayerBase;
-class SoccerPitch;
+class FootballGame;
 
 
 class SoccerBall : public MovingEntity
@@ -29,7 +29,7 @@ class SoccerBall : public MovingEntity
   		//keeps a record of the ball's position at the last update
   		Vector2D                  m_vOldPos;
 
-  		//a local reference to the Walls that make up the pitch boundary
+  		//a local reference to the Walls that make up the game boundary
 
 	public:
 
@@ -41,21 +41,21 @@ class SoccerBall : public MovingEntity
   		SoccerBall(Vector2D           pos,            
              	double               BallSize,
              	double               mass,
-             	const std::vector<Wall2D>& PitchBoundary);
+             	const std::vector<Wall2D>& GameBoundary);
  		*/ 
 
 		SoccerBall
 		(
         		int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
         		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
-			SoccerPitch* soccerPitch
+			FootballGame* footballGame
 		);
 
 /* 
-		SoccerBall(SoccerPitch* soccerPitch,             
+		SoccerBall(FootballGame* footballGame,             
              		double               BallSize,
              		double               mass,
-             		std::vector<Wall2D>& PitchBoundary); 
+             		std::vector<Wall2D>& GameBoundary); 
 			*/
 
   		//implement base class Update
@@ -88,10 +88,10 @@ class SoccerBall : public MovingEntity
   		//this places the ball at the desired location and sets its velocity to zero
   		void      PlaceAtPosition(Vector2D NewPos);
 
-		SoccerPitch* const       Pitch()const;
+		FootballGame* const       Game()const;
 
 
-		SoccerPitch* m_pPitch;
+		FootballGame* m_pGame;
 
 		//this can be used to vary the accuracy of a player's kick.
 		Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget);

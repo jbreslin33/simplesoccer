@@ -19,7 +19,7 @@
 
 
 class FieldPlayer;
-class SoccerPitch;
+class FootballGame;
 
 
 //------------------------------------------------------------------------

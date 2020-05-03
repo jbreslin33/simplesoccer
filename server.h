@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-class SoccerPitch;
+class FootballGame;
 class Utility;
 
 class Server
@@ -15,14 +15,14 @@ class Server
 	public:
 		Server();
 		void update();
-		int getNextSoccerPitchId();
+		int getNextFootballGameId();
 	       	void log(std::string s);
 
 		Utility* mUtility;
 
-		std::vector<SoccerPitch*> mSoccerPitchVector;
+		std::vector<FootballGame*> mFootballGameVector;
 
-		int mSoccerPitchIdCounter;
+		int mFootballGameIdCounter;
 		bool mRunning;
 };
 #endif

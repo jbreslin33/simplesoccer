@@ -1,5 +1,5 @@
 #include "GoalKeeperStates.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "PlayerBase.h"
 #include "Goalkeeper.h"
 #include "SteeringBehaviors.h"
@@ -76,7 +76,7 @@ void TendGoal::Enter(GoalKeeper* keeper)
         }
 
   	//turn interpose on
-  	keeper->Steering()->InterposeOn(keeper->Team()->Pitch()->GoalKeeperTendingDistance);
+  	keeper->Steering()->InterposeOn(keeper->Team()->Game()->GoalKeeperTendingDistance);
 
   	//interpose will position the agent between the ball position and a target
   	//position situated along the goal mouth. This call sets the target
@@ -100,7 +100,7 @@ void TendGoal::Execute(GoalKeeper* keeper)
   	{
     		keeper->Ball()->Trap();
 
-    		keeper->Pitch()->SetGoalKeeperHasBall(true);
+    		keeper->Game()->SetGoalKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -218,7 +218,7 @@ void InterceptBall::Execute(GoalKeeper* keeper)
   	//if the goalkeeper moves to far away from the goal he should return to his
   	//home region UNLESS he is the closest player to the ball, in which case,
   	//he should keep trying to intercept it.
-  	if (keeper->TooFarFromGoalMouth() && !keeper->isClosestPlayerOnPitchToBall())
+  	if (keeper->TooFarFromGoalMouth() && !keeper->isClosestPlayerOnGameToBall())
   	{
     		keeper->GetFSM()->ChangeState(ReturnHome::Instance());
     		return;
@@ -230,7 +230,7 @@ void InterceptBall::Execute(GoalKeeper* keeper)
   	{
     		keeper->Ball()->Trap();
     
-    		keeper->Pitch()->SetGoalKeeperHasBall(true);
+    		keeper->Game()->SetGoalKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -290,15 +290,15 @@ void PutBallBackInPlay::Execute(GoalKeeper* keeper)
   	if (keeper->Team()->FindPass(keeper,
                               receiver,
                               BallTarget,
-                              keeper->Pitch()->MaxPassingForce,
-                              keeper->Pitch()->GoalkeeperMinPassDist))
+                              keeper->Game()->MaxPassingForce,
+                              keeper->Game()->GoalkeeperMinPassDist))
   	{     
     		//make the pass   
     		keeper->Ball()->Kick(Vec2DNormalize(BallTarget - keeper->Ball()->Pos()),
-                         keeper->Pitch()->MaxPassingForce);
+                         keeper->Game()->MaxPassingForce);
 
     		//goalkeeper no longer has ball 
-    		keeper->Pitch()->SetGoalKeeperHasBall(false);
+    		keeper->Game()->SetGoalKeeperHasBall(false);
 
     		//let the receiving player know the ball's comin' at him
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,

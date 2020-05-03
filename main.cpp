@@ -13,7 +13,7 @@
 
 #include "server.h"
 #include "utility.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 
 
 void serverThread(Server* server)
@@ -64,7 +64,7 @@ void readSocketData(Server* server)
                         server->mUtility->split(s,delimiter);
                         std::vector<std::string> stringVector = server->mUtility->split(s,delimiter);
 
-                        server->mSoccerPitchVector.at(0)->processBuffer(stringVector);
+                        server->mFootballGameVector.at(0)->processBuffer(stringVector);
                 }
         }
 }
@@ -72,8 +72,8 @@ void readSocketData(Server* server)
 int main(void)
 {
 	Server server;
-        SoccerPitch* soccerPitch = new SoccerPitch(700, 400, &server, server.getNextSoccerPitchId());
-        server.mSoccerPitchVector.push_back(soccerPitch);
+        FootballGame* footballGame = new FootballGame(700, 400, &server, server.getNextFootballGameId());
+        server.mFootballGameVector.push_back(footballGame);
 
         std::thread tServer          (serverThread, &server);
         std::thread tReadSocketData (readSocketData, &server);

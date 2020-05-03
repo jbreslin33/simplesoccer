@@ -23,7 +23,7 @@
 class Goal;
 class PlayerBase;
 class FieldPlayer;
-class SoccerPitch;
+class FootballGame;
 class GoalKeeper;
 class SupportSpotCalculator;
 
@@ -48,8 +48,8 @@ private:
   //pointers to the team members
   std::vector<PlayerBase*>  m_Players;
 
-  //a pointer to the soccer pitch
-  SoccerPitch*              m_pPitch;
+  //a pointer to the soccer game
+  FootballGame*              m_pGame;
 
   //pointers to the goals
   Goal*                     m_pOpponentsGoal;
@@ -83,7 +83,7 @@ public:
 
   SoccerTeam(Goal*        home_goal,
              Goal*        opponents_goal,
-             SoccerPitch* pitch,
+             FootballGame* game,
              team_color   color);
 
   ~SoccerTeam();
@@ -161,7 +161,7 @@ public:
   Goal*const           HomeGoal()const{return m_pHomeGoal;}
   Goal*const           OpponentsGoal()const{return m_pOpponentsGoal;}
 
-  SoccerPitch*const    Pitch()const{return m_pPitch;}           
+  FootballGame*const    Game()const{return m_pGame;}           
 
   SoccerTeam*const     Opponents()const{return m_pOpponents;}
   void                 SetOpponents(SoccerTeam* opps){m_pOpponents = opps;}

@@ -1,4 +1,4 @@
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "SoccerBall.h"
 #include "Goal.h"
 #include "Game/Region.h"
@@ -25,7 +25,7 @@
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
-SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
+FootballGame::FootballGame(int cx, int cy, Server* server, int id)
 {
 
 	//member variables
@@ -191,7 +191,7 @@ SoccerPitch::SoccerPitch(int cx, int cy, Server* server, int id)
 
 //-------------------------------- dtor ----------------------------------
 //------------------------------------------------------------------------
-SoccerPitch::~SoccerPitch()
+FootballGame::~FootballGame()
 {
   delete m_pBall;
 
@@ -209,7 +209,7 @@ SoccerPitch::~SoccerPitch()
   }
 }
 
-int SoccerPitch::getNextClientId()
+int FootballGame::getNextClientId()
 {
         mClientIdCounter++;
         return mClientIdCounter;
@@ -223,7 +223,7 @@ int SoccerPitch::getNextClientId()
 //  this demo works on a fixed frame rate (60 by default) so we don't need
 //  to pass a time_elapsed as a parameter to the game entities
 //------------------------------------------------------------------------
-void SoccerPitch::tick()
+void FootballGame::tick()
 {
 
 	if (m_bPaused) 
@@ -242,7 +242,7 @@ void SoccerPitch::tick()
   	m_pBlueTeam->Update();
 	
 
-  	//if a goal has been detected reset the pitch ready for kickoff
+  	//if a goal has been detected reset the game ready for kickoff
   	if (m_pBlueGoal->Scored(m_pBall) || m_pRedGoal->Scored(m_pBall))
  	{
     		m_bGameOn = false;
@@ -263,7 +263,7 @@ void SoccerPitch::tick()
 
 }
 
-long SoccerPitch::getCurrentMilliseconds()
+long FootballGame::getCurrentMilliseconds()
 {
         struct timeval tp;
         gettimeofday(&tp, NULL);
@@ -271,7 +271,7 @@ long SoccerPitch::getCurrentMilliseconds()
         return ms;
 }
 
-void SoccerPitch::Update()
+void FootballGame::Update()
 {
         mDelta = getCurrentMilliseconds() - mLastTime;
 
@@ -282,7 +282,7 @@ void SoccerPitch::Update()
         }
 }
 
-void SoccerPitch::processBuffer(std::vector<std::string> stringVector)
+void FootballGame::processBuffer(std::vector<std::string> stringVector)
 {
 	/*
         if (stringVector.at(1).compare(0,1,"m") == 0)
@@ -307,7 +307,7 @@ void SoccerPitch::processBuffer(std::vector<std::string> stringVector)
 	*/
 }
 
-void SoccerPitch::requestClient(std::vector<std::string> stringVector)
+void FootballGame::requestClient(std::vector<std::string> stringVector)
 {
         int personIdInt = atoi(stringVector.at(2).c_str());
         int portInt = atoi(stringVector.at(3).c_str());
@@ -340,7 +340,7 @@ void SoccerPitch::requestClient(std::vector<std::string> stringVector)
 }
 
 
-void SoccerPitch::processMove(std::vector<std::string> stringVector)
+void FootballGame::processMove(std::vector<std::string> stringVector)
 {
 	/*
         int clientIdInt = atoi(stringVector.at(2).c_str());
@@ -363,7 +363,7 @@ void SoccerPitch::processMove(std::vector<std::string> stringVector)
 
 
 //------------------------- CreateRegions --------------------------------
-void SoccerPitch::CreateRegions(double width, double height)
+void FootballGame::CreateRegions(double width, double height)
 {  
 	//index into the vector
   	int idx = m_Regions.size()-1;
@@ -384,7 +384,7 @@ void SoccerPitch::CreateRegions(double width, double height)
   	}
 }
 
-void SoccerPitch::sendMovesToClients()
+void FootballGame::sendMovesToClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
         {
@@ -463,7 +463,7 @@ void SoccerPitch::sendMovesToClients()
         }
 }
 
-void SoccerPitch::sendDataToNewClients()
+void FootballGame::sendDataToNewClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
         {
@@ -555,7 +555,7 @@ void SoccerPitch::sendDataToNewClients()
 
 
 
-void SoccerPitch::sendToClient(Client* client, std::string message)
+void FootballGame::sendToClient(Client* client, std::string message)
 {
         int sock;
         struct sockaddr_in sa;

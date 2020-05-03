@@ -4,7 +4,7 @@
 #include "SoccerBall.h"
 #include "constants.h"
 #include "SoccerTeam.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 
 
 //------------------------------- dtor ----------------------------------------
@@ -21,7 +21,7 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
                                              SoccerTeam*   team):m_pBestSupportingSpot(NULL),
                                                                   m_pTeam(team)
 {
-	const Region* PlayingField = team->Pitch()->PlayingArea();
+	const Region* PlayingField = team->Game()->PlayingArea();
 
   	//calculate the positions of each sweet spot, create them and 
   	//store them in m_Spots
@@ -84,18 +84,18 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     		if(m_pTeam->isPassSafeFromAllOpponents(m_pTeam->ControllingPlayer()->Pos(),
                                            curSpot->m_vPos,
                                            NULL,
-                                           m_pTeam->Pitch()->MaxPassingForce))
+                                           m_pTeam->Game()->MaxPassingForce))
     		{
-      			curSpot->m_dScore += m_pTeam->Pitch()->Spot_PassSafeScore;
+      			curSpot->m_dScore += m_pTeam->Game()->Spot_PassSafeScore;
     		}
 		//printf("SupportSpotCalculator::DetermineBestSupportingPosition 3\n");
       
    
     		//Test 2. Determine if a goal can be scored from this position.  
     		if( m_pTeam->CanShoot(curSpot->m_vPos,            
-                          m_pTeam->Pitch()->MaxShootingForce))
+                          m_pTeam->Game()->MaxShootingForce))
     		{
-      			curSpot->m_dScore += m_pTeam->Pitch()->Spot_CanScoreFromPositionScore;
+      			curSpot->m_dScore += m_pTeam->Game()->Spot_CanScoreFromPositionScore;
     		}	   
 
     
@@ -115,7 +115,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
       			{
 
         			//normalize the distance and add it to the score
-        			curSpot->m_dScore += m_pTeam->Pitch()->Spot_DistFromControllingPlayerScore *
+        			curSpot->m_dScore += m_pTeam->Game()->Spot_DistFromControllingPlayerScore *
                              		(OptimalDistance-temp)/OptimalDistance;  
       			}
     		}

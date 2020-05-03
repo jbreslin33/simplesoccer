@@ -5,7 +5,7 @@
 //  Name:   FieldPlayer.h
 //
 //  Desc:   Derived from a PlayerBase, this class encapsulates a player
-//          capable of moving around a soccer pitch, kicking, dribbling,
+//          capable of moving around a soccer game, kicking, dribbling,
 //          shooting etc
 //
 //  Author: Mat Buckland 2003 (fup@ai-junkie.com)
@@ -24,7 +24,7 @@
 
 class CSteeringBehavior;
 class SoccerTeam;
-class SoccerPitch;
+class FootballGame;
 class Goal;
 struct Telegram;
 

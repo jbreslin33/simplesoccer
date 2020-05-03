@@ -21,7 +21,7 @@
 #include "Game/MovingEntity.h"
 
 class SoccerTeam;
-class SoccerPitch;
+class FootballGame;
 class SoccerBall;
 class SteeringBehaviors;
 class Region;
@@ -125,8 +125,8 @@ class PlayerBase : public MovingEntity,
   		//front of the player
   		bool        PositionInFrontOfPlayer(Vector2D position)const;
 
-  		//returns true if the player is the closest player on the pitch to the ball
-  		bool        isClosestPlayerOnPitchToBall()const;
+  		//returns true if the player is the closest player on the game to the ball
+  		bool        isClosestPlayerOnGameToBall()const;
 
   		//returns true if this player is the controlling player
   		bool        isControllingPlayer()const;
@@ -148,7 +148,7 @@ class PlayerBase : public MovingEntity,
   		void        SetDefaultHomeRegion(){m_iHomeRegion = m_iDefaultRegion;}
 
   		SoccerBall* const        Ball()const;
-  		SoccerPitch* const       Pitch()const;
+  		FootballGame* const       Game()const;
   		SteeringBehaviors*const  Steering()const{return m_pSteering;}
   		const Region* const      HomeRegion()const;
   		void                     SetHomeRegion(int NewRegion){m_iHomeRegion = NewRegion;}

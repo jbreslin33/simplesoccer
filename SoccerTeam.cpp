@@ -1,5 +1,5 @@
 #include "SoccerTeam.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "Goal.h"
 #include "PlayerBase.h"
 #include "Goalkeeper.h"
@@ -21,11 +21,11 @@ using std::vector;
 //------------------------------------------------------------------------
 SoccerTeam::SoccerTeam(Goal*        home_goal,
                        Goal*        opponents_goal,
-                       SoccerPitch* pitch,
+                       FootballGame* game,
                        team_color   color):m_pOpponentsGoal(opponents_goal),
                                            m_pHomeGoal(home_goal),
                                            m_pOpponents(NULL),
-                                           m_pPitch(pitch),
+                                           m_pGame(game),
                                            m_Color(color),
                                            m_dDistSqToBallOfClosestPlayer(0.0),
                                            m_pSupportingPlayer(NULL),
@@ -56,8 +56,8 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
 
 
   	//create the sweet spot calculator
-  	m_pSupportSpotCalc = new SupportSpotCalculator(Pitch()->NumSupportSpotsX,
-                                                 Pitch()->NumSupportSpotsY,
+  	m_pSupportSpotCalc = new SupportSpotCalculator(Game()->NumSupportSpotsX,
+                                                 Game()->NumSupportSpotsY,
                                                  this);
 }
 
@@ -115,7 +115,7 @@ void SoccerTeam::CalculateClosestPlayerToBall()
   for (it; it != m_Players.end(); ++it)
   {
     //calculate the dist. Use the squared value to avoid sqrt
-    double dist = Vec2DDistanceSq((*it)->Pos(), Pitch()->Ball()->Pos());
+    double dist = Vec2DDistanceSq((*it)->Pos(), Game()->Ball()->Pos());
 
     //keep a record of this value for each player
     (*it)->SetDistSqToBall(dist);
@@ -247,7 +247,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 {  
 	//first, calculate how much time it will take for the ball to reach 
   	//this receiver, if the receiver was to remain motionless 
-  	double time = Pitch()->Ball()->TimeToCoverDistance(Pitch()->Ball()->Pos(),
+  	double time = Game()->Ball()->TimeToCoverDistance(Game()->Ball()->Pos(),
                                                     receiver->Pos(),
                                                     power);
 
@@ -268,7 +268,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 
   	GetTangentPoints(receiver->Pos(),
                    InterceptRange,
-                   Pitch()->Ball()->Pos(),
+                   Game()->Ball()->Pos(),
                    ip1,
                    ip2);
  
@@ -291,8 +291,8 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
     		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
 
     		if (( dist < ClosestSoFar) &&
-        		Pitch()->PlayingArea()->Inside(Passes[pass]) &&
-        		isPassSafeFromAllOpponents(Pitch()->Ball()->Pos(),
+        		Game()->PlayingArea()->Inside(Passes[pass]) &&
+        		isPassSafeFromAllOpponents(Game()->Ball()->Pos(),
                                    Passes[pass],
                                    receiver,
                                    power))
@@ -363,13 +363,13 @@ bool SoccerTeam::isPassSafeFromOpponent(Vector2D    from,
   	//calculate how long it takes the ball to cover the distance to the 
   	//position orthogonal to the opponents position
   	double TimeForBall = 
-  	Pitch()->Ball()->TimeToCoverDistance(Vector2D(0,0),
+  	Game()->Ball()->TimeToCoverDistance(Vector2D(0,0),
                                        Vector2D(LocalPosOpp.x, 0),
                                        PassingForce);
 
   	//now calculate how far the opponent can run in this time
   	double reach = opp->MaxSpeed() * TimeForBall +
-                Pitch()->Ball()->BRadius()+
+                Game()->Ball()->BRadius()+
                 opp->BRadius();
 
   	//if the distance to the opponent's y position is less than his running
@@ -419,7 +419,7 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
 bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 {
 	//the number of randomly created shot targets this method will test 
-  	int NumAttempts = Pitch()->NumAttemptsToFindValidStrike;
+  	int NumAttempts = Game()->NumAttemptsToFindValidStrike;
 
   	while (NumAttempts--)
   	{
@@ -435,8 +435,8 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 
     		//the y value of the shot position should lay somewhere between two
     		//goalposts (taking into consideration the ball diameter)
-    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Pitch()->Ball()->BRadius());
-    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Pitch()->Ball()->BRadius());
+    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->Ball()->BRadius());
+    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->Ball()->BRadius());
 
     		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
 
@@ -445,7 +445,7 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 		Vector2D shotTarget;
 		shotTarget.x = ShotTarget->x;
 		shotTarget.y = ShotTarget->y;
-    		double time = Pitch()->Ball()->TimeToCoverDistance(BallPos,
+    		double time = Game()->Ball()->TimeToCoverDistance(BallPos,
                                                       shotTarget,
                                                       power);
     
@@ -517,7 +517,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(6)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(6)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 6, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -530,7 +530,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(8)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(8)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 8, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -541,7 +541,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(3)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(3)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 3, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -552,7 +552,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(5)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(5)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 5, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -564,7 +564,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new GoalKeeper
 			(
-        			0, this->Pitch()->GetRegionFromIndex(1)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(1)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 1, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
         			TendGoal::Instance() //FieldPlayer
@@ -582,7 +582,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(9)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(9)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 9, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -593,7 +593,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(11)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(11)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 11, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -606,7 +606,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(12)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(12)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 12, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -617,7 +617,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Pitch()->GetRegionFromIndex(14)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(14)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 14, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -629,7 +629,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new GoalKeeper
 			(
-        			0, this->Pitch()->GetRegionFromIndex(16)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
+        			0, this->Game()->GetRegionFromIndex(16)->Center(), Vector2D(PlayerScale,PlayerScale), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 16, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
         			TendGoal::Instance() //FieldPlayer
@@ -726,7 +726,7 @@ void SoccerTeam::RequestPass(FieldPlayer* requester)const
   if (isPassSafeFromAllOpponents(ControllingPlayer()->Pos(),
                                  requester->Pos(),
                                  requester,
-                                 Pitch()->MaxPassingForce))
+                                 Game()->MaxPassingForce))
   {
 
     //tell the player to make the pass

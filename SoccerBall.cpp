@@ -1,5 +1,5 @@
 #include "SoccerBall.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "2D/geometry.h"
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"
@@ -8,7 +8,7 @@ SoccerBall::SoccerBall
 (
         int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
        	Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
-	SoccerPitch* soccerPitch
+	FootballGame* footballGame
 )
  
 :
@@ -20,13 +20,13 @@ MovingEntity
 )
  
 {
-	//m_vPosition = Vector2D((double)soccerPitch->m_cxClient/2.0, (double)soccerPitch->m_cyClient/2.0);
-	m_pPitch = soccerPitch;
+	//m_vPosition = Vector2D((double)footballGame->m_cxClient/2.0, (double)footballGame->m_cyClient/2.0);
+	m_pGame = footballGame;
 }
 
-SoccerPitch* const SoccerBall::Pitch()const
+FootballGame* const SoccerBall::Game()const
 {
-	return m_pPitch;
+	return m_pGame;
 }
 
 
@@ -39,7 +39,7 @@ SoccerPitch* const SoccerBall::Pitch()const
 Vector2D SoccerBall::AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
 {
 
-	double displacement = (Pi - Pi*Pitch()->PlayerKickingAccuracy) * RandomClamped();
+	double displacement = (Pi - Pi*Game()->PlayerKickingAccuracy) * RandomClamped();
 
   	Vector2D toTarget = BallTarget - BallPos;
 
@@ -78,13 +78,13 @@ void SoccerBall::Update()
   	m_vOldPos = m_vPosition;
 
       	//Test for collisions
-    	TestCollisionWithWalls(Pitch()->Walls());
+    	TestCollisionWithWalls(Game()->Walls());
 
   	//Simulate Friction. Make sure the speed is positive 
   	//first though
-  	if (m_vVelocity.LengthSq() > Pitch()->Friction * Pitch()->Friction)
+  	if (m_vVelocity.LengthSq() > Game()->Friction * Game()->Friction)
   	{
-    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Pitch()->Friction;
+    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Game()->Friction;
 
     		m_vPosition += m_vVelocity;
     
@@ -117,7 +117,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//first calculate s (the distance between the two positions)
   	double DistanceToCover =  Vec2DDistance(A, B);
 
-  	double term = speed*speed + 2.0*DistanceToCover * Pitch()->Friction;
+  	double term = speed*speed + 2.0*DistanceToCover * Game()->Friction;
 
   	//if  (u^2 + 2as) is negative it means the ball cannot reach point B.
   	if (term <= 0.0) return -1.0;
@@ -131,7 +131,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//        ---
   	//         a
   	//
-  	return (v-speed)/Pitch()->Friction;
+  	return (v-speed)/Game()->Friction;
 }
 
 //--------------------- FuturePosition -----------------------------------
@@ -148,7 +148,7 @@ Vector2D SoccerBall::FuturePosition(double time)const
   	Vector2D ut = m_vVelocity * time;
 
   	//calculate the 1/2at^2 term, which is scalar
-  	double half_a_t_squared = 0.5 * Pitch()->Friction * time * time;
+  	double half_a_t_squared = 0.5 * Game()->Friction * time * time;
 
   	//turn the scalar quantity into a vector by multiplying the value with
   	//the normalized velocity vector (because that gives the direction)

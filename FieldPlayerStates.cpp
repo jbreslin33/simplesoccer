@@ -1,5 +1,5 @@
 #include "FieldPlayerStates.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "FieldPlayer.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
@@ -106,7 +106,7 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
                         }
 
                         //make the pass
-			if (player->Team()->Pitch()->m_pRedTeam == player->Team())
+			if (player->Team()->Game()->m_pRedTeam == player->Team())
                 	{
                         	printf("PASS VIA REQUEST RED\n");
                 	}
@@ -118,7 +118,7 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 			Vector2D v = receiver->Pos() - player->Ball()->Pos();
                         
 			player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
-                           player->Team()->Pitch()->MaxPassingForce);
+                           player->Team()->Game()->MaxPassingForce);
 
 			//let the receiver know a pass is coming
                         Vector2D receiverPosition;
@@ -265,7 +265,7 @@ void SupportAttacker::Execute(FieldPlayer* player)
   	//if this player has a shot at the goal AND the attacker can pass
   	//the ball to him the attacker should pass the ball to this player
   	if( player->Team()->CanShoot(player->Pos(),
-                               player->Pitch()->MaxShootingForce))
+                               player->Game()->MaxShootingForce))
   	{
     		player->Team()->RequestPass(player);
   	}
@@ -340,14 +340,14 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
 		printf("ReturnToHomeRegion::Execute() ID:%d\n", player->ID());
 	}
 
-  	if (player->Pitch()->GameOn())
+  	if (player->Game()->GameOn())
   	{
     		//if the ball is nearer this player than any other team member  &&
     		//there is not an assigned receiver && the goalkeeper does not gave
     		//the ball, go chase it
     		if ( player->isClosestTeamMemberToBall() &&
          		(player->Team()->Receiver() == NULL) &&
-         		!player->Pitch()->GoalKeeperHasBall())
+         		!player->Game()->GoalKeeperHasBall())
     		{
       			player->GetFSM()->ChangeState(ChaseBall::Instance());
       			return;
@@ -357,7 +357,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
   	//if game is on and close enough to home, change state to wait and set the 
   	//player target to his current position.(so that if he gets jostled out of 
   	//position he can move back to it)
-  	if (player->Pitch()->GameOn() && player->HomeRegion()->Inside(player->Pos(),
+  	if (player->Game()->GameOn() && player->HomeRegion()->Inside(player->Pos(),
                                                              Region::halfsize))
   	{
     		player->Steering()->SetTarget(player->Pos());
@@ -366,7 +366,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
   
 	//if game is not on the player must return much closer to the center of his
   	//home region
-  	else if(!player->Pitch()->GameOn() && player->AtTarget())
+  	else if(!player->Game()->GameOn() && player->AtTarget())
   	{
     		player->GetFSM()->ChangeState(Wait::Instance());
   	}
@@ -406,7 +406,7 @@ void Wait::Enter(FieldPlayer* player)
 	//if the game is not on make sure the target is the center of the player's
   	//home region. This is ensure all the players are in the correct positions
 	//ready for kick off
-  	if (!player->Pitch()->GameOn())
+  	if (!player->Game()->GameOn())
   	{
     		player->Steering()->SetTarget(player->HomeRegion()->Center());
   	}
@@ -445,14 +445,14 @@ void Wait::Execute(FieldPlayer* player)
     		return;
   	}
 
-  	if (player->Pitch()->GameOn())
+  	if (player->Game()->GameOn())
   	{
    		//if the ball is nearer this player than any other team member  AND
     		//there is not an assigned receiver AND neither goalkeeper has
     		//the ball, go chase it
    		if (player->isClosestTeamMemberToBall() &&
        			player->Team()->Receiver() == NULL  &&
-       			!player->Pitch()->GoalKeeperHasBall())
+       			!player->Game()->GoalKeeperHasBall())
    		{
      			player->GetFSM()->ChangeState(ChaseBall::Instance());
 
@@ -517,7 +517,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//behind the player or if there is already an assigned receiver. So just
   	//continue chasing the ball
   	if (player->Team()->Receiver() != NULL   ||
-      		player->Pitch()->GoalKeeperHasBall() ||
+      		player->Game()->GoalKeeperHasBall() ||
       		(dot < 0) ) 
   	{
     		player->GetFSM()->ChangeState(ChaseBall::Instance());
@@ -532,14 +532,14 @@ void KickBall::Execute(FieldPlayer* player)
 
   	//the dot product is used to adjust the shooting force. The more
   	//directly the ball is ahead, the more forceful the kick
-  	double power = player->Pitch()->MaxShootingForce * dot;
+  	double power = player->Game()->MaxShootingForce * dot;
 
   	//if it is determined that the player could score a goal from this position
   	//OR if he should just kick the ball anyway, the player will attempt
   	//to make the shot
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power))
   	{	 
-		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
 		{
 			printf("SHOT RED\n");
 		}
@@ -569,9 +569,9 @@ void KickBall::Execute(FieldPlayer* player)
    		return;
  	}
 
-        if ( (RandFloat() < player->Pitch()->ChancePlayerAttemptsPotShot))
+        if ( (RandFloat() < player->Game()->ChancePlayerAttemptsPotShot))
         {
-		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
 		{
                 	printf("POT SHOT RED\n");
 		}
@@ -603,7 +603,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//if a receiver is found this will point to it
   	PlayerBase* receiver = NULL;
 
-  	power = player->Pitch()->MaxPassingForce * dot;
+  	power = player->Game()->MaxPassingForce * dot;
 
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
@@ -611,9 +611,9 @@ void KickBall::Execute(FieldPlayer* player)
                               receiver,
                               BallTarget,
                               power,
-                              player->Pitch()->MinPassDist))
+                              player->Game()->MinPassDist))
   	{     
-		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
 		{
 			printf("PASS RED\n");
 		}
@@ -647,7 +647,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		if (player->Team()->Pitch()->m_pRedTeam == player->Team()) 
+		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
 		{
 			printf("DRIBBLE RED\n");
 		}
@@ -721,7 +721,7 @@ void Dribble::Execute(FieldPlayer* player)
   	else
   	{
     		player->Ball()->Kick(player->Team()->HomeGoal()->Facing(),
-                         player->Pitch()->MaxDribbleForce);  
+                         player->Game()->MaxDribbleForce);  
   	}
 
   	//the player has kicked the ball so he must now change state to follow it
@@ -762,12 +762,12 @@ void ReceiveBall::Enter(FieldPlayer* player)
   	//This statement selects between them dependent on the probability
   	//ChanceOfUsingArriveTypeReceiveBehavior, whether or not an opposing
   	//player is close to the receiving player, and whether or not the receiving
-  	//player is in the opponents 'hot region' (the third of the pitch closest
+  	//player is in the opponents 'hot region' (the third of the game closest
   	//to the opponent's goal
   	const double PassThreatRadius = 70.0;
 
   	if (( player->InHotRegion() ||
-        	RandFloat() < player->Pitch()->ChanceOfUsingArriveTypeReceiveBehavior) &&
+        	RandFloat() < player->Game()->ChanceOfUsingArriveTypeReceiveBehavior) &&
      	!player->Team()->isOpponentWithinRadius(player->Pos(), PassThreatRadius))
   	{
     		player->Steering()->ArriveOn();

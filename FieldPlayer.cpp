@@ -7,7 +7,7 @@
 #include "Game/Region.h"
 #include "Game/EntityFunctionTemplates.h"
 #include "SoccerTeam.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 
 #include <limits>
 
@@ -110,7 +110,7 @@ void FieldPlayer::Update()
 
 
   	//enforce a non-penetration constraint if desired
-  	if(Pitch()->bNonPenetrationConstraint)
+  	if(Game()->bNonPenetrationConstraint)
   	{
     		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   	}

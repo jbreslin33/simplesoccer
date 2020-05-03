@@ -4,7 +4,7 @@
 #include "Messaging/MessageDispatcher.h"
 #include "SoccerMessages.h"
 #include "constants.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 
 //uncomment to send state info to debug window
 //#define DEBUG_TEAM_STATES
@@ -155,7 +155,7 @@ void PrepareForKickOff::Execute(SoccerTeam* team)
 
 void PrepareForKickOff::Exit(SoccerTeam* team)
 {
-  team->Pitch()->SetGameOn();
+  team->Game()->SetGameOn();
 }
 
 

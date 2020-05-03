@@ -1,7 +1,7 @@
 #include "Goalkeeper.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 #include "GoalKeeperStates.h"
 #include "Goal.h"
 #include "Game/EntityFunctionTemplates.h"
@@ -61,7 +61,7 @@ void GoalKeeper::Update()
 
 
   	//enforce a non-penetration constraint if desired
-  	if(Pitch()->bNonPenetrationConstraint)
+  	if(Game()->bNonPenetrationConstraint)
   	{
     		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   	}
@@ -75,7 +75,7 @@ void GoalKeeper::Update()
   	}
 
   	//look-at vector always points toward the ball
-  	if (!Pitch()->GoalKeeperHasBall())
+  	if (!Game()->GoalKeeperHasBall())
   	{
    		m_vLookAt = Vec2DNormalize(Ball()->Pos() - Pos());
   	}
@@ -84,22 +84,22 @@ void GoalKeeper::Update()
 bool GoalKeeper::BallWithinRangeForIntercept()const
 {
 	return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), Ball()->Pos()) <=
-          Pitch()->GoalKeeperInterceptRangeSq);
+          Game()->GoalKeeperInterceptRangeSq);
 }
 
 bool GoalKeeper::TooFarFromGoalMouth()const
 {
 	return (Vec2DDistanceSq(Pos(), GetRearInterposeTarget()) >
-          Pitch()->GoalKeeperInterceptRangeSq);
+          Game()->GoalKeeperInterceptRangeSq);
 }
 
 Vector2D GoalKeeper::GetRearInterposeTarget()const
 {
 	double xPosTarget = Team()->HomeGoal()->Center().x;
 
-  	double yPosTarget = Pitch()->PlayingArea()->Center().y - 
-                     Pitch()->GoalWidth*0.5 + (Ball()->Pos().y*Pitch()->GoalWidth) /
-                     Pitch()->PlayingArea()->Height();
+  	double yPosTarget = Game()->PlayingArea()->Center().y - 
+                     Game()->GoalWidth*0.5 + (Ball()->Pos().y*Game()->GoalWidth) /
+                     Game()->PlayingArea()->Height();
 
   	return Vector2D(xPosTarget, yPosTarget); 
 }

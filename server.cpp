@@ -1,26 +1,26 @@
 #include "server.h"
 #include "utility.h"
-#include "SoccerPitch.h"
+#include "FootballGame.h"
 
 Server::Server()
 {
 	mUtility = new Utility();
-	mSoccerPitchIdCounter = 0;
+	mFootballGameIdCounter = 0;
 
 	mRunning = true;
 }
 
-int Server::getNextSoccerPitchId()
+int Server::getNextFootballGameId()
 {
-	mSoccerPitchIdCounter++;
-	return mSoccerPitchIdCounter;
+	mFootballGameIdCounter++;
+	return mFootballGameIdCounter;
 }
 
 void Server::update()
 {
-	for (int i = 0; i < mSoccerPitchVector.size(); i++)
+	for (int i = 0; i < mFootballGameVector.size(); i++)
 	{
-		mSoccerPitchVector.at(i)->Update();		
+		mFootballGameVector.at(i)->Update();		
 	}                 
 
 }
