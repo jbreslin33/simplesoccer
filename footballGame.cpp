@@ -25,14 +25,16 @@
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
-FootballGame::FootballGame(int cx, int cy, Server* server, int id)
+FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
 {
 
 	//member variables
 	NumRegionsHorizontal = 6; 
 	NumRegionsVertical   = 3;
-	m_cxClient = cx;
-	m_cyClient = cy;
+
+	mScreenX = screenX;
+	mScreenY = screenY;
+
 	m_bPaused = false;
 	m_bGoalKeeperHasBall = false;
 	m_Regions.resize(NumRegionsHorizontal * NumRegionsVertical);
@@ -101,7 +103,7 @@ FootballGame::FootballGame(int cx, int cy, Server* server, int id)
         mClientIdCounter = 0;
 
   	//define the playing area
-  	m_pPlayingArea = new Region(20, 20, cx-20, cy-20);
+  	m_pPlayingArea = new Region(20, 20, mScreenX - 20, mScreenY - 20);
 
   	//create the regions  
 	CreateRegions
@@ -115,11 +117,11 @@ FootballGame::FootballGame(int cx, int cy, Server* server, int id)
 	(
 		Vector2D
 		( 
-			m_pPlayingArea->Left(), cy - GoalWidth/2 //550
+			m_pPlayingArea->Left(), mScreenY - GoalWidth/2 //550
 		),
                 Vector2D
 		(
-			m_pPlayingArea->Left(), cy - (cy - GoalWidth/2) //600 - (600 - 50) = 50
+			m_pPlayingArea->Left(), mScreenY - (mScreenY - GoalWidth/2) //600 - (600 - 50) = 50
 		),
                 Vector2D(1,0)
 	);
@@ -128,11 +130,11 @@ FootballGame::FootballGame(int cx, int cy, Server* server, int id)
 	( 
 		Vector2D
 		( 
-			m_pPlayingArea->Right(), cy - GoalWidth/2
+			m_pPlayingArea->Right(), mScreenY - GoalWidth/2
 		),
                 Vector2D
 		(
-			m_pPlayingArea->Right(), cy - (cy - GoalWidth/2)
+			m_pPlayingArea->Right(), mScreenY - (mScreenY - GoalWidth/2)
 		),
                 Vector2D
 		(
@@ -142,7 +144,7 @@ FootballGame::FootballGame(int cx, int cy, Server* server, int id)
 
 	m_pBall = new SoccerBall
         (
-        	0, Vector2D( (double) this->m_cxClient/2.0, (double) this->m_cyClient/2.0), Vector2D(1,1), 5.0, //BaseGameEntity
+        	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), Vector2D(1,1), 5.0, //BaseGameEntity
                 Vector2D(0.0,0.0), Vector2D(0,1), 1, 0, 0, 0,        //MovingEntity
 		this
         );
@@ -248,7 +250,7 @@ void FootballGame::tick()
     		m_bGameOn = false;
     
     		//reset the ball                                                      
-    		m_pBall->PlaceAtPosition(Vector2D((double)m_cxClient/2.0, (double)m_cyClient/2.0));
+    		m_pBall->PlaceAtPosition(Vector2D( (double) mScreenX / 2.0, (double) mScreenY / 2.0));
 
     		//get the teams ready for kickoff
     		m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());

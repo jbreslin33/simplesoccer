@@ -20,7 +20,6 @@ MovingEntity
 )
  
 {
-	//m_vPosition = Vector2D((double)footballGame->m_cxClient/2.0, (double)footballGame->m_cyClient/2.0);
 	m_pGame = footballGame;
 }
 

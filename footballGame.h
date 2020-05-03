@@ -34,9 +34,12 @@ class FootballGame
 { 
 	public:
 
-  		FootballGame(int cxClient, int cyClient, Server* server, int id);
+  		FootballGame(int screenX, int screenY, Server* server, int id);
   		~FootballGame();
-		
+
+		int mScreenX;
+		int mScreenY;
+
 		/******       outside variables ***************/
 		Server* mServer;
   	
@@ -81,9 +84,6 @@ class FootballGame
   		const Region*const         PlayingArea()const{return m_pPlayingArea;}
   		const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
 
-  		int   cxClient()const{return m_cxClient;}
-  		int   cyClient()const{return m_cyClient;}
-
 	       	//walls	
   		//container for the boundary walls
   		std::vector<Wall2D>  m_vecWalls;
@@ -95,14 +95,9 @@ class FootballGame
   		//can make use of to implement strategies.
   		std::vector<Region*> m_Regions;
   		
-		//local copy of client window dimensions
-  		int                  m_cxClient;
-       		int               m_cyClient;  
-  
   		//this instantiates the regions the players utilize to  position
  	 	//themselves
   		void CreateRegions(double width, double height);
-
 
 		/******       Utility ***************/
 		Utility* mUtility;
