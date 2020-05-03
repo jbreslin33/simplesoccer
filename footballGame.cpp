@@ -1,7 +1,7 @@
+//custome
 #include "footballGame.h"
 #include "SoccerBall.h"
 #include "Goal.h"
-#include "Game/Region.h"
 #include "2D/geometry.h"
 #include "SoccerTeam.h"
 #include "Game/EntityManager.h"
@@ -11,6 +11,9 @@
 #include "server.h"
 #include "client.h"
 #include "utility.h"
+#include "footballPitch.h"
+
+//standard
 #include <sys/time.h>
 
 //Berkeley
@@ -28,24 +31,18 @@
 FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
 {
 
-	//member variables
-	NumRegionsHorizontal = 6; 
-	NumRegionsVertical   = 3;
-
 	mScreenX = screenX;
 	mScreenY = screenY;
 
+	//make the pitch
+	mFootballPitch = new FootballPitch(this);
+
 	m_bPaused = false;
 	m_bGoalKeeperHasBall = false;
-	m_Regions.resize(NumRegionsHorizontal * NumRegionsVertical);
 
 	m_bGameOn = true;
 
 	//params
-	GoalWidth 				= 100;
-	NumSupportSpotsX = 13;
-        NumSupportSpotsY = 6;
-
 	Spot_CanPassScore                     	= 2.0;
 	Spot_CanScoreFromPositionScore        	= 1.0;
 	Spot_DistFromControllingPlayerScore    	= 2.0;
@@ -102,46 +99,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
 	//clients
         mClientIdCounter = 0;
 
-  	//define the playing area
-  	m_pPlayingArea = new Region(20, 20, mScreenX - 20, mScreenY - 20);
-
-  	//create the regions  
-	CreateRegions
-	(
-		PlayingArea()->Width() / (double)NumRegionsHorizontal,
-		PlayingArea()->Height() / (double)NumRegionsVertical
-	);
-
-	//Goals
-	m_pRedGoal  = new Goal
-	(
-		Vector2D
-		( 
-			m_pPlayingArea->Left(), mScreenY - GoalWidth/2 //550
-		),
-                Vector2D
-		(
-			m_pPlayingArea->Left(), mScreenY - (mScreenY - GoalWidth/2) //600 - (600 - 50) = 50
-		),
-                Vector2D(1,0)
-	);
-   
-  	m_pBlueGoal = new Goal
-	( 
-		Vector2D
-		( 
-			m_pPlayingArea->Right(), mScreenY - GoalWidth/2
-		),
-                Vector2D
-		(
-			m_pPlayingArea->Right(), mScreenY - (mScreenY - GoalWidth/2)
-		),
-                Vector2D
-		(
-			-1,0
-		)
-	);
-
 	m_pBall = new SoccerBall
         (
         	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), Vector2D(1,1), 5.0, //BaseGameEntity
@@ -149,66 +106,23 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
 		this
         );
 
-	//create the soccer ball
-	/*
-  	m_pBall = new SoccerBall
-	(
-	 	this,
-                BallSize,
-                BallMass,
-                m_vecWalls
-	);
-	*/
-
 	//create the teams 
-  	//m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::red);
-  	m_pRedTeam  = new SoccerTeam(m_pRedGoal, m_pBlueGoal, this, SoccerTeam::team_color::red);
-  	m_pBlueTeam = new SoccerTeam(m_pBlueGoal, m_pRedGoal, this, SoccerTeam::team_color::blue);
-
+  	m_pRedTeam  = new SoccerTeam(mFootballPitch->m_pRedGoal, mFootballPitch->m_pBlueGoal, this, SoccerTeam::team_color::red);
+  	m_pBlueTeam = new SoccerTeam(mFootballPitch->m_pBlueGoal, mFootballPitch->m_pRedGoal, this, SoccerTeam::team_color::blue);
 
   	//make sure each team knows who their opponents are
   	m_pRedTeam->SetOpponents(m_pBlueTeam);
   	m_pBlueTeam->SetOpponents(m_pRedTeam); 
-
-  
-	//create the walls
-  	Vector2D TopLeft(m_pPlayingArea->Left(), m_pPlayingArea->Top());                                        
-  	Vector2D TopRight(m_pPlayingArea->Right(), m_pPlayingArea->Top());
-  	Vector2D BottomRight(m_pPlayingArea->Right(), m_pPlayingArea->Bottom());
-  	Vector2D BottomLeft(m_pPlayingArea->Left(), m_pPlayingArea->Bottom());
-                                      
-  	m_vecWalls.push_back(Wall2D(BottomLeft, m_pRedGoal->RightPost()));
-  	m_vecWalls.push_back(Wall2D(m_pRedGoal->LeftPost(), TopLeft));
-  	m_vecWalls.push_back(Wall2D(TopLeft, TopRight));
-  	m_vecWalls.push_back(Wall2D(TopRight, m_pBlueGoal->LeftPost()));
-  	m_vecWalls.push_back(Wall2D(m_pBlueGoal->RightPost(), BottomRight));
-  	m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
-
-	/*
-
-  	ParamLoader* p = ParamLoader::Instance();
-  
-  */
 }
 
 //-------------------------------- dtor ----------------------------------
 //------------------------------------------------------------------------
 FootballGame::~FootballGame()
 {
-  delete m_pBall;
+	delete m_pBall;
 
-  delete m_pRedTeam;
-  delete m_pBlueTeam;
-
-  delete m_pRedGoal;
-  delete m_pBlueGoal;
-
-  delete m_pPlayingArea;
-
-  for (unsigned int i=0; i<m_Regions.size(); ++i)
-  {
-    delete m_Regions[i];
-  }
+  	delete m_pRedTeam;
+  	delete m_pBlueTeam;
 }
 
 int FootballGame::getNextClientId()
@@ -245,7 +159,7 @@ void FootballGame::tick()
 	
 
   	//if a goal has been detected reset the game ready for kickoff
-  	if (m_pBlueGoal->Scored(m_pBall) || m_pRedGoal->Scored(m_pBall))
+  	if (mFootballPitch->m_pBlueGoal->Scored(m_pBall) || mFootballPitch->m_pRedGoal->Scored(m_pBall))
  	{
     		m_bGameOn = false;
     
@@ -362,30 +276,6 @@ void FootballGame::processMove(std::vector<std::string> stringVector)
 	*/
 }
 
-
-
-//------------------------- CreateRegions --------------------------------
-void FootballGame::CreateRegions(double width, double height)
-{  
-	//index into the vector
-  	int idx = m_Regions.size()-1;
-    
-  	for (int col=0; col<NumRegionsHorizontal; ++col)
-  	{
-    		for (int row=0; row<NumRegionsVertical; ++row)
-    		{
-      			m_Regions[idx--] = new Region
-			(
-				PlayingArea()->Left()+col*width,
-                                PlayingArea()->Top()+row*height,
-                                PlayingArea()->Left()+(col+1)*width,
-                                PlayingArea()->Top()+(row+1)*height,
-                                idx
-			);
-    		}
-  	}
-}
-
 void FootballGame::sendMovesToClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
@@ -484,19 +374,19 @@ void FootballGame::sendDataToNewClients()
                         message.append(",");     //extra comma
 
 			//top left x
-			message.append( std::to_string( m_pPlayingArea->Left()  )); 
+			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Left()  )); 
                         message.append(",");     //extra comma
 			
 			//top left y 
-			message.append( std::to_string( m_pPlayingArea->Top()  )); 
+			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Top()  )); 
                         message.append(",");     //extra comma
 			
 			//bottom right x 
-			message.append( std::to_string( m_pPlayingArea->Right()  )); 
+			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Right()  )); 
                         message.append(",");     //extra comma
 			
 			//bottom right y 
-			message.append( std::to_string( m_pPlayingArea->Bottom()  )); 
+			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Bottom()  )); 
                         message.append(",");     //extra comma
 
 			//ballsize radius

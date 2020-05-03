@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "SoccerTeam.h"
 #include "footballGame.h"
+#include "footballPitch.h"
 
 
 //------------------------------- dtor ----------------------------------------
@@ -21,7 +22,7 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
                                              SoccerTeam*   team):m_pBestSupportingSpot(NULL),
                                                                   m_pTeam(team)
 {
-	const Region* PlayingField = team->Game()->PlayingArea();
+	const Region* PlayingField = team->Game()->mFootballPitch->PlayingArea();
 
   	//calculate the positions of each sweet spot, create them and 
   	//store them in m_Spots

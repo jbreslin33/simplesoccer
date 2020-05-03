@@ -3,6 +3,7 @@
 #include "2D/geometry.h"
 #include "2D/Wall2D.h"
 #include "PlayerBase.h"
+#include "footballPitch.h"
 
 SoccerBall::SoccerBall
 (
@@ -77,7 +78,7 @@ void SoccerBall::Update()
   	m_vOldPos = m_vPosition;
 
       	//Test for collisions
-    	TestCollisionWithWalls(Game()->Walls());
+    	TestCollisionWithWalls(Game()->mFootballPitch->Walls());
 
   	//Simulate Friction. Make sure the speed is positive 
   	//first though

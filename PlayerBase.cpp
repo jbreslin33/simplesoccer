@@ -11,6 +11,7 @@
 #include "footballGame.h"
 #include "client.h"
 #include "Game/MovingEntity.h"
+#include "footballPitch.h"
 
 
 using std::vector;
@@ -89,7 +90,7 @@ MovingEntity
                                       Ball());  
   
   	//a player's start target is its start position (because it's just waiting)
-  	m_pSteering->SetTarget(soccerTeam->Game()->GetRegionFromIndex(homeRegion)->Center());
+  	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->GetRegionFromIndex(homeRegion)->Center());
 }
 
 
@@ -261,11 +262,11 @@ bool PlayerBase::InHomeRegion()const
 {
 	if (m_PlayerRole == goal_keeper)
   	{
-    		return Game()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
+    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
   	}
   	else
   	{
-    		return Game()->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
+    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
   	}
 }
 
@@ -288,7 +289,7 @@ bool PlayerBase::isClosestPlayerOnGameToBall()const
 bool PlayerBase::InHotRegion()const
 {
 	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
-         Game()->PlayingArea()->Length()/3.0;
+         Game()->mFootballPitch->PlayingArea()->Length()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const
@@ -309,7 +310,7 @@ FootballGame* const PlayerBase::Game()const
 
 const Region* const PlayerBase::HomeRegion()const
 {
-	return Game()->GetRegionFromIndex(m_iHomeRegion);
+	return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion);
 }
 
 

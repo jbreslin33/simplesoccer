@@ -1,10 +1,58 @@
 #ifndef FOOTBALLPITCH_H
 #define FOOTBALLPITCH_H
 
+#include "2D/Wall2D.h"
+
+class FootballGame;
+class Region;
+class Goal;
+
 class FootballPitch
 {
 	public:
-		FootballPitch();
+		FootballPitch(FootballGame* footballGame);
+		~FootballPitch();
+
+		FootballGame* mFootballGame;
+
+		//params
+               	double GoalWidth;
+
+                int NumRegionsHorizontal;
+                int NumRegionsVertical;
+
+                int NumSupportSpotsX;
+                int NumSupportSpotsY;
+
+                /******       Goals   ***************/
+                Goal*                m_pRedGoal;
+                Goal*                m_pBlueGoal;
+
+		/******       Bounds   ***************/
+                const Region*const         PlayingArea()const{return m_pPlayingArea;}
+                const std::vector<Wall2D>& Walls(){return m_vecWalls;}
+
+                //walls
+                //container for the boundary walls
+                std::vector<Wall2D>  m_vecWalls;
+
+                //defines the dimensions of the playing area
+                Region*              m_pPlayingArea;
+
+                //the playing field is broken up into regions that the team
+                //can make use of to implement strategies.
+                std::vector<Region*> m_Regions;
+
+                //this instantiates the regions the players utilize to  position
+                //themselves
+                void CreateRegions(double width, double height);
+
+                const Region* const GetRegionFromIndex(int idx)
+                {
+                        assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
+
+                        return m_Regions[idx];
+                }
 
 };
 #endif

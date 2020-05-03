@@ -15,12 +15,9 @@
 #include <vector>
 #include <cassert>
 
-#include "2D/Wall2D.h"
 #include "2D/Vector2D.h"
 #include "constants.h"
 
-class Region;
-class Goal;
 class SoccerTeam;
 class SoccerBall;
 class SoccerTeam;
@@ -28,7 +25,7 @@ class PlayerBase;
 class Server;
 class Client;
 class Utility;
-
+class FootballPitch;
 
 class FootballGame
 { 
@@ -36,6 +33,8 @@ class FootballGame
 
   		FootballGame(int screenX, int screenY, Server* server, int id);
   		~FootballGame();
+
+		FootballPitch* mFootballPitch;
 
 		int mScreenX;
 		int mScreenY;
@@ -71,34 +70,10 @@ class FootballGame
   		SoccerTeam*          m_pRedTeam;
   		SoccerTeam*          m_pBlueTeam;
 
-		/******       Goals   ***************/
-  		Goal*                m_pRedGoal;
-  		Goal*                m_pBlueGoal;
-  		
 		/******       Ball   ***************/
 		SoccerBall*const           Ball()const{return m_pBall;}
 		SoccerBall*          m_pBall;
   
-		/******       Bounds   ***************/
-
-  		const Region*const         PlayingArea()const{return m_pPlayingArea;}
-  		const std::vector<Wall2D>& Walls(){return m_vecWalls;}                      
-
-	       	//walls	
-  		//container for the boundary walls
-  		std::vector<Wall2D>  m_vecWalls;
-
- 		//defines the dimensions of the playing area
-  		Region*              m_pPlayingArea;
-  	
-		//the playing field is broken up into regions that the team
-  		//can make use of to implement strategies.
-  		std::vector<Region*> m_Regions;
-  		
-  		//this instantiates the regions the players utilize to  position
- 	 	//themselves
-  		void CreateRegions(double width, double height);
-
 		/******       Utility ***************/
 		Utility* mUtility;
                
@@ -125,14 +100,6 @@ class FootballGame
 
 		double MinPassDistance;
 		double GoalkeeperMinPassDistance;
-
-  		double GoalWidth; 
-
-		int NumRegionsHorizontal;
-		int NumRegionsVertical;
-    
-    		int NumSupportSpotsX;    
-    		int NumSupportSpotsY;   
 
 		double Spot_CanPassScore;
 		double WithinRangeOfSweetSpot;
@@ -201,16 +168,6 @@ class FootballGame
 
  		bool  GoalKeeperHasBall()const{return m_bGoalKeeperHasBall;}
   		void  SetGoalKeeperHasBall(bool b){m_bGoalKeeperHasBall = b;}
-
-
-  		const Region* const GetRegionFromIndex(int idx)                                
-  		{
-    			assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
-
-    			return m_Regions[idx];
-  		}
-
-
 
 };
 

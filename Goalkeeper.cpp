@@ -5,6 +5,7 @@
 #include "GoalKeeperStates.h"
 #include "Goal.h"
 #include "Game/EntityFunctionTemplates.h"
+#include "footballPitch.h"
 
 //----------------------------- ctor ------------------------------------
 //-----------------------------------------------------------------------
@@ -97,9 +98,9 @@ Vector2D GoalKeeper::GetRearInterposeTarget()const
 {
 	double xPosTarget = Team()->HomeGoal()->Center().x;
 
-  	double yPosTarget = Game()->PlayingArea()->Center().y - 
-                     Game()->GoalWidth*0.5 + (Ball()->Pos().y*Game()->GoalWidth) /
-                     Game()->PlayingArea()->Height();
+  	double yPosTarget = Game()->mFootballPitch->PlayingArea()->Center().y - 
+                     Game()->mFootballPitch->GoalWidth*0.5 + (Ball()->Pos().y*Game()->mFootballPitch->GoalWidth) /
+                     Game()->mFootballPitch->PlayingArea()->Height();
 
   	return Vector2D(xPosTarget, yPosTarget); 
 }
