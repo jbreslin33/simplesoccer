@@ -20,6 +20,7 @@ void GlobalClientState::enter(Client* client)
 }
 void GlobalClientState::execute(Client* client)
 {
+	/*
 	for (int p = 0; p < client->mFootballGame->m_pRedTeam->Members().size(); p++)
 	{
 		if (client->mFootballGame->m_pRedTeam->Members().at(p)->mClient == client)
@@ -42,6 +43,7 @@ void GlobalClientState::execute(Client* client)
 			}
 		}
 	}
+	*/
 
 }
 void GlobalClientState::exit(Client* client)
@@ -103,6 +105,7 @@ void HumanClientState::execute(Client* client)
 {
 	//check if human still
 	bool human = false;
+	/*
 
 	for (int p = 0; p < client->mFootballGame->m_pRedTeam->Members().size(); p++)
         {
@@ -134,6 +137,7 @@ void HumanClientState::execute(Client* client)
 	client->mJoystickDirection.x =  client->mRight + (client->mLeft * -1);
         client->mJoystickDirection.y =  client->mDown + (client->mUp * -1);
         client->mJoystickRotation =  client->mRotateRight + (client->mRotateLeft * -1);
+	*/
 
 }
 

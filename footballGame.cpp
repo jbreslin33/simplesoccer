@@ -16,31 +16,17 @@
 //standard
 #include <sys/time.h>
 
-//Berkeley
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-
 #include <string.h>
 
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
-FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
+FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : Game(screenX, screenY, server, id)
 {
-
-	mScreenX = screenX;
-	mScreenY = screenY;
-
 	//make the pitch
 	mFootballPitch = new FootballPitch(this);
-
-	m_bPaused = false;
+	
 	m_bGoalKeeperHasBall = false;
-
-	m_bGameOn = true;
 
 	//params
 	Spot_CanPassScore                     	= 2.0;
@@ -87,18 +73,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id)
 	GoalKeeperInterceptRangeSq     = GoalKeeperInterceptRange * GoalKeeperInterceptRange;
 	WithinRangeOfSupportSpotSq = WithinRangeOfSupportSpot * WithinRangeOfSupportSpot;
 	
-	mId = id;
-	mServer = server;
-
-	//time
-        mGameStartTime = getCurrentMilliseconds();
-        mLastTime = mGameStartTime;
-        mDelta = 0;
-        mTickCount = 0;
-
-	//clients
-        mClientIdCounter = 0;
-
 	m_pBall = new SoccerBall
         (
         	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), Vector2D(1,1), 5.0, //BaseGameEntity
@@ -124,15 +98,6 @@ FootballGame::~FootballGame()
   	delete m_pRedTeam;
   	delete m_pBlueTeam;
 }
-
-int FootballGame::getNextClientId()
-{
-        mClientIdCounter++;
-        return mClientIdCounter;
-}
-
-
-
 
 //----------------------------- tick -----------------------------------
 //the following time has been chaneged to what buckland does... 
@@ -178,83 +143,6 @@ void FootballGame::tick()
         sendDataToNewClients();
 
 }
-
-long FootballGame::getCurrentMilliseconds()
-{
-        struct timeval tp;
-        gettimeofday(&tp, NULL);
-        long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-        return ms;
-}
-
-void FootballGame::Update()
-{
-        mDelta = getCurrentMilliseconds() - mLastTime;
-
-        if (mDelta > FrameRate)
-        {
-                tick();
-                mLastTime = getCurrentMilliseconds();
-        }
-}
-
-void FootballGame::processBuffer(std::vector<std::string> stringVector)
-{
-	/*
-        if (stringVector.at(1).compare(0,1,"m") == 0)
-        {
-                processMove(stringVector);
-        }
-       */ 
-	if (stringVector.at(1).compare(0,1,"j") == 0)
-        {
-                requestClient(stringVector);
-        }
-/*
-        if (stringVector.at(1).compare(0,1,"p") == 0)
-        {
-                requestPlayer(stringVector);
-        }
-
-        if (stringVector.at(1).compare(0,1,"g") == 0)
-        {
-                startGame(stringVector);
-        }
-	*/
-}
-
-void FootballGame::requestClient(std::vector<std::string> stringVector)
-{
-        int personIdInt = atoi(stringVector.at(2).c_str());
-        int portInt = atoi(stringVector.at(3).c_str());
-
-        // if this person requesting already has a client instance on server than rock on and just update the port if needed
-        for (int c = 0; c < mClientVector.size(); c++)
-        {
-                if (mClientVector.at(c)->mPersonId == personIdInt)
-                {
-                        if (mClientVector.at(c)->mPort == portInt)
-                        {
-                                printf("Person ID:%d already has a client and port is good to go at:%d.\n",personIdInt, portInt);
-                        }
-                        else
-                        {
-                                mClientVector.at(c)->mPort = portInt;
-                                mClientVector.at(c)->mSentToClient = false;
-                                printf("Person ID:%d already has a client. Updating port to: %d\n and sending confirmation to client again.\n",personIdInt, portInt);
-
-                        }
-                        return;
-                }
-        }
-
-        //fall thru make a new client instance
-        Client* client = new Client(this,getNextClientId(),0,0);
-        mClientVector.push_back(client);
-        client->mPersonId = personIdInt;
-        printf("Make new Client for Person ID:%d \n",personIdInt);
-}
-
 
 void FootballGame::processMove(std::vector<std::string> stringVector)
 {
@@ -355,6 +243,7 @@ void FootballGame::sendMovesToClients()
         }
 }
 
+
 void FootballGame::sendDataToNewClients()
 {
         for (int c = 0; c < mClientVector.size(); c++)
@@ -367,72 +256,72 @@ void FootballGame::sendDataToNewClients()
                         message.append(std::to_string(mId)); //gameID
                         message.append(",");
 
-                        message.append("j"); //new client code  
+                        message.append("j"); //new client code
                         message.append(",");
 
                         message.append(std::to_string(mClientVector.at(c)->mId)); //client id
                         message.append(",");     //extra comma
 
-			//top left x
-			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Left()  )); 
-                        message.append(",");     //extra comma
-			
-			//top left y 
-			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Top()  )); 
-                        message.append(",");     //extra comma
-			
-			//bottom right x 
-			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Right()  )); 
-                        message.append(",");     //extra comma
-			
-			//bottom right y 
-			message.append( std::to_string( mFootballPitch->m_pPlayingArea->Bottom()  )); 
+                        //top left x
+                        message.append( std::to_string( mFootballPitch->m_pPlayingArea->Left()  ));
                         message.append(",");     //extra comma
 
-			//ballsize radius
-			message.append( std::to_string( BallSize  )); 
+                        //top left y
+                        message.append( std::to_string( mFootballPitch->m_pPlayingArea->Top()  ));
                         message.append(",");     //extra comma
-			
+
+                        //bottom right x
+                        message.append( std::to_string( mFootballPitch->m_pPlayingArea->Right()  ));
+                        message.append(",");     //extra comma
+
+                        //bottom right y
+                        message.append( std::to_string( mFootballPitch->m_pPlayingArea->Bottom()  ));
+                        message.append(",");     //extra comma
+
+                        //ballsize radius
+                        message.append( std::to_string( BallSize  ));
+                        message.append(",");     //extra comma
+
                         for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
-			{
-				message.append( std::to_string( m_pBlueTeam->Members().at(p)->ID() )); 
-                        	message.append(",");     //extra comma
+                        {
+                                message.append( std::to_string( m_pBlueTeam->Members().at(p)->ID() ));
+                                message.append(",");     //extra comma
 
-				//size radius
-				message.append( std::to_string( m_pBlueTeam->Members().at(p)->BRadius() ));
+                                //size radius
+                                message.append( std::to_string( m_pBlueTeam->Members().at(p)->BRadius() ));
                                 message.append(",");     //extra comma
 
 
-				if (p < (m_pBlueTeam->Members().size() - 1))
-				{
-					message.append("blue"); 
-                        		message.append(",");     //extra comma
-				}
-				else
-				{
-					message.append("violet"); 
-                        		message.append(",");     //extra comma
-				}
-			}
+                                if (p < (m_pBlueTeam->Members().size() - 1))
+                                {
+                                        message.append("blue");
+                                        message.append(",");     //extra comma
+                                }
+                                else
+                                {
+                                        message.append("violet");
+                                        message.append(",");     //extra comma
+                                }
+                        }
 
                         //players
                         for (int p = 0; p < m_pRedTeam->Members().size(); p++)
                         {
                                 message.append( std::to_string( m_pRedTeam->Members().at(p)->ID() ));
                                 message.append(",");     //extra comma
-				
-				//size radius
-				message.append( std::to_string( m_pRedTeam->Members().at(p)->BRadius() ));
+
+                                //size radius
+                                message.append( std::to_string( m_pRedTeam->Members().at(p)->BRadius() ));
                                 message.append(",");     //extra comma
 
                                 if (p < (m_pRedTeam->Members().size() - 1))
-                                {       
+                                {
                                         message.append("red");
                                         message.append(",");     //extra comma
                                 }
                                 else
                                 {
-                                        message.append("purple");    
+                                        message.append("purple");
                                         message.append(",");     //extra comma
                                 }
                         }
@@ -445,48 +334,6 @@ void FootballGame::sendDataToNewClients()
         }
 }
 
-
-
-void FootballGame::sendToClient(Client* client, std::string message)
-{
-        int sock;
-        struct sockaddr_in sa;
-        int bytes_sent;
-        char buffer[1000];
-
-        strcpy(buffer, message.c_str());
-
-        /* create an Internet, datagram, socket using UDP */
-        sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-        if (sock == -1)
-        {
-                /* if socket failed to initialize, exit */
-                printf("Error Creating Socket");
-                exit(EXIT_FAILURE);
-        }
-
-        /* Zero out socket address */
-        memset(&sa, 0, sizeof sa);
-
-        /* The address is IPv4 */
-        sa.sin_family = AF_INET;
-
-        /* IPv4 adresses is a uint32_t, convert a string representation of the octets to the appropriate value */
-        sa.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-        /* sockets are unsigned shorts, htons(x) ensures x is in network byte order, set the port to 7654 */
-        sa.sin_port = htons(client->mPort);
-
-        bytes_sent = sendto(sock, buffer, strlen(buffer), 0,(struct sockaddr*)&sa, sizeof sa);
-        if (bytes_sent < 0)
-        {
-                printf("Error sending packet: %s\n", strerror(errno));
-                exit(EXIT_FAILURE);
-        }
-
-        close(sock); /* close the socket */
-	
-}
 
 
 

@@ -3,7 +3,7 @@
 
 #include "2D/Vector2D.h"
 
-class FootballGame;
+class Game;
 
 class ClientStateMachine;
 
@@ -16,11 +16,11 @@ class ComputerClientState;
 class Client
 {
 	public:
-		Client(FootballGame* footballGame, int id, int port, int personId);
+		Client(Game* game, int id, int port, int personId);
 
 		void update();
 
-		FootballGame* mFootballGame;
+		Game* mGame;
 
 		int mId;
 		int mPort;

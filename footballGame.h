@@ -12,22 +12,21 @@
 //  Author: Mat Buckland 2003 (fup@ai-junkie.com)
 //
 //------------------------------------------------------------------------
-#include <vector>
-#include <cassert>
-
+//custom
+#include "game.h"
 #include "2D/Vector2D.h"
 #include "constants.h"
 
+//standard
+#include <vector>
+#include <cassert>
+
 class SoccerTeam;
 class SoccerBall;
-class SoccerTeam;
-class PlayerBase;
 class Server;
-class Client;
-class Utility;
 class FootballPitch;
 
-class FootballGame
+class FootballGame : public Game
 { 
 	public:
 
@@ -36,35 +35,13 @@ class FootballGame
 
 		FootballPitch* mFootballPitch;
 
-		int mScreenX;
-		int mScreenY;
+		/*****************Game ***********/
+		void tick();
+		void processMove(std::vector<std::string> stringVector);
 
-		/******       outside variables ***************/
-		Server* mServer;
-  	
-		/******       game life ***************/
-		bool  GameOn()const{return m_bGameOn;}
-  		void  SetGameOn(){m_bGameOn = true;}
-  		void  SetGameOff(){m_bGameOn = false;}
-  		//true if the game is in play. Set to false whenever the players
-  		//are getting ready for kickoff
-  		bool                 m_bGameOn;
-
-  		//set true to pause the motion
-  		bool                 m_bPaused;
-		
-		void  TogglePause(){m_bPaused = !m_bPaused;}
-  		bool  Paused()const{return m_bPaused;}
-
-		//client
-		void sendToClient(Client* client, std::string message);
-		void sendDataToNewClients();
-                int getNextClientId();
-                std::vector<Client*> mClientVector;
-                int mClientIdCounter;
-  	
-		//id	
-		int mId;
+		/*********** Clients ****************/
+                void sendDataToNewClients();
+		void sendMovesToClients();
 
 		/******       Teams   ***************/
   		SoccerTeam*          m_pRedTeam;
@@ -74,25 +51,6 @@ class FootballGame
 		SoccerBall*const           Ball()const{return m_pBall;}
 		SoccerBall*          m_pBall;
   
-		/******       Utility ***************/
-		Utility* mUtility;
-               
-		/******       Time and ticks ***************/
-		long getCurrentMilliseconds();
-		void tick();
-	  	void  Update();
-  		void processBuffer(std::vector<std::string> stringVector);
-	  	void processMove(std::vector<std::string> stringVector);
-		//time
-                long mGameStartTime;
-                long mLastTime;
-                long mDelta;
-                long mTickCount;
-
-		//client
-		void requestClient(std::vector<std::string> stringVector);
-		void sendMovesToClients();
-		
 		/******       game play member variables ***************/
 		
 		//true if a goal keeper has possession
@@ -150,8 +108,6 @@ class FootballGame
     		bool bShowControllingTeam;
     		bool bViewTargets;
     		bool bHighlightIfThreatened;
-
-    		int FrameRate;
 
     		double SeparationCoefficient; 
     		double ViewDistance; 
