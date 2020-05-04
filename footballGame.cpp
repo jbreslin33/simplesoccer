@@ -123,10 +123,8 @@ void FootballGame::tick()
 
 	if (mPaused == true) 
 	{
-		printf("paused is true\n");
 		return;
 	}
-	printf("run pause is false\n");
 
   	static int tick = 0;
 
