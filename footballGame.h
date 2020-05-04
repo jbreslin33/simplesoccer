@@ -47,8 +47,8 @@ class FootballGame : public Game
 		void sendMovesToClients();
 
 		/******       Teams   ***************/
-  		SoccerTeam*          m_pRedTeam;
-  		SoccerTeam*          m_pBlueTeam;
+		//pointers to the team members
+  		std::vector<SoccerTeam*>  mTeamVector;
 
 		/******       Ball   ***************/
 		SoccerBall*const           Ball()const{return m_pBall;}

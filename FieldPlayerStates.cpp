@@ -106,13 +106,19 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
                         }
 
                         //make the pass
-			if (player->Team()->Game()->m_pRedTeam == player->Team())
-                	{
-                        	printf("PASS VIA REQUEST RED\n");
-                	}
-                	else
-                	{
-                        	printf("PASS VIA REQUEST BLUE\n");
+			for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
+			{
+				if (player->Team()->Game()->mTeamVector.at(i) == player->Team())
+				{
+					if (i == 0)
+					{
+                        			printf("PASS VIA REQUEST BLUE\n");
+					}
+					if (i == 1)
+					{
+                        			printf("PASS VIA REQUEST RED\n");
+					}
+				}
                 	}
 
 			Vector2D v = receiver->Pos() - player->Ball()->Pos();
@@ -539,15 +545,23 @@ void KickBall::Execute(FieldPlayer* player)
   	//to make the shot
   	if (player->Team()->CanShoot(player->Ball()->Pos(), power))
   	{	 
-		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
-		{
-			printf("SHOT RED\n");
-		}
-		else
-		{
-			printf("SHOT BLUE\n");
-		}
-   		//add some noise to the kick. We don't want players who are 
+        	//make a shoot
+                for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
+                {
+                	if (player->Team()->Game()->mTeamVector.at(i) == player->Team())
+                        {
+                        	if (i == 0)
+                                {
+                                        printf("SHOT BLUE\n");
+                                }
+                                if (i == 1)
+                                {
+                                	printf("SHOT RED\n");
+                                }
+                        }
+                }
+   		
+		//add some noise to the kick. We don't want players who are 
    		//too accurate! The amount of noise can be adjusted by altering
 		
 		//took out noise
@@ -571,14 +585,20 @@ void KickBall::Execute(FieldPlayer* player)
 
         if ( (RandFloat() < player->Game()->ChancePlayerAttemptsPotShot))
         {
-		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
-		{
-                	printf("POT SHOT RED\n");
-		}
-		else
-		{
-                	printf("POT SHOT BLUE\n");
-		}
+                for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
+                {
+                	if (player->Team()->Game()->mTeamVector.at(i) == player->Team())
+                        {
+                        	if (i == 0)
+                                {
+                                        printf("POT SHOT BLUE\n");
+                                }
+                                if (i == 1)
+                                {
+                                	printf("POT SHOT RED\n");
+                                }
+                        }
+                }
 
                 //add some noise to the kick. We don't want players who are
                 //too accurate! The amount of noise can be adjusted by altering
@@ -613,14 +633,22 @@ void KickBall::Execute(FieldPlayer* player)
                               power,
                               player->Game()->MinPassDist))
   	{     
-		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
-		{
-			printf("PASS RED\n");
-		}
-		else
-		{
-			printf("PASS BLUE\n");
-		}
+		                        //make the pass
+               	for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
+                {
+                	if (player->Team()->Game()->mTeamVector.at(i) == player->Team())
+                        {
+                        	if (i == 0)
+                                {
+                                	printf("PASS BLUE\n");
+                                }
+                                if (i == 1)
+                                {
+                                        printf("PASS RED\n");
+                                }
+                        }
+                }
+
     		//add some noise to the kick
     		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
 
@@ -647,14 +675,21 @@ void KickBall::Execute(FieldPlayer* player)
   	//cannot shoot or pass, so dribble the ball upfield
   	else
   	{   
-		if (player->Team()->Game()->m_pRedTeam == player->Team()) 
-		{
-			printf("DRIBBLE RED\n");
-		}
-		else
-		{
-			printf("DRIBBLE BLUE\n");
-		}
+               	for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
+                {
+                	if (player->Team()->Game()->mTeamVector.at(i) == player->Team())
+                        {
+                        	if (i == 0)
+                                {
+                                	printf("DRIBBLE BLUE\n");
+                                }
+                                if (i == 1)
+                                {
+                                        printf("DRIBBLE RED\n");
+                                }
+                        }
+                }
+
     		player->FindSupport();
 
     		player->GetFSM()->ChangeState(Dribble::Instance());

@@ -81,12 +81,12 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
         );
 
 	//create the teams 
-  	m_pRedTeam  = new SoccerTeam(mFootballPitch->m_pRedGoal, mFootballPitch->m_pBlueGoal, this, SoccerTeam::team_color::red);
-  	m_pBlueTeam = new SoccerTeam(mFootballPitch->m_pBlueGoal, mFootballPitch->m_pRedGoal, this, SoccerTeam::team_color::blue);
+  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->m_pBlueGoal, mFootballPitch->m_pRedGoal, this, SoccerTeam::team_color::blue));
+  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->m_pRedGoal, mFootballPitch->m_pBlueGoal, this, SoccerTeam::team_color::red));
 
   	//make sure each team knows who their opponents are
-  	m_pRedTeam->SetOpponents(m_pBlueTeam);
-  	m_pBlueTeam->SetOpponents(m_pRedTeam); 
+  	mTeamVector.at(0)->SetOpponents(mTeamVector.at(1));
+  	mTeamVector.at(1)->SetOpponents(mTeamVector.at(0));
 }
 
 //-------------------------------- dtor ----------------------------------
@@ -95,8 +95,10 @@ FootballGame::~FootballGame()
 {
 	delete m_pBall;
 
-  	delete m_pRedTeam;
-  	delete m_pBlueTeam;
+	for (int i = 0; i < mTeamVector.size(); i++)
+	{
+		delete mTeamVector.at(i);
+	}
 }
 
 void FootballGame::startGame(std::vector<std::string> stringVector)
@@ -107,8 +109,10 @@ void FootballGame::startGame(std::vector<std::string> stringVector)
 
 	printf("startGame\n");
         //get the teams ready for kickoff
-        m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
-        m_pBlueTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+	for (int i = 0; i < mTeamVector.size(); i++)
+	{
+        	mTeamVector.at(i)->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+	}
 }
 
 //----------------------------- tick -----------------------------------
@@ -132,8 +136,10 @@ void FootballGame::tick()
   	m_pBall->Update();
 
   	//update the teams
-  	m_pRedTeam->Update();
-  	m_pBlueTeam->Update();
+	for (int i = 0; i < mTeamVector.size(); i++)
+	{
+		mTeamVector.at(i)->Update();
+	}
 	
 
   	//if a goal has been detected reset the game ready for kickoff
@@ -145,8 +151,10 @@ void FootballGame::tick()
     		m_pBall->PlaceAtPosition(Vector2D( (double) mScreenX / 2.0, (double) mScreenY / 2.0));
 
     		//get the teams ready for kickoff
-    		m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
-   	 	m_pBlueTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+		for (int i = 0; i < mTeamVector.size(); i++)
+		{
+    			mTeamVector.at(i)->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+		}
   	}
 
         //send moves to clients
@@ -189,50 +197,29 @@ void FootballGame::sendMovesToClients()
                         message.append("m"); //move code
                         message.append(",");
 			
-                        
-			for (int p = 0; p < m_pRedTeam->Members().size(); p++)
-                        {
+			for (int t = 0; t < mTeamVector.size(); t++)
+			{
+				for (int p = 0; p < mTeamVector.at(t)->Members().size(); p++)
+                        	{
 
-                                std::string id = std::to_string(m_pRedTeam->Members().at(p)->ID()); //player id
-                                std::string x  = std::to_string(m_pRedTeam->Members().at(p)->Pos().x); //player x
-                                std::string y  = std::to_string(m_pRedTeam->Members().at(p)->Pos().y); //player y
+                                	std::string id = std::to_string(mTeamVector.at(t)->Members().at(p)->ID()); //player id
+                                	std::string x  = std::to_string(mTeamVector.at(t)->Members().at(p)->Pos().x); //player x
+                                	std::string y  = std::to_string(mTeamVector.at(t)->Members().at(p)->Pos().y); //player y
 
-				double rotDegrees = mUtility->getRotationInDegreesFromVector(m_pRedTeam->Members().at(p)->Heading());
-                                std::string headingAngle = std::to_string(rotDegrees); //left foot angle
+					double rotDegrees = mUtility->getRotationInDegreesFromVector(mTeamVector.at(t)->Members().at(p)->Heading());
+                                	std::string headingAngle = std::to_string(rotDegrees); //left foot angle
 
-                                message.append(id);
-                                message.append(",");
-                                message.append(x);
-                                message.append(",");
-                                message.append(y);
-                                message.append(",");
-                                message.append(headingAngle);
-                                message.append(",");
-				message.append(m_pRedTeam->Members().at(p)->mStateName);
-                                message.append(",");
-                        }
-
-
-                        for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
-                        {
-
-                                std::string id = std::to_string(m_pBlueTeam->Members().at(p)->ID()); //player id
-                                std::string x  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().x); //player x
-                                std::string y  = std::to_string(m_pBlueTeam->Members().at(p)->Pos().y); //player y
-				
-				double rotDegrees = mUtility->getRotationInDegreesFromVector(m_pBlueTeam->Members().at(p)->Heading());
-                                std::string headingAngle = std::to_string(rotDegrees); //left foot angle
-
-                                message.append(id);
-                                message.append(",");
-                                message.append(x);
-                                message.append(",");
-                                message.append(y);
-                                message.append(",");
-                                message.append(headingAngle);
-                                message.append(",");
-				message.append(m_pBlueTeam->Members().at(p)->mStateName);
-                                message.append(",");
+                                	message.append(id);
+                                	message.append(",");
+                                	message.append(x);
+                                	message.append(",");
+                                	message.append(y);
+                                	message.append(",");
+                                	message.append(headingAngle);
+                                	message.append(",");
+					message.append(mTeamVector.at(t)->Members().at(p)->mStateName);
+                                	message.append(",");
+				}
                         }
 
                         //add ball
@@ -292,49 +279,47 @@ void FootballGame::sendDataToNewClients()
                         //ballsize radius
                         message.append( std::to_string( BallSize  ));
                         message.append(",");     //extra comma
+			
+			for (int t = 0; t < mTeamVector.size(); t++)
+			{
 
-                        for (int p = 0; p < m_pBlueTeam->Members().size(); p++)
-                        {
-                                message.append( std::to_string( m_pBlueTeam->Members().at(p)->ID() ));
-                                message.append(",");     //extra comma
+                        	for (int p = 0; p < mTeamVector.at(t)->Members().size(); p++)
+                        	{
+                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->ID() ));
+                                	message.append(",");     //extra comma
 
-                                //size radius
-                                message.append( std::to_string( m_pBlueTeam->Members().at(p)->BRadius() ));
-                                message.append(",");     //extra comma
+                                	//size radius
+                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->BRadius() ));
+                                	message.append(",");     //extra comma
 
 
-                                if (p < (m_pBlueTeam->Members().size() - 1))
-                                {
-                                        message.append("blue");
-                                        message.append(",");     //extra comma
-                                }
-                                else
-                                {
-                                        message.append("violet");
-                                        message.append(",");     //extra comma
-                                }
-                        }
-
-                        //players
-                        for (int p = 0; p < m_pRedTeam->Members().size(); p++)
-                        {
-                                message.append( std::to_string( m_pRedTeam->Members().at(p)->ID() ));
-                                message.append(",");     //extra comma
-
-                                //size radius
-                                message.append( std::to_string( m_pRedTeam->Members().at(p)->BRadius() ));
-                                message.append(",");     //extra comma
-
-                                if (p < (m_pRedTeam->Members().size() - 1))
-                                {
-                                        message.append("red");
-                                        message.append(",");     //extra comma
-                                }
-                                else
-                                {
-                                        message.append("purple");
-                                        message.append(",");     //extra comma
-                                }
+                                	if (p < (mTeamVector.at(t)->Members().size() - 1))
+                                	{
+						if (t == 0)
+						{
+                                        		message.append("blue");
+                                        		message.append(",");     //extra comma
+						}
+						if (t == 1)
+						{
+                                        		message.append("red");
+                                        		message.append(",");     //extra comma
+						}
+                                	}
+                                	else
+                                	{
+						if (t == 0)
+						{
+                                        		message.append("violet");
+                                        		message.append(",");     //extra comma
+						}
+						if (t == 1)
+						{
+                                        		message.append("purple");
+                                        		message.append(",");     //extra comma
+						}
+                                	}
+				}
                         }
 
                         printf("TO NEW CLIENT:%s AND mSentToClient set true.\n",message.c_str());
