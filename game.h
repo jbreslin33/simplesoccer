@@ -34,7 +34,7 @@ class Game
 
                 void setPaused(bool paused);
                 bool getPaused();
-                bool  mPaused;
+                bool mPaused;
 
                 //clients 
                 int getNextClientId();
@@ -78,6 +78,5 @@ class Game
 
 		//send positions, orientations to clients so they can move their local objects to mirror server game world.
                 virtual void sendMovesToClients() {};
-
 };
 #endif
