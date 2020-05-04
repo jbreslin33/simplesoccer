@@ -19,9 +19,8 @@ Game::Game(int screenX, int screenY, Server* server, int id)
         mScreenX = screenX;
         mScreenY = screenY;
 
-        m_bPaused = false;
-
-        m_bGameOn = true;
+        mGameOn = false;
+        mPaused = false;
 
         mId = id;
         mServer = server;
@@ -38,14 +37,9 @@ Game::Game(int screenX, int screenY, Server* server, int id)
 
 Game::~Game()
 {
-//        delete m_pBall;
-
- //       delete m_pRedTeam;
-  //      delete m_pBlueTeam;
 }
 
-
-void Game::Update()
+void Game::update()
 {
         mDelta = getCurrentMilliseconds() - mLastTime;
 
@@ -56,6 +50,26 @@ void Game::Update()
         }
 }
 
+//getters and setters
+bool Game::getGameOn()
+{
+	return mGameOn;
+}
+
+void Game::setGameOn(bool b)
+{
+	mGameOn = b;
+}
+
+bool Game::getPaused()
+{
+	return mPaused;
+}
+
+void Game::setPaused(bool b)
+{
+	mPaused = b;	
+}
 
 int Game::getNextClientId()
 {
@@ -130,11 +144,17 @@ void Game::processBuffer(std::vector<std::string> stringVector)
                 requestPlayer(stringVector);
         }
 
+        */
         if (stringVector.at(1).compare(0,1,"g") == 0)
         {
                 startGame(stringVector);
         }
-        */
+}
+
+void Game::startGame(std::vector<std::string> stringVector)
+{
+	//no need to parse string
+	setGameOn(true);	
 }
 
 void Game::requestClient(std::vector<std::string> stringVector)

@@ -106,12 +106,13 @@ FootballGame::~FootballGame()
 //------------------------------------------------------------------------
 void FootballGame::tick()
 {
+        //any new clients then send them message with the port
+        sendDataToNewClients();
 
-	if (m_bPaused) 
+	if (mPaused || mGameOn == false) 
 	{
 		return;
 	}
-
 
   	static int tick = 0;
 
@@ -126,7 +127,7 @@ void FootballGame::tick()
   	//if a goal has been detected reset the game ready for kickoff
   	if (mFootballPitch->m_pBlueGoal->Scored(m_pBall) || mFootballPitch->m_pRedGoal->Scored(m_pBall))
  	{
-    		m_bGameOn = false;
+    		setGameOn(false);
     
     		//reset the ball                                                      
     		m_pBall->PlaceAtPosition(Vector2D( (double) mScreenX / 2.0, (double) mScreenY / 2.0));
@@ -139,8 +140,6 @@ void FootballGame::tick()
         //send moves to clients
        	sendMovesToClients();
 
-        //any new clients then send them message with the port
-        sendDataToNewClients();
 
 }
 

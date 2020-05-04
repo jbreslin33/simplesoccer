@@ -1,3 +1,12 @@
+//custom
+#include "server.h"
+#include "utility.h"
+#include "footballGame.h"
+
+//standard
+#include <iostream>
+#include <thread>
+
 //berkeley socket for read server
 #include <stdio.h>
 #include <errno.h>
@@ -7,14 +16,6 @@
 #include <netinet/in.h>
 #include <unistd.h> /* for close() for socket */
 #include <stdlib.h>
-
-#include <iostream>
-#include <thread>
-
-#include "server.h"
-#include "utility.h"
-#include "footballGame.h"
-
 
 void serverThread(Server* server)
 {
@@ -48,8 +49,6 @@ void readSocketData(Server* server)
 
         for (;;)
         {
-                //printf("waiting on port %d\n", 7654);
-
                 recsize = recvfrom(sock, (void*)buffer, sizeof buffer, 0, (struct sockaddr*)&sa, &fromlen);
 
                 if (recsize > 0)
@@ -58,7 +57,6 @@ void readSocketData(Server* server)
                         char* cBuffer;
                         cBuffer = (char*)buffer;
                         std::string s = std::string(cBuffer);
-                        //printf("recfrom on server:%s\n",s.c_str());
                         std::string delimiter = ",";
 
                         server->mUtility->split(s,delimiter);

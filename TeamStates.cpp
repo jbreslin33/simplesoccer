@@ -155,7 +155,7 @@ void PrepareForKickOff::Execute(SoccerTeam* team)
 
 void PrepareForKickOff::Exit(SoccerTeam* team)
 {
-  team->Game()->SetGameOn();
+	team->Game()->setGameOn(true);
 }
 
 

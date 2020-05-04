@@ -20,11 +20,10 @@ void Server::update()
 {
 	for (int i = 0; i < mFootballGameVector.size(); i++)
 	{
-		mFootballGameVector.at(i)->Update();		
+		mFootballGameVector.at(i)->update();		
 	}                 
 
 }
-
 
 void Server::log(std::string s)
 {

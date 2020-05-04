@@ -340,7 +340,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
 		printf("ReturnToHomeRegion::Execute() ID:%d\n", player->ID());
 	}
 
-  	if (player->Game()->GameOn())
+  	if (player->Game()->getGameOn())
   	{
     		//if the ball is nearer this player than any other team member  &&
     		//there is not an assigned receiver && the goalkeeper does not gave
@@ -357,7 +357,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
   	//if game is on and close enough to home, change state to wait and set the 
   	//player target to his current position.(so that if he gets jostled out of 
   	//position he can move back to it)
-  	if (player->Game()->GameOn() && player->HomeRegion()->Inside(player->Pos(),
+  	if (player->Game()->getGameOn() && player->HomeRegion()->Inside(player->Pos(),
                                                              Region::halfsize))
   	{
     		player->Steering()->SetTarget(player->Pos());
@@ -366,7 +366,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
   
 	//if game is not on the player must return much closer to the center of his
   	//home region
-  	else if(!player->Game()->GameOn() && player->AtTarget())
+  	else if(!player->Game()->getGameOn() && player->AtTarget())
   	{
     		player->GetFSM()->ChangeState(Wait::Instance());
   	}
@@ -406,7 +406,7 @@ void Wait::Enter(FieldPlayer* player)
 	//if the game is not on make sure the target is the center of the player's
   	//home region. This is ensure all the players are in the correct positions
 	//ready for kick off
-  	if (!player->Game()->GameOn())
+  	if (!player->Game()->getGameOn())
   	{
     		player->Steering()->SetTarget(player->HomeRegion()->Center());
   	}
@@ -445,7 +445,7 @@ void Wait::Execute(FieldPlayer* player)
     		return;
   	}
 
-  	if (player->Game()->GameOn())
+  	if (player->Game()->getGameOn())
   	{
    		//if the ball is nearer this player than any other team member  AND
     		//there is not an assigned receiver AND neither goalkeeper has
