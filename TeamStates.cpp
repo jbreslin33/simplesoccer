@@ -6,12 +6,6 @@
 #include "constants.h"
 #include "footballGame.h"
 
-//uncomment to send state info to debug window
-//#define DEBUG_TEAM_STATES
-
-
-
-
 void ChangePlayerHomeRegions(SoccerTeam* team, const int NewRegions[TeamSize])
 {
   for (int plyr=0; plyr<TeamSize; ++plyr)

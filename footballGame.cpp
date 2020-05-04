@@ -99,6 +99,18 @@ FootballGame::~FootballGame()
   	delete m_pBlueTeam;
 }
 
+void FootballGame::startGame(std::vector<std::string> stringVector)
+{
+        //no need to parse string
+        setGameOn(true);
+        //call parent... instead of above...
+
+	printf("startGame\n");
+        //get the teams ready for kickoff
+        m_pRedTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+        m_pBlueTeam->GetFSM()->ChangeState(PrepareForKickOff::Instance());
+}
+
 //----------------------------- tick -----------------------------------
 //the following time has been chaneged to what buckland does... 
 //  this demo works on a fixed frame rate (60 by default) so we don't need
@@ -109,10 +121,12 @@ void FootballGame::tick()
         //any new clients then send them message with the port
         sendDataToNewClients();
 
-	if (mPaused || mGameOn == false) 
+	if (mPaused == true) 
 	{
+		printf("paused is true\n");
 		return;
 	}
+	printf("run pause is false\n");
 
   	static int tick = 0;
 

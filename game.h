@@ -74,7 +74,7 @@ class Game
                 void requestClient(std::vector<std::string> stringVector);
 
 		//start game. This comes from the client
-                void startGame(std::vector<std::string> stringVector);
+                virtual void startGame(std::vector<std::string> stringVector) {};
 
 		//send positions, orientations to clients so they can move their local objects to mirror server game world.
                 virtual void sendMovesToClients() {};

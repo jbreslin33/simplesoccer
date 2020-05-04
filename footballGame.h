@@ -35,6 +35,9 @@ class FootballGame : public Game
 
 		FootballPitch* mFootballPitch;
 
+		//start game
+		void startGame(std::vector<std::string> stringVector);
+
 		/*****************Game ***********/
 		void tick();
 		void processMove(std::vector<std::string> stringVector);

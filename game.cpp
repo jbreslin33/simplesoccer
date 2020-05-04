@@ -19,8 +19,8 @@ Game::Game(int screenX, int screenY, Server* server, int id)
         mScreenX = screenX;
         mScreenY = screenY;
 
-        mGameOn = false;
-        mPaused = false;
+        mGameOn = true;
+        mPaused = true;
 
         mId = id;
         mServer = server;
@@ -128,6 +128,7 @@ long Game::getCurrentMilliseconds()
 
 void Game::processBuffer(std::vector<std::string> stringVector)
 {
+        //requestPlayer(stringVector);
         /*
         if (stringVector.at(1).compare(0,1,"m") == 0)
         {
@@ -138,23 +139,23 @@ void Game::processBuffer(std::vector<std::string> stringVector)
         {
                 requestClient(stringVector);
         }
-/*
+
         if (stringVector.at(1).compare(0,1,"p") == 0)
         {
-                requestPlayer(stringVector);
+		printf("p\n");
+		setPaused(true);
         }
 
-        */
+        if (stringVector.at(1).compare(0,1,"u") == 0)
+        {
+		printf("u\n");
+		setPaused(false);
+        }
+
         if (stringVector.at(1).compare(0,1,"g") == 0)
         {
-                startGame(stringVector);
+                //startGame(stringVector);
         }
-}
-
-void Game::startGame(std::vector<std::string> stringVector)
-{
-	//no need to parse string
-	setGameOn(true);	
 }
 
 void Game::requestClient(std::vector<std::string> stringVector)
