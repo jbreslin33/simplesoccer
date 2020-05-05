@@ -101,6 +101,11 @@ FootballGame::~FootballGame()
 	}
 }
 
+SoccerBall* const FootballGame::Ball()const
+{
+	return mBall;
+}
+
 void FootballGame::startGame(std::vector<std::string> stringVector)
 {
         //no need to parse string
