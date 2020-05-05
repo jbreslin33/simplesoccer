@@ -51,8 +51,8 @@ class FootballGame : public Game
   		std::vector<SoccerTeam*>  mTeamVector;
 
 		/******       Ball   ***************/
-		SoccerBall*const           Ball()const{return m_pBall;}
-		SoccerBall*          m_pBall;
+		SoccerBall*const           Ball()const{return mBall;}
+		SoccerBall*          mBall;
   
 		/******       game play member variables ***************/
 		

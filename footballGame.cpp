@@ -73,7 +73,7 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	GoalKeeperInterceptRangeSq     = GoalKeeperInterceptRange * GoalKeeperInterceptRange;
 	WithinRangeOfSupportSpotSq = WithinRangeOfSupportSpot * WithinRangeOfSupportSpot;
 	
-	m_pBall = new SoccerBall
+	mBall = new SoccerBall
         (
         	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), Vector2D(1,1), 5.0, //BaseGameEntity
                 Vector2D(0.0,0.0), Vector2D(0,1), 1, 0, 0, 0,        //MovingEntity
@@ -93,7 +93,7 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 //------------------------------------------------------------------------
 FootballGame::~FootballGame()
 {
-	delete m_pBall;
+	delete mBall;
 
 	for (int i = 0; i < mTeamVector.size(); i++)
 	{
@@ -133,7 +133,7 @@ void FootballGame::tick()
   	static int tick = 0;
 
   	//update the balls
-  	m_pBall->Update();
+  	mBall->Update();
 
   	//update the teams
 	for (int i = 0; i < mTeamVector.size(); i++)
@@ -143,12 +143,12 @@ void FootballGame::tick()
 	
 
   	//if a goal has been detected reset the game ready for kickoff
-  	if (mFootballPitch->m_pBlueGoal->Scored(m_pBall) || mFootballPitch->m_pRedGoal->Scored(m_pBall))
+  	if (mFootballPitch->m_pBlueGoal->Scored(mBall) || mFootballPitch->m_pRedGoal->Scored(mBall))
  	{
     		setGameOn(false);
     
     		//reset the ball                                                      
-    		m_pBall->PlaceAtPosition(Vector2D( (double) mScreenX / 2.0, (double) mScreenY / 2.0));
+    		mBall->PlaceAtPosition(Vector2D( (double) mScreenX / 2.0, (double) mScreenY / 2.0));
 
     		//get the teams ready for kickoff
 		for (int i = 0; i < mTeamVector.size(); i++)
