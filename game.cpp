@@ -142,13 +142,11 @@ void Game::processBuffer(std::vector<std::string> stringVector)
 
         if (stringVector.at(1).compare(0,1,"p") == 0)
         {
-		printf("p\n");
 		setPaused(true);
         }
 
         if (stringVector.at(1).compare(0,1,"u") == 0)
         {
-		printf("u\n");
 		setPaused(false);
         }
 
