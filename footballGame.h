@@ -59,20 +59,6 @@ class FootballGame : public Game
 		//true if a goal keeper has possession
   		bool mKeeperHasBall;
 
-		double MinPassDistance;
-		double GoalkeeperMinPassDistance;
-
-		double Spot_CanPassScore;
-		double WithinRangeOfSweetSpot;
-    
-    		double Spot_PassSafeScore;
-    		double Spot_CanScoreFromPositionScore;
-    		double Spot_DistFromControllingPlayerScore;
-    		double Spot_ClosenessToSupportingPlayerScore;
-    		double Spot_AheadOfAttackerScore;
-
-    		double SupportSpotUpdateFreq; 
-    
     		double ChancePlayerAttemptsPotShot;
     		double ChanceOfUsingArriveTypeReceiveBehavior;
     

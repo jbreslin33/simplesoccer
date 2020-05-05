@@ -26,7 +26,12 @@ class SoccerTeam;
 
 class SupportSpotCalculator
 {
-private:
+	private:
+
+               	double mSpot_PassSafeScore;
+                double mSpot_CanScoreFromPositionScore;
+                double mSpot_DistFromControllingPlayerScore;
+
   
   //a data structure to hold the values and positions of each spot
   struct SupportSpot

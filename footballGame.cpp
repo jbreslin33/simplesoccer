@@ -28,13 +28,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	
 	mKeeperHasBall = false;
 
-	//params
-	Spot_CanPassScore                     	= 2.0;
-	Spot_CanScoreFromPositionScore        	= 1.0;
-	Spot_DistFromControllingPlayerScore    	= 2.0;
-	Spot_ClosenessToSupportingPlayerScore 	= 0.0;
-	Spot_AheadOfAttackerScore             	= 0.0;
-	SupportSpotUpdateFreq           	= 1;
 	ChancePlayerAttemptsPotShot     	= 0.005;
 	ChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
 	BallSize                        	= 5.0;
@@ -52,9 +45,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	MaxShootingForce                	= 6.0;
 	MaxPassingForce                 	= 3.0;
 	WithinRangeOfHome               	= 15.0;
-	WithinRangeOfSweetSpot          	= 15.0;
-	MinPassDistance                 	= 120.0;
-	GoalkeeperMinPassDistance       	= 50.0;
 	GoalKeeperTendingDistance       	= 20.0;
 	GoalKeeperInterceptRange                = 100.0;
 	BallWithinReceivingRange        	= 10.0;

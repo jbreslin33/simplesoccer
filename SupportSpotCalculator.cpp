@@ -22,6 +22,11 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
                                              SoccerTeam*   team):m_pBestSupportingSpot(NULL),
                                                                   m_pTeam(team)
 {
+
+	//params
+        mSpot_CanScoreFromPositionScore          = 1.0;
+        mSpot_DistFromControllingPlayerScore     = 2.0;
+
 	const Region* PlayingField = team->Game()->mFootballPitch->PlayingArea();
 
   	//calculate the positions of each sweet spot, create them and 
@@ -87,7 +92,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
                                            NULL,
                                            m_pTeam->Game()->MaxPassingForce))
     		{
-      			curSpot->m_dScore += m_pTeam->Game()->Spot_PassSafeScore;
+      			curSpot->m_dScore += mSpot_PassSafeScore;
     		}
 		//printf("SupportSpotCalculator::DetermineBestSupportingPosition 3\n");
       
@@ -96,7 +101,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
     		if( m_pTeam->CanShoot(curSpot->m_vPos,            
                           m_pTeam->Game()->MaxShootingForce))
     		{
-      			curSpot->m_dScore += m_pTeam->Game()->Spot_CanScoreFromPositionScore;
+      			curSpot->m_dScore += mSpot_CanScoreFromPositionScore;
     		}	   
 
     
@@ -116,7 +121,7 @@ Vector2D SupportSpotCalculator::DetermineBestSupportingPosition()
       			{
 
         			//normalize the distance and add it to the score
-        			curSpot->m_dScore += m_pTeam->Game()->Spot_DistFromControllingPlayerScore *
+        			curSpot->m_dScore += mSpot_DistFromControllingPlayerScore *
                              		(OptimalDistance-temp)/OptimalDistance;  
       			}
     		}
