@@ -121,9 +121,9 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 				}
                 	}
 
-			Vector2D v = receiver->Pos() - player->Ball()->Pos();
+			Vector2D v = receiver->Pos() - player->getBall()->Pos();
                         
-			player->Ball()->Kick(receiver->Pos() - player->Ball()->Pos(),
+			player->getBall()->Kick(receiver->Pos() - player->getBall()->Pos(),
                            player->Team()->Game()->MaxPassingForce);
 
 			//let the receiver know a pass is coming
@@ -204,7 +204,7 @@ void ChaseBall::Execute(FieldPlayer* player)
   	//chasing it
   	if (player->isClosestTeamMemberToBall())
   	{
-    		player->Steering()->SetTarget(player->Ball()->Pos());
+    		player->Steering()->SetTarget(player->getBall()->Pos());
     		return;
   	}
   
@@ -516,7 +516,7 @@ void KickBall::Execute(FieldPlayer* player)
 
   	//calculate the dot product of the vector pointing to the ball
   	//and the player's heading
-  	Vector2D ToBall = player->Ball()->Pos() - player->Pos();
+  	Vector2D ToBall = player->getBall()->Pos() - player->Pos();
   	double   dot    = player->Heading().Dot(Vec2DNormalize(ToBall)); 
 
   	//cannot kick the ball if the goalkeeper is in possession or if it is 
@@ -543,7 +543,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//if it is determined that the player could score a goal from this position
   	//OR if he should just kick the ball anyway, the player will attempt
   	//to make the shot
-  	if (player->Team()->CanShoot(player->Ball()->Pos(), power))
+  	if (player->Team()->CanShoot(player->getBall()->Pos(), power))
   	{	 
         	//make a shoot
                 for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
@@ -571,9 +571,9 @@ void KickBall::Execute(FieldPlayer* player)
    		//Vector2D KickDirection = BallTarget - player->Ball()->Pos();
 
    		//Vector2D KickDirection = player->Ball()->Pos() - player->Team()->OpponentsGoal()->Center();
-   		Vector2D KickDirection = player->Team()->OpponentsGoal()->Center() - player->Ball()->Pos();
+   		Vector2D KickDirection = player->Team()->OpponentsGoal()->Center() - player->getBall()->Pos();
    
-   		player->Ball()->Kick(KickDirection, power);
+   		player->getBall()->Kick(KickDirection, power);
     
    		//change state   
    		player->GetFSM()->ChangeState(Wait::Instance());
@@ -602,12 +602,12 @@ void KickBall::Execute(FieldPlayer* player)
 
                 //add some noise to the kick. We don't want players who are
                 //too accurate! The amount of noise can be adjusted by altering
-                BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
+                BallTarget = player->getBall()->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
 
                 //this is the direction the ball will be kicked in
-                Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+                Vector2D KickDirection = BallTarget - player->getBall()->Pos();
 
-                player->Ball()->Kick(KickDirection, power);
+                player->getBall()->Kick(KickDirection, power);
 
                 //change state
                 player->GetFSM()->ChangeState(Wait::Instance());
@@ -650,11 +650,11 @@ void KickBall::Execute(FieldPlayer* player)
                 }
 
     		//add some noise to the kick
-    		BallTarget = player->Ball()->AddNoiseToKick(player->Ball()->Pos(), BallTarget);
+    		BallTarget = player->getBall()->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
 
-    		Vector2D KickDirection = BallTarget - player->Ball()->Pos();
+    		Vector2D KickDirection = BallTarget - player->getBall()->Pos();
    
-    		player->Ball()->Kick(KickDirection, power);
+    		player->getBall()->Kick(KickDirection, power);
 
     		//let the receiver know a pass is coming 
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
@@ -750,12 +750,12 @@ void Dribble::Execute(FieldPlayer* player)
     		//ball and turn at the same time
     		const double KickingForce = 0.8;
 
-    		player->Ball()->Kick(direction, KickingForce);
+    		player->getBall()->Kick(direction, KickingForce);
   	}
   	//kick the ball down the field
   	else
   	{
-    		player->Ball()->Kick(player->Team()->HomeGoal()->Facing(),
+    		player->getBall()->Kick(player->Team()->HomeGoal()->Facing(),
                          player->Game()->MaxDribbleForce);  
   	}
 
@@ -831,7 +831,7 @@ void ReceiveBall::Execute(FieldPlayer* player)
 
   	if (player->Steering()->PursuitIsOn())
   	{
-    		player->Steering()->SetTarget(player->Ball()->Pos());
+    		player->Steering()->SetTarget(player->getBall()->Pos());
   	}
 
   	//if the player has 'arrived' at the steering target he should wait and

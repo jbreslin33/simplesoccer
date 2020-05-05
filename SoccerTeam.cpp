@@ -116,7 +116,7 @@ void SoccerTeam::CalculateClosestPlayerToBall()
   for (it; it != m_Players.end(); ++it)
   {
     //calculate the dist. Use the squared value to avoid sqrt
-    double dist = Vec2DDistanceSq((*it)->Pos(), Game()->Ball()->Pos());
+    double dist = Vec2DDistanceSq((*it)->Pos(), Game()->getBall()->Pos());
 
     //keep a record of this value for each player
     (*it)->SetDistSqToBall(dist);
@@ -248,7 +248,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 {  
 	//first, calculate how much time it will take for the ball to reach 
   	//this receiver, if the receiver was to remain motionless 
-  	double time = Game()->Ball()->TimeToCoverDistance(Game()->Ball()->Pos(),
+  	double time = Game()->getBall()->TimeToCoverDistance(Game()->getBall()->Pos(),
                                                     receiver->Pos(),
                                                     power);
 
@@ -269,7 +269,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 
   	GetTangentPoints(receiver->Pos(),
                    InterceptRange,
-                   Game()->Ball()->Pos(),
+                   Game()->getBall()->Pos(),
                    ip1,
                    ip2);
  
@@ -293,7 +293,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 
     		if (( dist < ClosestSoFar) &&
         		Game()->mFootballPitch->PlayingArea()->Inside(Passes[pass]) &&
-        		isPassSafeFromAllOpponents(Game()->Ball()->Pos(),
+        		isPassSafeFromAllOpponents(Game()->getBall()->Pos(),
                                    Passes[pass],
                                    receiver,
                                    power))
@@ -364,13 +364,13 @@ bool SoccerTeam::isPassSafeFromOpponent(Vector2D    from,
   	//calculate how long it takes the ball to cover the distance to the 
   	//position orthogonal to the opponents position
   	double TimeForBall = 
-  	Game()->Ball()->TimeToCoverDistance(Vector2D(0,0),
+  	Game()->getBall()->TimeToCoverDistance(Vector2D(0,0),
                                        Vector2D(LocalPosOpp.x, 0),
                                        PassingForce);
 
   	//now calculate how far the opponent can run in this time
   	double reach = opp->MaxSpeed() * TimeForBall +
-                Game()->Ball()->BRadius()+
+                Game()->getBall()->BRadius()+
                 opp->BRadius();
 
   	//if the distance to the opponent's y position is less than his running
@@ -436,8 +436,8 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 
     		//the y value of the shot position should lay somewhere between two
     		//goalposts (taking into consideration the ball diameter)
-    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->Ball()->BRadius());
-    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->Ball()->BRadius());
+    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->getBall()->BRadius());
+    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->getBall()->BRadius());
 
     		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
 
@@ -446,7 +446,7 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 		Vector2D shotTarget;
 		shotTarget.x = ShotTarget->x;
 		shotTarget.y = ShotTarget->y;
-    		double time = Game()->Ball()->TimeToCoverDistance(BallPos,
+    		double time = Game()->getBall()->TimeToCoverDistance(BallPos,
                                                       shotTarget,
                                                       power);
     

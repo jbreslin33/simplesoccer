@@ -147,7 +147,7 @@ class PlayerBase : public MovingEntity,
 
   		void        SetDefaultHomeRegion(){m_iHomeRegion = m_iDefaultRegion;}
 
-  		SoccerBall* const        Ball()const;
+  		SoccerBall* const        getBall()const;
   		FootballGame* const       Game()const;
   		SteeringBehaviors*const  Steering()const{return m_pSteering;}
   		const Region* const      HomeRegion()const;

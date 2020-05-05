@@ -87,7 +87,7 @@ MovingEntity
   	//set up the steering behavior class
   	m_pSteering = new SteeringBehaviors(this,
                                       m_pTeam->Game(),
-                                      Ball());  
+                                      getBall());  
   
   	//a player's start target is its start position (because it's just waiting)
   	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->GetRegionFromIndex(homeRegion)->Center());
@@ -102,7 +102,7 @@ MovingEntity
 //------------------------------------------------------------------------
 void PlayerBase::TrackBall()
 {
-	RotateHeadingToFacePosition(Ball()->Pos());  
+	RotateHeadingToFacePosition(getBall()->Pos());  
 }
 
 //----------------------------- TrackTarget --------------------------------
@@ -244,17 +244,17 @@ bool PlayerBase::isControllingPlayer()const
 
 bool PlayerBase::BallWithinKeeperRange()const
 {
-	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Game()->KeeperInBallRange);
+	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < Game()->KeeperInBallRange);
 }
 
 bool PlayerBase::BallWithinReceivingRange()const
 {
-	return (Vec2DDistanceSq(Pos(), Ball()->Pos()) < Game()->BallWithinReceivingRangeSq);
+	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < Game()->BallWithinReceivingRangeSq);
 }
 
 bool PlayerBase::BallWithinKickingRange()const
 {
-	return (Vec2DDistanceSq(Ball()->Pos(), Pos()) < Game()->PlayerKickingDistanceSq);
+	return (Vec2DDistanceSq(getBall()->Pos(), Pos()) < Game()->PlayerKickingDistanceSq);
 }
 
 
@@ -298,9 +298,9 @@ bool PlayerBase::isAheadOfAttacker()const
          fabs(Team()->ControllingPlayer()->Pos().x - Team()->OpponentsGoal()->Center().x);
 }
 
-SoccerBall* const PlayerBase::Ball()const
+SoccerBall* const PlayerBase::getBall()const
 {
-	return Team()->Game()->Ball();
+	return Team()->Game()->getBall();
 }
 
 FootballGame* const PlayerBase::Game()const

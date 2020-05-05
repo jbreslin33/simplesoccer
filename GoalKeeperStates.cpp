@@ -98,7 +98,7 @@ void TendGoal::Execute(GoalKeeper* keeper)
   	//to put the ball back in play
   	if (keeper->BallWithinKeeperRange())
   	{
-    		keeper->Ball()->Trap();
+    		keeper->getBall()->Trap();
 
     		keeper->Game()->SetGoalKeeperHasBall(true);
 
@@ -228,7 +228,7 @@ void InterceptBall::Execute(GoalKeeper* keeper)
   	//ball and puts it back in play
   	if (keeper->BallWithinKeeperRange())
   	{
-    		keeper->Ball()->Trap();
+    		keeper->getBall()->Trap();
     
     		keeper->Game()->SetGoalKeeperHasBall(true);
 
@@ -294,7 +294,7 @@ void PutBallBackInPlay::Execute(GoalKeeper* keeper)
                               keeper->Game()->GoalkeeperMinPassDist))
   	{     
     		//make the pass   
-    		keeper->Ball()->Kick(Vec2DNormalize(BallTarget - keeper->Ball()->Pos()),
+    		keeper->getBall()->Kick(Vec2DNormalize(BallTarget - keeper->getBall()->Pos()),
                          keeper->Game()->MaxPassingForce);
 
     		//goalkeeper no longer has ball 

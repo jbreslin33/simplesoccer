@@ -101,7 +101,7 @@ FootballGame::~FootballGame()
 	}
 }
 
-SoccerBall* const FootballGame::Ball()const
+SoccerBall* const FootballGame::getBall()const
 {
 	return mBall;
 }
@@ -228,8 +228,8 @@ void FootballGame::sendMovesToClients()
                         }
 
                         //add ball
-                        std::string x  = std::to_string(Ball()->Pos().x); //ball x
-                        std::string y  = std::to_string(Ball()->Pos().y); //ball y
+                        std::string x  = std::to_string(getBall()->Pos().x); //ball x
+                        std::string y  = std::to_string(getBall()->Pos().y); //ball y
                         message.append(x);
                         message.append(",");
                         message.append(y);

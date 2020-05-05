@@ -78,13 +78,13 @@ void GoalKeeper::Update()
   	//look-at vector always points toward the ball
   	if (!Game()->GoalKeeperHasBall())
   	{
-   		m_vLookAt = Vec2DNormalize(Ball()->Pos() - Pos());
+   		m_vLookAt = Vec2DNormalize(getBall()->Pos() - Pos());
   	}
 }
 
 bool GoalKeeper::BallWithinRangeForIntercept()const
 {
-	return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), Ball()->Pos()) <=
+	return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), getBall()->Pos()) <=
           Game()->GoalKeeperInterceptRangeSq);
 }
 
@@ -99,7 +99,7 @@ Vector2D GoalKeeper::GetRearInterposeTarget()const
 	double xPosTarget = Team()->HomeGoal()->Center().x;
 
   	double yPosTarget = Game()->mFootballPitch->PlayingArea()->Center().y - 
-                     Game()->mFootballPitch->GoalWidth*0.5 + (Ball()->Pos().y*Game()->mFootballPitch->GoalWidth) /
+                     Game()->mFootballPitch->GoalWidth*0.5 + (getBall()->Pos().y*Game()->mFootballPitch->GoalWidth) /
                      Game()->mFootballPitch->PlayingArea()->Height();
 
   	return Vector2D(xPosTarget, yPosTarget); 
