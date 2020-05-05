@@ -76,7 +76,7 @@ void GoalKeeper::Update()
   	}
 
   	//look-at vector always points toward the ball
-  	if (!Game()->GoalKeeperHasBall())
+  	if (!Game()->getKeeperHasBall())
   	{
    		m_vLookAt = Vec2DNormalize(getBall()->Pos() - Pos());
   	}

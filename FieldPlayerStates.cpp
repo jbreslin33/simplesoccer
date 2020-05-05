@@ -353,7 +353,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
     		//the ball, go chase it
     		if ( player->isClosestTeamMemberToBall() &&
          		(player->Team()->Receiver() == NULL) &&
-         		!player->Game()->GoalKeeperHasBall())
+         		!player->Game()->getKeeperHasBall())
     		{
       			player->GetFSM()->ChangeState(ChaseBall::Instance());
       			return;
@@ -458,7 +458,7 @@ void Wait::Execute(FieldPlayer* player)
     		//the ball, go chase it
    		if (player->isClosestTeamMemberToBall() &&
        			player->Team()->Receiver() == NULL  &&
-       			!player->Game()->GoalKeeperHasBall())
+       			!player->Game()->getKeeperHasBall())
    		{
      			player->GetFSM()->ChangeState(ChaseBall::Instance());
 
@@ -523,7 +523,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//behind the player or if there is already an assigned receiver. So just
   	//continue chasing the ball
   	if (player->Team()->Receiver() != NULL   ||
-      		player->Game()->GoalKeeperHasBall() ||
+      		player->Game()->getKeeperHasBall() ||
       		(dot < 0) ) 
   	{
     		player->GetFSM()->ChangeState(ChaseBall::Instance());

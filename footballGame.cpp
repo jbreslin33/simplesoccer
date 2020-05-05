@@ -26,7 +26,7 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	//make the pitch
 	mFootballPitch = new FootballPitch(this);
 	
-	m_bGoalKeeperHasBall = false;
+	mKeeperHasBall = false;
 
 	//params
 	Spot_CanPassScore                     	= 2.0;

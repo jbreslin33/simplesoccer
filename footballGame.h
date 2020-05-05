@@ -57,7 +57,7 @@ class FootballGame : public Game
 		/******       game play member variables ***************/
 		
 		//true if a goal keeper has possession
-  		bool                 m_bGoalKeeperHasBall;
+  		bool mKeeperHasBall;
 
 		double MinPassDistance;
 		double GoalkeeperMinPassDistance;
@@ -125,8 +125,8 @@ class FootballGame : public Game
 		double GoalKeeperInterceptRangeSq;
 		double WithinRangeOfSupportSpotSq;
 
- 		bool  GoalKeeperHasBall()const{return m_bGoalKeeperHasBall;}
-  		void  SetGoalKeeperHasBall(bool b){m_bGoalKeeperHasBall = b;}
+ 		bool  getKeeperHasBall()const{return mKeeperHasBall;}
+  		void  setKeeperHasBall(bool b){mKeeperHasBall = b;}
 
 };
 

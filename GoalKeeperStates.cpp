@@ -100,7 +100,7 @@ void TendGoal::Execute(GoalKeeper* keeper)
   	{
     		keeper->getBall()->Trap();
 
-    		keeper->Game()->SetGoalKeeperHasBall(true);
+    		keeper->Game()->setKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -230,7 +230,7 @@ void InterceptBall::Execute(GoalKeeper* keeper)
   	{
     		keeper->getBall()->Trap();
     
-    		keeper->Game()->SetGoalKeeperHasBall(true);
+    		keeper->Game()->setKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -298,7 +298,7 @@ void PutBallBackInPlay::Execute(GoalKeeper* keeper)
                          keeper->Game()->MaxPassingForce);
 
     		//goalkeeper no longer has ball 
-    		keeper->Game()->SetGoalKeeperHasBall(false);
+    		keeper->Game()->setKeeperHasBall(false);
 
     		//let the receiving player know the ball's comin' at him
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
