@@ -28,8 +28,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	
 	mKeeperHasBall = false;
 
-	ChancePlayerAttemptsPotShot     	= 0.005;
-	ChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
 	BallMass                        	= 1.0;
 	Friction                        	= -0.015;
 	KeeperInBallRange               	= 10.0;

@@ -64,6 +64,10 @@ MovingEntity
   
   	//a player's start target is its start position (because it's just waiting)
   	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->GetRegionFromIndex(homeRegion)->Center());
+
+        mChancePlayerAttemptsPotShot             = 0.005;
+        mChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
+
 }
 
 
@@ -285,5 +289,24 @@ const Region* const PlayerBase::HomeRegion()const
 {
 	return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion);
 }
+
+double PlayerBase::getChancePlayerAttemptsPotShot() const
+{
+	return mChancePlayerAttemptsPotShot;
+}
+void PlayerBase::setChancePlayerAttemptsPotShot(double d) 
+{
+        mChancePlayerAttemptsPotShot = d;
+}
+
+double PlayerBase::getChanceOfUsingArriveTypeReceiveBehavior() const
+{
+       return mChanceOfUsingArriveTypeReceiveBehavior;
+}
+void PlayerBase::setChanceOfUsingArriveTypeReceiveBehavior(double d)
+{
+       mChanceOfUsingArriveTypeReceiveBehavior = d;
+}
+
 
 

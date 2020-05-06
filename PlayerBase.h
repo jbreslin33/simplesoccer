@@ -153,6 +153,18 @@ class PlayerBase : public MovingEntity,
   		const Region* const      HomeRegion()const;
   		void                     SetHomeRegion(int NewRegion){m_iHomeRegion = NewRegion;}
   		SoccerTeam*const         Team()const{return m_pTeam;}
+
+                double getChancePlayerAttemptsPotShot() const;
+                double getChanceOfUsingArriveTypeReceiveBehavior() const;
+                
+		void setChancePlayerAttemptsPotShot(double d);
+                void setChanceOfUsingArriveTypeReceiveBehavior(double d);
+
+	private:
+                double mChancePlayerAttemptsPotShot;
+                double mChanceOfUsingArriveTypeReceiveBehavior;
+
+
   
 };
 

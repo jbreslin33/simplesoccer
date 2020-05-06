@@ -59,9 +59,6 @@ class FootballGame : public Game
 		//true if a goal keeper has possession
   		bool mKeeperHasBall;
 
-    		double ChancePlayerAttemptsPotShot;
-    		double ChanceOfUsingArriveTypeReceiveBehavior;
-    
     		double BallMass;    
     		double Friction; 
     

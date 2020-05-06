@@ -583,7 +583,7 @@ void KickBall::Execute(FieldPlayer* player)
    		return;
  	}
 
-        if ( (RandFloat() < player->Game()->ChancePlayerAttemptsPotShot))
+        if ( (RandFloat() < player->getChancePlayerAttemptsPotShot()))
         {
                 for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
                 {
@@ -802,7 +802,7 @@ void ReceiveBall::Enter(FieldPlayer* player)
   	const double PassThreatRadius = 70.0;
 
   	if (( player->InHotRegion() ||
-        	RandFloat() < player->Game()->ChanceOfUsingArriveTypeReceiveBehavior) &&
+        	RandFloat() < player->getChanceOfUsingArriveTypeReceiveBehavior()) &&
      	!player->Team()->isOpponentWithinRadius(player->Pos(), PassThreatRadius))
   	{
     		player->Steering()->ArriveOn();
