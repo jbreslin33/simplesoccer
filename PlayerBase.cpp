@@ -57,30 +57,6 @@ MovingEntity
 
 	mPlayerMaxSpeedWithBall = maxSpeedWithBall;
 
-	//setup the vertex buffers and calculate the bounding radius
-  	const int NumPlayerVerts = 4;
-  	const Vector2D player[NumPlayerVerts] = {Vector2D(-3, 8),
-                                            Vector2D(3,10),
-                                            Vector2D(3,-10),
-                                            Vector2D(-3,-8)};
-
-  	for (int vtx=0; vtx<NumPlayerVerts; ++vtx)
-  	{
-    		m_vecPlayerVB.push_back(player[vtx]);
-
-    		//set the bounding radius to the length of the 
-    		//greatest extent
-    		if (abs(player[vtx].x) > m_dBoundingRadius)
-    		{
-      			m_dBoundingRadius = abs(player[vtx].x);
-    		}
-
-    		if (abs(player[vtx].y) > m_dBoundingRadius)
-    		{
-     			m_dBoundingRadius = abs(player[vtx].y);
-    		}
-  	}
-
   	//set up the steering behavior class
   	m_pSteering = new SteeringBehaviors(this,
                                       m_pTeam->Game(),
