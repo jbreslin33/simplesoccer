@@ -179,7 +179,7 @@ void SoccerBall::TestCollisionWithWalls(const std::vector<Wall2D>& walls)
     		//calculate the point on the ball that would hit the wall. This is 
     		//simply the wall's normal(inversed) multiplied by the ball's radius
     		//and added to the balls center (its position)
-    		Vector2D ThisCollisionPoint = Pos() - (walls[w].Normal() * BRadius());
+    		Vector2D ThisCollisionPoint = Pos() - (walls[w].Normal() * getRadius());
 
     		//calculate exactly where the collision point will hit the plane    
     		if (WhereIsPoint(ThisCollisionPoint,

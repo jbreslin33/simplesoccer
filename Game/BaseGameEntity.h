@@ -60,7 +60,7 @@ protected:
   Vector2D m_vPosition;
 
   //the magnitude of this object's bounding radius
-  double    m_dBoundingRadius;
+  double    mBoundingRadius;
 
   
 		BaseGameEntity
@@ -86,13 +86,12 @@ public:
   //this can be used to reset the next ID
   static void  ResetNextValidID(){m_iNextValidID = 0;}
   
-
-
   Vector2D     Pos()const{return m_vPosition;}
   void         SetPos(Vector2D new_pos){m_vPosition = new_pos;}
 
-  double       BRadius()const{return m_dBoundingRadius;}
-  void         SetBRadius(double r){m_dBoundingRadius = r;}
+  double getRadius()const;
+  void   setgetRadius(double r);
+
   int          ID()const{return m_ID;}
 
   bool         IsTagged()const{return m_bTag;}
@@ -103,10 +102,6 @@ public:
   void         SetEntityType(int new_type){m_iType = new_type;}
 
 };
-
-
-
-      
 #endif
 
 

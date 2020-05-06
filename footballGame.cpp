@@ -284,7 +284,7 @@ void FootballGame::sendDataToNewClients()
                                 	message.append(",");     //extra comma
 
                                 	//size radius
-                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->BRadius() ));
+                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->getRadius() ));
                                 	message.append(",");     //extra comma
 
 

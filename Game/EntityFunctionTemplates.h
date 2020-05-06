@@ -25,9 +25,9 @@ bool Overlapped(const T* ob, const conT& conOb, double MinDistBetweenObstacles =
   for (it=conOb.begin(); it != conOb.end(); ++it)
   {
     if (TwoCirclesOverlapped(ob->Pos(),
-                             ob->BRadius()+MinDistBetweenObstacles,                             
+                             ob->getRadius()+MinDistBetweenObstacles,                             
                              (*it)->Pos(),
-                             (*it)->BRadius()))
+                             (*it)->getRadius()))
     {
       return true;
     }
@@ -57,7 +57,7 @@ void TagNeighbors(T* entity, conT& others, const double radius)
 
     //the bounding radius of the other is taken into account by adding it 
     //to the range
-    double range = radius + (*it)->BRadius();
+    double range = radius + (*it)->getRadius();
 
     //if entity within range, tag for further consideration
     if ( ((*it) != entity) && (to.LengthSq() < range*range))
@@ -96,7 +96,7 @@ void EnforceNonPenetrationContraint(T entity, const conT& others)
     //if this distance is smaller than the sum of their radii then this
     //entity must be moved away in the direction parallel to the
     //ToEntity vector   
-    double AmountOfOverLap = (*it)->BRadius() + entity->BRadius() -
+    double AmountOfOverLap = (*it)->getRadius() + entity->getRadius() -
                              DistFromEachOther;
 
     if (AmountOfOverLap >= 0)

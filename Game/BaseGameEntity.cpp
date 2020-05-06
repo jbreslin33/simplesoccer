@@ -16,7 +16,7 @@ BaseGameEntity::BaseGameEntity
   	mExitLogs = false;
 
 	m_vPosition = position;
-        m_dBoundingRadius = boundingRadius;
+        mBoundingRadius = boundingRadius;
         m_iType = default_entity_type;
         m_bTag = false;
 	
@@ -40,3 +40,14 @@ void BaseGameEntity::SetID(int val)
     
   	m_iNextValidID = m_ID + 1;
 }
+
+double BaseGameEntity::getRadius()const
+{
+	return mBoundingRadius;
+}
+
+void BaseGameEntity::setgetRadius(double r)
+{
+	mBoundingRadius = r;
+}
+
