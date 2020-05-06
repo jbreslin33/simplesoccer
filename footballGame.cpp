@@ -65,7 +65,7 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	
 	mBall = new SoccerBall
         (
-        	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), Vector2D(1,1), 5.0, //BaseGameEntity
+        	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), 5.0, //BaseGameEntity
                 Vector2D(0.0,0.0), Vector2D(0,1), 1, 0, 0, 0,        //MovingEntity
 		this
         );

@@ -46,7 +46,7 @@ class SoccerBall : public MovingEntity
 
 		SoccerBall
 		(
-        		int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        		int id, Vector2D position, double boundingRadius, //BaseGameEntity
         		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
 			FootballGame* footballGame
 		);

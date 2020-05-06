@@ -7,7 +7,7 @@
 
 SoccerBall::SoccerBall
 (
-        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        int id, Vector2D position, double boundingRadius, //BaseGameEntity
        	Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
 	FootballGame* footballGame
 )
@@ -16,7 +16,7 @@ SoccerBall::SoccerBall
 
 MovingEntity
 (
-        id, position, scale, boundingRadius, //BaseGameEntity
+        id, position, boundingRadius, //BaseGameEntity
         velocity, heading, mass, maxSpeed, maxForce, maxTurnRate         //MovingEntity
 )
  

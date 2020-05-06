@@ -7,7 +7,7 @@ int BaseGameEntity::m_iNextValidID = 0;
 //-----------------------------------------------------------------------------
 BaseGameEntity::BaseGameEntity
 (
-        int id, Vector2D position, Vector2D scale, double boundingRadius //BaseGameEntity
+        int id, Vector2D position, double boundingRadius //BaseGameEntity
 )
 {
 		
@@ -16,7 +16,6 @@ BaseGameEntity::BaseGameEntity
   	mExitLogs = false;
 
 	m_vPosition = position;
-        m_vScale = scale;
         m_dBoundingRadius = boundingRadius;
         m_iType = default_entity_type;
         m_bTag = false;

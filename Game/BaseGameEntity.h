@@ -59,15 +59,13 @@ protected:
   //its location in the environment
   Vector2D m_vPosition;
 
-  Vector2D m_vScale;
-
   //the magnitude of this object's bounding radius
   double    m_dBoundingRadius;
 
   
 		BaseGameEntity
 		(
-     			int id, Vector2D position, Vector2D scale, double boundingRadius
+     			int id, Vector2D position, double boundingRadius
 		);
 
 public:
@@ -100,10 +98,6 @@ public:
   bool         IsTagged()const{return m_bTag;}
   void         Tag(){m_bTag = true;}
   void         UnTag(){m_bTag = false;}
-
-  Vector2D     Scale()const{return m_vScale;}
-  void         SetScale(Vector2D val){m_dBoundingRadius *= MaxOf(val.x, val.y)/MaxOf(m_vScale.x, m_vScale.y); m_vScale = val;}
-  void         SetScale(double val){m_dBoundingRadius *= (val/MaxOf(m_vScale.x, m_vScale.y)); m_vScale = Vector2D(val, val);} 
 
   int          EntityType()const{return m_iType;}
   void         SetEntityType(int new_type){m_iType = new_type;}

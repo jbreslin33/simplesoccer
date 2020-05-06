@@ -30,7 +30,7 @@ PlayerBase::~PlayerBase()
 //
 PlayerBase::PlayerBase
 (
-        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        int id, Vector2D position, double boundingRadius, //BaseGameEntity
         Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
         SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role //PlayerBase 
 )
@@ -39,13 +39,10 @@ PlayerBase::PlayerBase
 
 MovingEntity
 (
-        id, position, scale, boundingRadius, //BaseGameEntity
+        id, position, boundingRadius, //BaseGameEntity
         velocity, heading, mass, maxSpeed, maxForce, maxTurnRate         //MovingEntity
 )	
 {
-	//set position here even though it belongs to BaseGame	
-	//m_vPosition = home_team->Game()->GetRegionFromIndex(home_region)->Center();	
-
 	mClient = nullptr;
 
 	//kicks

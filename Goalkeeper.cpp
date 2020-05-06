@@ -11,7 +11,7 @@
 //-----------------------------------------------------------------------
 GoalKeeper::GoalKeeper
 (
-        int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        int id, Vector2D position, double boundingRadius, //BaseGameEntity
         Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,         //MovingEntity
         SoccerTeam* soccerTeam, int homeRegion, double maxSpeedWithBall, player_role role, //PlayerBase 
         State<GoalKeeper>* startState //GoalKeeper
@@ -21,7 +21,7 @@ GoalKeeper::GoalKeeper
 
 PlayerBase
 (
-        id, position, scale, boundingRadius, //BaseGameEntity
+        id, position, boundingRadius, //BaseGameEntity
         velocity, heading, mass, maxSpeed, maxForce, maxTurnRate,         //MovingEntity
         soccerTeam, homeRegion, maxSpeedWithBall, role //PlayerBase
 )

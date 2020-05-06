@@ -47,7 +47,7 @@ class MovingEntity : public BaseGameEntity
 
 		MovingEntity
 		(
-        		int id, Vector2D position, Vector2D scale, double boundingRadius, //BaseGameEntity
+        		int id, Vector2D position, double boundingRadius, //BaseGameEntity
         		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate         //MovingEntity
 		)
 
@@ -55,7 +55,7 @@ class MovingEntity : public BaseGameEntity
 
 		BaseGameEntity
 		(
-        		id, position, scale, boundingRadius //BaseGameEntity
+        		id, position, boundingRadius //BaseGameEntity
 		)
 
 		{
