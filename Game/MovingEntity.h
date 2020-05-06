@@ -59,9 +59,6 @@ class MovingEntity : public BaseGameEntity
 		)
 
 		{
-    			m_dBoundingRadius = boundingRadius; 
-    			m_vScale = scale;
-                                 
     			m_vHeading = heading;
 			m_vVelocity = velocity;
         		m_dMass = mass;
