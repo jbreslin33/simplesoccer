@@ -370,8 +370,8 @@ bool SoccerTeam::isPassSafeFromOpponent(Vector2D    from,
 
   	//now calculate how far the opponent can run in this time
   	double reach = opp->MaxSpeed() * TimeForBall +
-                Game()->getBall()->getRadius()+
-                opp->getRadius();
+                Game()->getBall()->getBoundingRadius()+
+                opp->getBoundingRadius();
 
   	//if the distance to the opponent's y position is less than his running
   	//range plus the radius of the ball and the opponents radius then the
@@ -436,8 +436,8 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 
     		//the y value of the shot position should lay somewhere between two
     		//goalposts (taking into consideration the ball diameter)
-    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->getBall()->getRadius());
-    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->getBall()->getRadius());
+    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->getBall()->getBoundingRadius());
+    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->getBall()->getBoundingRadius());
 
     		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
 

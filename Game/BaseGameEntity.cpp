@@ -41,12 +41,12 @@ void BaseGameEntity::SetID(int val)
   	m_iNextValidID = m_ID + 1;
 }
 
-double BaseGameEntity::getRadius()const
+double BaseGameEntity::getBoundingRadius()const
 {
 	return mBoundingRadius;
 }
 
-void BaseGameEntity::setgetRadius(double r)
+void BaseGameEntity::setBoundingRadius(double r)
 {
 	mBoundingRadius = r;
 }

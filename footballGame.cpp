@@ -30,7 +30,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 
 	ChancePlayerAttemptsPotShot     	= 0.005;
 	ChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
-	BallSize                        	= 5.0;
 	BallMass                        	= 1.0;
 	Friction                        	= -0.015;
 	KeeperInBallRange               	= 10.0;
@@ -272,7 +271,7 @@ void FootballGame::sendDataToNewClients()
                         message.append(",");     //extra comma
 
                         //ballsize radius
-                        message.append( std::to_string( BallSize  ));
+                        message.append( std::to_string( getBall()->getBoundingRadius()  ));
                         message.append(",");     //extra comma
 			
 			for (int t = 0; t < mTeamVector.size(); t++)
@@ -284,7 +283,7 @@ void FootballGame::sendDataToNewClients()
                                 	message.append(",");     //extra comma
 
                                 	//size radius
-                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->getRadius() ));
+                                	message.append( std::to_string( mTeamVector.at(t)->Members().at(p)->getBoundingRadius() ));
                                 	message.append(",");     //extra comma
 
 

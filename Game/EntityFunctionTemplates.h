@@ -96,7 +96,7 @@ void EnforceNonPenetrationContraint(T entity, const conT& others)
     //if this distance is smaller than the sum of their radii then this
     //entity must be moved away in the direction parallel to the
     //ToEntity vector   
-    double AmountOfOverLap = (*it)->getRadius() + entity->getRadius() -
+    double AmountOfOverLap = (*it)->getBoundingRadius() + entity->getBoundingRadius() -
                              DistFromEachOther;
 
     if (AmountOfOverLap >= 0)

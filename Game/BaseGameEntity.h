@@ -61,7 +61,6 @@ protected:
 
   //the magnitude of this object's bounding radius
   double    mBoundingRadius;
-
   
 		BaseGameEntity
 		(
@@ -89,8 +88,8 @@ public:
   Vector2D     Pos()const{return m_vPosition;}
   void         SetPos(Vector2D new_pos){m_vPosition = new_pos;}
 
-  double getRadius()const;
-  void   setgetRadius(double r);
+  double getBoundingRadius()const;
+  void   setBoundingRadius(double r);
 
   int          ID()const{return m_ID;}
 

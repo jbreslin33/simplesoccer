@@ -37,26 +37,12 @@ class SoccerBall : public MovingEntity
 		//the ball's velocity accordingly
   		void TestCollisionWithWalls(const std::vector<Wall2D>& walls);
 		
-		/*
-  		SoccerBall(Vector2D           pos,            
-             	double               BallSize,
-             	double               mass,
-             	const std::vector<Wall2D>& GameBoundary);
- 		*/ 
-
 		SoccerBall
 		(
         		int id, Vector2D position, double boundingRadius, //BaseGameEntity
         		Vector2D velocity, Vector2D heading, double mass, double maxSpeed, double maxForce, double maxTurnRate,       //MovingEntity
 			FootballGame* footballGame
 		);
-
-/* 
-		SoccerBall(FootballGame* footballGame,             
-             		double               BallSize,
-             		double               mass,
-             		std::vector<Wall2D>& GameBoundary); 
-			*/
 
   		//implement base class Update
   		void      Update();

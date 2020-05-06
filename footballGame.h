@@ -62,7 +62,6 @@ class FootballGame : public Game
     		double ChancePlayerAttemptsPotShot;
     		double ChanceOfUsingArriveTypeReceiveBehavior;
     
-    		double BallSize;    
     		double BallMass;    
     		double Friction; 
     
