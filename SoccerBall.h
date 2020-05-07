@@ -80,9 +80,6 @@ class SoccerBall : public MovingEntity
 
 
 		FootballGame* m_pGame;
-
-		//this can be used to vary the accuracy of a player's kick.
-		Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget);
 };
 
 

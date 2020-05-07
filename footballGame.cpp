@@ -40,8 +40,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
   	//make sure each team knows who their opponents are
   	mTeamVector.at(0)->SetOpponents(mTeamVector.at(1));
   	mTeamVector.at(1)->SetOpponents(mTeamVector.at(0));
-
-	PlayerKickingAccuracy                   = 0.99;
 }
 
 //-------------------------------- dtor ----------------------------------

@@ -43,8 +43,11 @@ class PlayerBase : public MovingEntity,
   		//kicks
   		int mKickCounterThreshold;
   		int mKickCounter;
+		double PlayerKickingAccuracy;
 
   		double mPlayerMaxSpeedWithBall;
+		Vector2D AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget);
+
 	protected:
 
   		//this player's role in the team

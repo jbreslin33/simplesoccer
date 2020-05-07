@@ -602,7 +602,7 @@ void KickBall::Execute(FieldPlayer* player)
 
                 //add some noise to the kick. We don't want players who are
                 //too accurate! The amount of noise can be adjusted by altering
-                BallTarget = player->getBall()->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
+                BallTarget = player->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
 
                 //this is the direction the ball will be kicked in
                 Vector2D KickDirection = BallTarget - player->getBall()->Pos();
@@ -650,7 +650,7 @@ void KickBall::Execute(FieldPlayer* player)
                 }
 
     		//add some noise to the kick
-    		BallTarget = player->getBall()->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
+    		BallTarget = player->AddNoiseToKick(player->getBall()->Pos(), BallTarget);
 
     		Vector2D KickDirection = BallTarget - player->getBall()->Pos();
    

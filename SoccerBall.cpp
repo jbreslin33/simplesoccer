@@ -31,25 +31,6 @@ FootballGame* const SoccerBall::Game()const
 }
 
 
-//----------------------------- AddNoiseToKick --------------------------------
-//
-//  this can be used to vary the accuracy of a player's kick. Just call it 
-//  prior to kicking the ball using the ball's position and the ball target as
-//  parameters.
-//-----------------------------------------------------------------------------
-Vector2D SoccerBall::AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
-{
-
-	double displacement = (Pi - Pi*Game()->PlayerKickingAccuracy) * RandomClamped();
-
-  	Vector2D toTarget = BallTarget - BallPos;
-
-  	Vec2DRotateAroundOrigin(toTarget, displacement);
-
-  	return toTarget + BallPos;
-}
-  
-
 //-------------------------- Kick ----------------------------------------
 //                                                                        
 //  applys a force to the ball in the direction of heading. Truncates

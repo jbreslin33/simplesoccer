@@ -48,6 +48,7 @@ MovingEntity
 	//kicks
 	mKickCounterThreshold = 4;
   	mKickCounter = 0;
+	PlayerKickingAccuracy                   = 0.99;
 
 	m_pTeam = soccerTeam;
    	m_dDistSqToBall = MaxFloat;
@@ -336,5 +337,20 @@ void PlayerBase::setChanceOfUsingArriveTypeReceiveBehavior(double d)
        mChanceOfUsingArriveTypeReceiveBehavior = d;
 }
 
+//----------------------------- AddNoiseToKick --------------------------------
+//
+//  this can be used to vary the accuracy of a player's kick. Just call it 
+//  prior to kicking the ball using the ball's position and the ball target as
+//  parameters.
+//-----------------------------------------------------------------------------
+Vector2D PlayerBase::AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
+{
+        double displacement = (Pi - Pi*Game()->PlayerKickingAccuracy) * RandomClamped();
 
+        Vector2D toTarget = BallTarget - BallPos;
+
+        Vec2DRotateAroundOrigin(toTarget, displacement);
+
+        return toTarget + BallPos;
+}
 
