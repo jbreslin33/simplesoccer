@@ -24,9 +24,8 @@ class FootballPitch
                 int NumSupportSpotsX;
                 int NumSupportSpotsY;
 
-                /******       Goals   ***************/
-                Goal*                m_pRedGoal;
-                Goal*                m_pBlueGoal;
+                /******       Teams   ***************/
+                std::vector<Goal*>  mGoalVector;
 
 		/******       Bounds   ***************/
                 const Region*const         PlayingArea()const{return m_pPlayingArea;}

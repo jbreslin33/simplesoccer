@@ -34,8 +34,8 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
         );
 
 	//create the teams 
-  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->m_pBlueGoal, mFootballPitch->m_pRedGoal, this, SoccerTeam::team_color::blue));
-  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->m_pRedGoal, mFootballPitch->m_pBlueGoal, this, SoccerTeam::team_color::red));
+  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->mGoalVector.at(0), mFootballPitch->mGoalVector.at(1), this, SoccerTeam::team_color::blue));
+  	mTeamVector.push_back(new SoccerTeam(mFootballPitch->mGoalVector.at(1), mFootballPitch->mGoalVector.at(0), this, SoccerTeam::team_color::red));
 
   	//make sure each team knows who their opponents are
   	mTeamVector.at(0)->SetOpponents(mTeamVector.at(1));
@@ -101,7 +101,7 @@ void FootballGame::tick()
 	
 
   	//if a goal has been detected reset the game ready for kickoff
-  	if (mFootballPitch->m_pBlueGoal->Scored(mBall) || mFootballPitch->m_pRedGoal->Scored(mBall))
+  	if (mFootballPitch->mGoalVector.at(0)->Scored(mBall) || mFootballPitch->mGoalVector.at(1)->Scored(mBall))
  	{
     		setGameOn(false);
     

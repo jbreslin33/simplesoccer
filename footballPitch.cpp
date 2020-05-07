@@ -25,22 +25,8 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
                 PlayingArea()->Width() / (double)NumRegionsHorizontal,
                 PlayingArea()->Height() / (double)NumRegionsVertical
         );
-
-        //Goals
-        m_pRedGoal  = new Goal
-        (
-                Vector2D
-                (
-                        m_pPlayingArea->Left(), mFootballGame->mScreenY - GoalWidth/2 //550
-                ),
-                Vector2D
-                (
-                        m_pPlayingArea->Left(), mFootballGame->mScreenY - (mFootballGame->mScreenY - GoalWidth/2) //600 - (600 - 50) = 50
-                ),
-                Vector2D(1,0)
-        );
-
-        m_pBlueGoal = new Goal
+        
+	mGoalVector.push_back(new Goal
         (
                 Vector2D
                 (
@@ -54,7 +40,21 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
                 (
                         -1,0
                 )
-        );
+        ));
+
+        //Goals
+        mGoalVector.push_back(new Goal
+        (
+                Vector2D
+                (
+                        m_pPlayingArea->Left(), mFootballGame->mScreenY - GoalWidth/2 //550
+                ),
+                Vector2D
+                (
+                        m_pPlayingArea->Left(), mFootballGame->mScreenY - (mFootballGame->mScreenY - GoalWidth/2) //600 - (600 - 50) = 50
+                ),
+                Vector2D(1,0)
+        ));
 
 	//create the walls
         Vector2D TopLeft(m_pPlayingArea->Left(), m_pPlayingArea->Top());
@@ -62,11 +62,12 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         Vector2D BottomRight(m_pPlayingArea->Right(), m_pPlayingArea->Bottom());
         Vector2D BottomLeft(m_pPlayingArea->Left(), m_pPlayingArea->Bottom());
 
-        m_vecWalls.push_back(Wall2D(BottomLeft, m_pRedGoal->RightPost()));
-        m_vecWalls.push_back(Wall2D(m_pRedGoal->LeftPost(), TopLeft));
+        m_vecWalls.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->RightPost()));
+        m_vecWalls.push_back(Wall2D(mGoalVector.at(1)->LeftPost(), TopLeft));
         m_vecWalls.push_back(Wall2D(TopLeft, TopRight));
-        m_vecWalls.push_back(Wall2D(TopRight, m_pBlueGoal->LeftPost()));
-        m_vecWalls.push_back(Wall2D(m_pBlueGoal->RightPost(), BottomRight));
+
+        m_vecWalls.push_back(Wall2D(TopRight, mGoalVector.at(0)->LeftPost()));
+        m_vecWalls.push_back(Wall2D(mGoalVector.at(0)->RightPost(), BottomRight));
         m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
 }
 
@@ -74,8 +75,10 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 //------------------------------------------------------------------------
 FootballPitch::~FootballPitch()
 {
-        delete m_pRedGoal;
-        delete m_pBlueGoal;
+	for (int i = 0; i < mGoalVector.size(); i++)
+	{
+        	delete mGoalVector.at(i);
+	}
 
         delete m_pPlayingArea;
 
