@@ -26,40 +26,6 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
 	//make the pitch
 	mFootballPitch = new FootballPitch(this);
 	
-	mKeeperHasBall = false;
-
-	BallMass                        	= 1.0;
-	Friction                        	= -0.015;
-	KeeperInBallRange               	= 10.0;
-	PlayerInTargetRange             	= 10.0;
-	PlayerKickingDistance           	= 6.0;
-	PlayerKickFrequency               	= 8;
-
-	PlayerComfortZone               	= 60.0;
-	PlayerKickingAccuracy           	= 0.99;
-	NumAttemptsToFindValidStrike    	= 5;
-	MaxDribbleForce                 	= 1.5;
-	MaxShootingForce                	= 6.0;
-	MaxPassingForce                 	= 3.0;
-	WithinRangeOfHome               	= 15.0;
-	GoalKeeperTendingDistance       	= 20.0;
-	GoalKeeperInterceptRange                = 100.0;
-	BallWithinReceivingRange        	= 10.0;
-	bShowControllingTeam                	= 1;
-	FrameRate                           	= 30;
-	SeparationCoefficient                	= 10.0;
-	ViewDistance                        	= 30.0;
-	bNonPenetrationConstraint           	= 0;
-
-	//squared space
-	BallWithinReceivingRangeSq = BallWithinReceivingRange * BallWithinReceivingRange;
-	KeeperInBallRangeSq      = KeeperInBallRange * KeeperInBallRange;
-	PlayerInTargetRangeSq    = PlayerInTargetRange * PlayerInTargetRange;   
-	PlayerKickingDistanceSq  = PlayerKickingDistance * PlayerKickingDistance;
-	PlayerComfortZoneSq      = PlayerComfortZone * PlayerComfortZone;
-	GoalKeeperInterceptRangeSq     = GoalKeeperInterceptRange * GoalKeeperInterceptRange;
-	WithinRangeOfSupportSpotSq = WithinRangeOfSupportSpot * WithinRangeOfSupportSpot;
-	
 	mBall = new SoccerBall
         (
         	0, Vector2D( (double) this->mScreenX / 2.0, (double) this->mScreenY / 2.0), 5.0, //BaseGameEntity
@@ -74,6 +40,8 @@ FootballGame::FootballGame(int screenX, int screenY, Server* server, int id) : G
   	//make sure each team knows who their opponents are
   	mTeamVector.at(0)->SetOpponents(mTeamVector.at(1));
   	mTeamVector.at(1)->SetOpponents(mTeamVector.at(0));
+
+	PlayerKickingAccuracy                   = 0.99;
 }
 
 //-------------------------------- dtor ----------------------------------

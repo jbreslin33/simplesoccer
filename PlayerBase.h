@@ -160,9 +160,57 @@ class PlayerBase : public MovingEntity,
 		void setChancePlayerAttemptsPotShot(double d);
                 void setChanceOfUsingArriveTypeReceiveBehavior(double d);
 
+
+                /******       game play member variables ***************/
+
+                //true if a goal keeper has possession
+                bool mKeeperHasBall;
+
+                double KeeperInBallRange;
+
+                double PlayerInTargetRange;
+                double PlayerKickingDistance;
+                double PlayerKickFrequency;
+
+                double PlayerComfortZone;
+
+                double MaxDribbleForce;
+
+                double WithinRangeOfHome;
+                double WithinRangeOfSupportSpot;
+
+                double MinPassDist;
+                double mBallWithinReceivingRange;
+
+                bool bStates;
+                bool bIDs;
+                bool bSupportSpots;
+                bool bRegions;
+                bool bShowControllingTeam;
+                bool bViewTargets;
+                bool bHighlightIfThreatened;
+
+                double SeparationCoefficient;
+                double ViewDistance;
+                bool bNonPenetrationConstraint;
+
+                //squared space
+                double BallWithinReceivingRangeSq;
+                double KeeperInBallRangeSq;
+                double PlayerInTargetRangeSq;
+                double PlayerKickingDistanceSq;
+                double PlayerComfortZoneSq;
+                double GoalKeeperInterceptRangeSq;
+                double WithinRangeOfSupportSpotSq;
+
+                bool  getKeeperHasBall()const{return mKeeperHasBall;}
+                void  setKeeperHasBall(bool b){mKeeperHasBall = b;}
+
+
 	private:
                 double mChancePlayerAttemptsPotShot;
                 double mChanceOfUsingArriveTypeReceiveBehavior;
+
 
 
   

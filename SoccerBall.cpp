@@ -22,6 +22,7 @@ MovingEntity
  
 {
 	m_pGame = footballGame;
+	Friction                                = -0.015;
 }
 
 FootballGame* const SoccerBall::Game()const
@@ -82,9 +83,9 @@ void SoccerBall::Update()
 
   	//Simulate Friction. Make sure the speed is positive 
   	//first though
-  	if (m_vVelocity.LengthSq() > Game()->Friction * Game()->Friction)
+  	if (m_vVelocity.LengthSq() > Friction * Friction)
   	{
-    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Game()->Friction;
+    		m_vVelocity += Vec2DNormalize(m_vVelocity) * Friction;
 
     		m_vPosition += m_vVelocity;
     
@@ -117,7 +118,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//first calculate s (the distance between the two positions)
   	double DistanceToCover =  Vec2DDistance(A, B);
 
-  	double term = speed*speed + 2.0*DistanceToCover * Game()->Friction;
+  	double term = speed*speed + 2.0*DistanceToCover * Friction;
 
   	//if  (u^2 + 2as) is negative it means the ball cannot reach point B.
   	if (term <= 0.0) return -1.0;
@@ -131,7 +132,7 @@ double SoccerBall::TimeToCoverDistance(Vector2D A,
   	//        ---
   	//         a
   	//
-  	return (v-speed)/Game()->Friction;
+  	return (v-speed) / Friction;
 }
 
 //--------------------- FuturePosition -----------------------------------
@@ -148,7 +149,7 @@ Vector2D SoccerBall::FuturePosition(double time)const
   	Vector2D ut = m_vVelocity * time;
 
   	//calculate the 1/2at^2 term, which is scalar
-  	double half_a_t_squared = 0.5 * Game()->Friction * time * time;
+  	double half_a_t_squared = 0.5 * Friction * time * time;
 
   	//turn the scalar quantity into a vector by multiplying the value with
   	//the normalized velocity vector (because that gives the direction)

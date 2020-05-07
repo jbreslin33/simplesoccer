@@ -19,6 +19,8 @@ Game::Game(int screenX, int screenY, Server* server, int id)
         mScreenX = screenX;
         mScreenY = screenY;
 
+	FrameRate = 30;
+
         mGameOn = true;
         mPaused = true;
 

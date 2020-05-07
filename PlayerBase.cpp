@@ -68,6 +68,34 @@ MovingEntity
         mChancePlayerAttemptsPotShot             = 0.005;
         mChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
 
+
+        mKeeperHasBall = false;
+
+        KeeperInBallRange                       = 10.0;
+        PlayerInTargetRange                     = 10.0;
+        PlayerKickingDistance                   = 6.0;
+        PlayerKickFrequency                     = 8;
+
+        PlayerComfortZone                       = 60.0;
+        MaxDribbleForce                         = 1.5;
+        WithinRangeOfHome                       = 15.0;
+
+        mBallWithinReceivingRange                = 10.0;
+        bShowControllingTeam                    = 1;
+        SeparationCoefficient                   = 10.0;
+        ViewDistance                            = 30.0;
+        bNonPenetrationConstraint               = 0;
+
+
+        //squared space
+        BallWithinReceivingRangeSq = mBallWithinReceivingRange * mBallWithinReceivingRange;
+        KeeperInBallRangeSq      = KeeperInBallRange * KeeperInBallRange;
+        PlayerInTargetRangeSq    = PlayerInTargetRange * PlayerInTargetRange;
+        PlayerKickingDistanceSq  = PlayerKickingDistance * PlayerKickingDistance;
+        PlayerComfortZoneSq      = PlayerComfortZone * PlayerComfortZone;
+        WithinRangeOfSupportSpotSq = WithinRangeOfSupportSpot * WithinRangeOfSupportSpot;
+
+
 }
 
 
@@ -144,7 +172,7 @@ bool PlayerBase::isThreatened()const
     		//calculate distance to the player. if dist is less than our
     		//comfort zone, and the opponent is infront of the player, return true
     		if (PositionInFrontOfPlayer((*curOpp)->Pos()) &&
-       			(Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < Game()->PlayerComfortZoneSq))
+       			(Vec2DDistanceSq(Pos(), (*curOpp)->Pos()) < PlayerComfortZoneSq))
     		{        
       			return true;
     		}
@@ -221,17 +249,17 @@ bool PlayerBase::isControllingPlayer()const
 
 bool PlayerBase::BallWithinKeeperRange()const
 {
-	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < Game()->KeeperInBallRange);
+	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < KeeperInBallRange);
 }
 
 bool PlayerBase::BallWithinReceivingRange()const
 {
-	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < Game()->BallWithinReceivingRangeSq);
+	return (Vec2DDistanceSq(Pos(), getBall()->Pos()) < BallWithinReceivingRangeSq);
 }
 
 bool PlayerBase::BallWithinKickingRange()const
 {
-	return (Vec2DDistanceSq(getBall()->Pos(), Pos()) < Game()->PlayerKickingDistanceSq);
+	return (Vec2DDistanceSq(getBall()->Pos(), Pos()) < PlayerKickingDistanceSq);
 }
 
 
@@ -249,7 +277,7 @@ bool PlayerBase::InHomeRegion()const
 
 bool PlayerBase::AtTarget()const
 {
-	return (Vec2DDistanceSq(Pos(), Steering()->Target()) < Game()->PlayerInTargetRangeSq);
+	return (Vec2DDistanceSq(Pos(), Steering()->Target()) < PlayerInTargetRangeSq);
 }
 
 bool PlayerBase::isClosestTeamMemberToBall()const

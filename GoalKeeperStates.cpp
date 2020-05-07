@@ -76,7 +76,7 @@ void TendGoal::Enter(GoalKeeper* keeper)
         }
 
   	//turn interpose on
-  	keeper->Steering()->InterposeOn(keeper->Team()->Game()->GoalKeeperTendingDistance);
+  	keeper->Steering()->InterposeOn(keeper->GoalKeeperTendingDistance);
 
   	//interpose will position the agent between the ball position and a target
   	//position situated along the goal mouth. This call sets the target
@@ -100,7 +100,7 @@ void TendGoal::Execute(GoalKeeper* keeper)
   	{
     		keeper->getBall()->Trap();
 
-    		keeper->Game()->setKeeperHasBall(true);
+    		keeper->setKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -230,7 +230,7 @@ void InterceptBall::Execute(GoalKeeper* keeper)
   	{
     		keeper->getBall()->Trap();
     
-    		keeper->Game()->setKeeperHasBall(true);
+    		keeper->setKeeperHasBall(true);
 
     		keeper->GetFSM()->ChangeState(PutBallBackInPlay::Instance());
     		return;
@@ -290,15 +290,15 @@ void PutBallBackInPlay::Execute(GoalKeeper* keeper)
   	if (keeper->Team()->FindPass(keeper,
                               receiver,
                               BallTarget,
-                              keeper->Game()->MaxPassingForce,
-                              keeper->Game()->GoalkeeperMinPassDist))
+                              keeper->Team()->MaxPassingForce,
+                              keeper->GoalkeeperMinPassDist))
   	{     
     		//make the pass   
     		keeper->getBall()->Kick(Vec2DNormalize(BallTarget - keeper->getBall()->Pos()),
-                         keeper->Game()->MaxPassingForce);
+                         keeper->Team()->MaxPassingForce);
 
     		//goalkeeper no longer has ball 
-    		keeper->Game()->setKeeperHasBall(false);
+    		keeper->setKeeperHasBall(false);
 
     		//let the receiving player know the ball's comin' at him
     		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,

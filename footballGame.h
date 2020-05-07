@@ -53,63 +53,8 @@ class FootballGame : public Game
 		/******       Ball   ***************/
 		SoccerBall*const getBall()const;
 		SoccerBall* mBall;
-  
-		/******       game play member variables ***************/
-		
-		//true if a goal keeper has possession
-  		bool mKeeperHasBall;
 
-    		double BallMass;    
-    		double Friction; 
-    
-    		double KeeperInBallRange;    
-    		double PlayerInTargetRange; 
-    		double PlayerKickingDistance; 
-    		double PlayerKickFrequency;
-
-    		double PlayerComfortZone;  
-    		double PlayerKickingAccuracy;
-
-    		int    NumAttemptsToFindValidStrike;
-
-    		double MaxDribbleForce;    
-    		double MaxShootingForce;    
-    		double MaxPassingForce;  
-    
-    		double WithinRangeOfHome;    
-    		double WithinRangeOfSupportSpot;    
-    
-   	 	double MinPassDist;
-    		double GoalkeeperMinPassDist;
-   	 
-    		double GoalKeeperTendingDistance;    
-   	 	double GoalKeeperInterceptRange;
-    		double BallWithinReceivingRange;
-    
-    		bool bStates;    
-    		bool bIDs; 
-   		bool bSupportSpots;     
-    		bool bRegions;
-    		bool bShowControllingTeam;
-    		bool bViewTargets;
-    		bool bHighlightIfThreatened;
-
-    		double SeparationCoefficient; 
-    		double ViewDistance; 
-    		bool bNonPenetrationConstraint; 
-
-		//squared space
-		double BallWithinReceivingRangeSq;
-		double KeeperInBallRangeSq;
-		double PlayerInTargetRangeSq;
-		double PlayerKickingDistanceSq;
-		double PlayerComfortZoneSq;
-		double GoalKeeperInterceptRangeSq;
-		double WithinRangeOfSupportSpotSq;
-
- 		bool  getKeeperHasBall()const{return mKeeperHasBall;}
-  		void  setKeeperHasBall(bool b){mKeeperHasBall = b;}
-
+		double PlayerKickingAccuracy;
 };
 
 #endif

@@ -37,6 +37,10 @@ public:
   
   enum team_color {blue, red};
 
+  	int NumAttemptsToFindValidStrike;
+	double MaxPassingForce;
+        double MaxShootingForce;
+
 private:
 
    //an instance of the state machine class

@@ -32,6 +32,13 @@ PlayerBase
   	m_pStateMachine->SetPreviousState(startState);
   	m_pStateMachine->SetGlobalState(GlobalKeeperState::Instance());
   	m_pStateMachine->CurrentState()->Enter(this);        
+
+        GoalKeeperTendingDistance               = 20.0;
+        GoalKeeperInterceptRange                = 100.0;
+
+        GoalKeeperInterceptRangeSq     = GoalKeeperInterceptRange * GoalKeeperInterceptRange;
+
+
 }
 
 //-------------------------- Update --------------------------------------
@@ -62,7 +69,7 @@ void GoalKeeper::Update()
 
 
   	//enforce a non-penetration constraint if desired
-  	if(Game()->bNonPenetrationConstraint)
+  	if(bNonPenetrationConstraint)
   	{
     		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   	}
@@ -76,7 +83,7 @@ void GoalKeeper::Update()
   	}
 
   	//look-at vector always points toward the ball
-  	if (!Game()->getKeeperHasBall())
+  	if (!getKeeperHasBall())
   	{
    		m_vLookAt = Vec2DNormalize(getBall()->Pos() - Pos());
   	}
@@ -85,13 +92,13 @@ void GoalKeeper::Update()
 bool GoalKeeper::BallWithinRangeForIntercept()const
 {
 	return (Vec2DDistanceSq(Team()->HomeGoal()->Center(), getBall()->Pos()) <=
-          Game()->GoalKeeperInterceptRangeSq);
+          GoalKeeperInterceptRangeSq);
 }
 
 bool GoalKeeper::TooFarFromGoalMouth()const
 {
 	return (Vec2DDistanceSq(Pos(), GetRearInterposeTarget()) >
-          Game()->GoalKeeperInterceptRangeSq);
+          GoalKeeperInterceptRangeSq);
 }
 
 Vector2D GoalKeeper::GetRearInterposeTarget()const

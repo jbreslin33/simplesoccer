@@ -110,7 +110,7 @@ void FieldPlayer::Update()
 
 
   	//enforce a non-penetration constraint if desired
-  	if(Game()->bNonPenetrationConstraint)
+  	if(bNonPenetrationConstraint)
   	{
     		EnforceNonPenetrationContraint(this, AutoList<PlayerBase>::GetAllMembers());
   	}

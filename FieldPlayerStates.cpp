@@ -124,7 +124,7 @@ bool GlobalPlayerState::OnMessage(FieldPlayer* player, const Telegram& telegram)
 			Vector2D v = receiver->Pos() - player->getBall()->Pos();
                         
 			player->getBall()->Kick(receiver->Pos() - player->getBall()->Pos(),
-                           player->Team()->Game()->MaxPassingForce);
+                           player->Team()->MaxPassingForce);
 
 			//let the receiver know a pass is coming
                         Vector2D receiverPosition;
@@ -271,7 +271,7 @@ void SupportAttacker::Execute(FieldPlayer* player)
   	//if this player has a shot at the goal AND the attacker can pass
   	//the ball to him the attacker should pass the ball to this player
   	if( player->Team()->CanShoot(player->Pos(),
-                               player->Game()->MaxShootingForce))
+                               player->Team()->MaxShootingForce))
   	{
     		player->Team()->RequestPass(player);
   	}
@@ -353,7 +353,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
     		//the ball, go chase it
     		if ( player->isClosestTeamMemberToBall() &&
          		(player->Team()->Receiver() == NULL) &&
-         		!player->Game()->getKeeperHasBall())
+         		!player->getKeeperHasBall())
     		{
       			player->GetFSM()->ChangeState(ChaseBall::Instance());
       			return;
@@ -458,7 +458,7 @@ void Wait::Execute(FieldPlayer* player)
     		//the ball, go chase it
    		if (player->isClosestTeamMemberToBall() &&
        			player->Team()->Receiver() == NULL  &&
-       			!player->Game()->getKeeperHasBall())
+       			!player->getKeeperHasBall())
    		{
      			player->GetFSM()->ChangeState(ChaseBall::Instance());
 
@@ -523,7 +523,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//behind the player or if there is already an assigned receiver. So just
   	//continue chasing the ball
   	if (player->Team()->Receiver() != NULL   ||
-      		player->Game()->getKeeperHasBall() ||
+      		player->getKeeperHasBall() ||
       		(dot < 0) ) 
   	{
     		player->GetFSM()->ChangeState(ChaseBall::Instance());
@@ -538,7 +538,7 @@ void KickBall::Execute(FieldPlayer* player)
 
   	//the dot product is used to adjust the shooting force. The more
   	//directly the ball is ahead, the more forceful the kick
-  	double power = player->Game()->MaxShootingForce * dot;
+  	double power = player->Team()->MaxShootingForce * dot;
 
   	//if it is determined that the player could score a goal from this position
   	//OR if he should just kick the ball anyway, the player will attempt
@@ -623,7 +623,7 @@ void KickBall::Execute(FieldPlayer* player)
   	//if a receiver is found this will point to it
   	PlayerBase* receiver = NULL;
 
-  	power = player->Game()->MaxPassingForce * dot;
+  	power = player->Team()->MaxPassingForce * dot;
 
   	//test if there are any potential candidates available to receive a pass
   	if (player->isThreatened()  &&
@@ -631,7 +631,7 @@ void KickBall::Execute(FieldPlayer* player)
                               receiver,
                               BallTarget,
                               power,
-                              player->Game()->MinPassDist))
+                              player->MinPassDist))
   	{     
 		                        //make the pass
                	for (int i = 0; i < player->Team()->Game()->mTeamVector.size(); i++)
@@ -756,7 +756,7 @@ void Dribble::Execute(FieldPlayer* player)
   	else
   	{
     		player->getBall()->Kick(player->Team()->HomeGoal()->Facing(),
-                         player->Game()->MaxDribbleForce);  
+                         player->MaxDribbleForce);  
   	}
 
   	//the player has kicked the ball so he must now change state to follow it

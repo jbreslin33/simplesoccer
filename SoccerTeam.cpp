@@ -34,8 +34,9 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
                                            m_pControllingPlayer(NULL),
                                            m_pPlayerClosestToBall(NULL)
 {
-
-
+ 	NumAttemptsToFindValidStrike            = 5;
+        MaxPassingForce                         = 3.0;
+        MaxShootingForce                        = 6.0;
   
 	//setup the state machine
 	m_pStateMachine = new StateMachine<SoccerTeam>(this);
@@ -420,7 +421,7 @@ bool SoccerTeam::isPassSafeFromAllOpponents(Vector2D                from,
 bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
 {
 	//the number of randomly created shot targets this method will test 
-  	int NumAttempts = Game()->NumAttemptsToFindValidStrike;
+  	int NumAttempts = NumAttemptsToFindValidStrike;
 
   	while (NumAttempts--)
   	{
@@ -726,7 +727,7 @@ void SoccerTeam::RequestPass(FieldPlayer* requester)const
   if (isPassSafeFromAllOpponents(ControllingPlayer()->Pos(),
                                  requester->Pos(),
                                  requester,
-                                 Game()->MaxPassingForce))
+                                 MaxPassingForce))
   {
 
     //tell the player to make the pass

@@ -33,6 +33,8 @@ class SoccerBall : public MovingEntity
 
 	public:
 
+      		double Friction;
+
     		//tests to see if the ball has collided with a ball and reflects 
 		//the ball's velocity accordingly
   		void TestCollisionWithWalls(const std::vector<Wall2D>& walls);
