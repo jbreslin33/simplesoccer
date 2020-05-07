@@ -333,7 +333,7 @@ void ReturnToHomeRegion::Enter(FieldPlayer* player)
   
 	player->Steering()->ArriveOn();
 
-  	if (!player->HomeRegion()->Inside(player->Steering()->Target(), Region::halfsize))
+  	if (!player->HomeRegion()->getIsInside(player->Steering()->Target(), 0))
   	{
     		player->Steering()->SetTarget(player->HomeRegion()->Center());
   	}
@@ -363,8 +363,7 @@ void ReturnToHomeRegion::Execute(FieldPlayer* player)
   	//if game is on and close enough to home, change state to wait and set the 
   	//player target to his current position.(so that if he gets jostled out of 
   	//position he can move back to it)
-  	if (player->Game()->getGameOn() && player->HomeRegion()->Inside(player->Pos(),
-                                                             Region::halfsize))
+  	if (player->Game()->getGameOn() && player->HomeRegion()->getIsInside(player->Pos(),0))
   	{
     		player->Steering()->SetTarget(player->Pos());
     		player->GetFSM()->ChangeState(Wait::Instance());

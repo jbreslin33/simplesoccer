@@ -49,7 +49,7 @@ class Region
 
   		//returns true if the given position lays inside the region. The
   		//region modifier can be used to contract the region bounderies
-  		inline bool     Inside(Vector2D pos, region_modifier r)const;
+  		bool     getIsInside(Vector2D pos, int size)const;
 
   		//returns a vector representing a random location
   		//within the region
@@ -71,31 +71,10 @@ class Region
 
   		Vector2D  Center()const{return mCenter;}
   		int       ID()const{return mId;}
+		Vector2D getRandomPosition()const;
 
 };
 
 
-inline Vector2D Region::GetRandomPosition()const
-{
-	return Vector2D(RandInRange(mLeft, mRight),
-                   RandInRange(mTop, mBottom));
-}
-
-inline bool Region::Inside(Vector2D pos, region_modifier r=normal)const
-{
-	if (r == normal)
-  	{
-    		return ((pos.x > mLeft) && (pos.x < mRight) &&
-         	(pos.y > mTop) && (pos.y < mBottom));
-  	}
-  	else
-  	{
-    		const double marginX = mWidth * 0.25;
-    		const double marginY = mHeight * 0.25;
-
-    		return ((pos.x > (mLeft+marginX)) && (pos.x < (mRight-marginX)) &&
-         		(pos.y > (mTop+marginY)) && (pos.y < (mBottom-marginY)));
-  	}
-}
 
 #endif

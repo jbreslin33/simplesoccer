@@ -268,11 +268,11 @@ bool PlayerBase::InHomeRegion()const
 {
 	if (m_PlayerRole == goal_keeper)
   	{
-    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::normal);
+    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 1);
   	}
   	else
   	{
-    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->Inside(Pos(), Region::halfsize);
+    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 0);
   	}
 }
 
