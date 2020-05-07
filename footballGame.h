@@ -53,8 +53,6 @@ class FootballGame : public Game
 		/******       Ball   ***************/
 		SoccerBall*const getBall()const;
 		SoccerBall* mBall;
-
-		double PlayerKickingAccuracy;
 };
 
 #endif

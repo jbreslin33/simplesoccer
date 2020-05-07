@@ -345,7 +345,7 @@ void PlayerBase::setChanceOfUsingArriveTypeReceiveBehavior(double d)
 //-----------------------------------------------------------------------------
 Vector2D PlayerBase::AddNoiseToKick(Vector2D BallPos, Vector2D BallTarget)
 {
-        double displacement = (Pi - Pi*Game()->PlayerKickingAccuracy) * RandomClamped();
+        double displacement = (Pi - Pi * PlayerKickingAccuracy) * RandomClamped();
 
         Vector2D toTarget = BallTarget - BallPos;
 
