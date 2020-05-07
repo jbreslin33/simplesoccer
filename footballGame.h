@@ -33,6 +33,7 @@ class FootballGame : public Game
   		FootballGame(int screenX, int screenY, Server* server, int id);
   		~FootballGame();
 
+		//Pitch field of play, can change size....
 		FootballPitch* mFootballPitch;
 
 		//start game
@@ -47,7 +48,6 @@ class FootballGame : public Game
 		void sendMovesToClients();
 
 		/******       Teams   ***************/
-		//pointers to the team members
   		std::vector<SoccerTeam*>  mTeamVector;
 
 		/******       Ball   ***************/
