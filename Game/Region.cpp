@@ -60,3 +60,54 @@ bool Region::getIsInside(Vector2D pos, int size)const
 }
 
 
+double     Region::getTop()const
+{
+	return mTop;
+}
+
+double     Region::getBottom()const
+{
+	return mBottom;
+}
+
+double     Region::getLeft()const
+{
+	return mLeft;
+}
+
+double     Region::getRight()const
+{
+	return mRight;
+}
+
+double     Region::getWidth()const
+{
+	return fabs(mRight - mLeft);
+}
+
+double     Region::getHeight()const
+{
+	return fabs(mTop - mBottom);
+}
+
+double     Region::getLength()const
+{
+	return std::max(getWidth(), getHeight());
+}
+
+double     Region::getBreadth()const
+{
+	return std::min(getWidth(), getHeight());
+}
+
+Vector2D  Region::getCenter()const
+{
+	return mCenter;
+}
+
+int       Region::getId()const
+{
+	return mId;
+}
+
+

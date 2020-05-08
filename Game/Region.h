@@ -21,9 +21,11 @@
 class Region
 {
 	public:
+  		Region();
+		Region(double left, double top, double right, double bottom);
+		Region(double left, double top, double right, double bottom, int id);
 
-  		enum region_modifier{halfsize, normal};
-  
+		virtual ~Region(){}
 	protected:
 
   		double        mTop;
@@ -40,13 +42,6 @@ class Region
 
 	public:
 
-
-  		Region();
-		Region(double left, double top, double right, double bottom);
-		Region(double left, double top, double right, double bottom, int id);
-
-		virtual ~Region(){}
-
   		//returns true if the given position lays inside the region. The
   		//region modifier can be used to contract the region bounderies
   		bool     getIsInside(Vector2D pos, int size)const;
@@ -56,25 +51,19 @@ class Region
   		inline Vector2D GetRandomPosition()const;
 
   		//-------------------------------
-  		double     Top()const{return mTop;}
-  		double     Bottom()const{return mBottom;}
-		double     Left()const
-  		{
-			return mLeft;
-		}
+  		double     getTop()const;
+  		double     getBottom()const;
+		double     getLeft()const;
   
-		double     Right()const{return mRight;}
-  		double     Width()const{return fabs(mRight - mLeft);}
-  		double     Height()const{return fabs(mTop - mBottom);}
-  		double     Length()const{return std::max(Width(), Height());}
-  		double     Breadth()const{return std::min(Width(), Height());}
+		double     getRight()const;
+  		double     getWidth()const;
+  		double     getHeight()const;
+  		double     getLength()const;
+  		double     getBreadth()const;
 
-  		Vector2D  Center()const{return mCenter;}
-  		int       ID()const{return mId;}
+  		Vector2D  getCenter()const;
+  		int       getId()const;
 		Vector2D getRandomPosition()const;
-
 };
-
-
 
 #endif

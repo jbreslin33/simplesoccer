@@ -64,7 +64,7 @@ MovingEntity
                                       getBall());  
   
   	//a player's start target is its start position (because it's just waiting)
-  	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->getRegionFromIndex(homeRegion)->Center());
+  	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->getRegionFromIndex(homeRegion)->getCenter());
 
         mChancePlayerAttemptsPotShot             = 0.005;
         mChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
@@ -295,7 +295,7 @@ bool PlayerBase::isClosestPlayerOnGameToBall()const
 bool PlayerBase::InHotRegion()const
 {
 	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
-         Game()->mFootballPitch->getPlayingArea()->Length()/3.0;
+         Game()->mFootballPitch->getPlayingArea()->getLength()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const

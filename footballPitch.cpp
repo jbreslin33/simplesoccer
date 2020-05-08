@@ -22,19 +22,19 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         //create the regions
         createRegions
         (
-                getPlayingArea()->Width() / (double)mNumRegionsHorizontal,
-                getPlayingArea()->Height() / (double)mNumRegionsVertical
+                getPlayingArea()->getWidth() / (double)mNumRegionsHorizontal,
+                getPlayingArea()->getHeight() / (double)mNumRegionsVertical
         );
         
 	mGoalVector.push_back(new Goal
         (
                 Vector2D
                 (
-                        mPlayingArea->Right(), mFootballGame->mScreenY - mGoalWidth/2
+                        mPlayingArea->getRight(), mFootballGame->mScreenY - mGoalWidth/2
                 ),
                 Vector2D
                 (
-                        mPlayingArea->Right(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2)
+                        mPlayingArea->getRight(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2)
                 ),
                 Vector2D
                 (
@@ -47,20 +47,20 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         (
                 Vector2D
                 (
-                        mPlayingArea->Left(), mFootballGame->mScreenY - mGoalWidth/2 //550
+                        mPlayingArea->getLeft(), mFootballGame->mScreenY - mGoalWidth/2 //550
                 ),
                 Vector2D
                 (
-                        mPlayingArea->Left(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2) //600 - (600 - 50) = 50
+                        mPlayingArea->getLeft(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2) //600 - (600 - 50) = 50
                 ),
                 Vector2D(1,0)
         ));
 
 	//create the walls
-        Vector2D TopLeft(mPlayingArea->Left(), mPlayingArea->Top());
-        Vector2D TopRight(mPlayingArea->Right(), mPlayingArea->Top());
-        Vector2D BottomRight(mPlayingArea->Right(), mPlayingArea->Bottom());
-        Vector2D BottomLeft(mPlayingArea->Left(), mPlayingArea->Bottom());
+        Vector2D TopLeft(mPlayingArea->getLeft(), mPlayingArea->getTop());
+        Vector2D TopRight(mPlayingArea->getRight(), mPlayingArea->getTop());
+        Vector2D BottomRight(mPlayingArea->getRight(), mPlayingArea->getBottom());
+        Vector2D BottomLeft(mPlayingArea->getLeft(), mPlayingArea->getBottom());
 
         mWallVector.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->RightPost()));
         mWallVector.push_back(Wall2D(mGoalVector.at(1)->LeftPost(), TopLeft));
@@ -105,10 +105,10 @@ void FootballPitch::createRegions(double width, double height)
                 {
                         mRegionVector[idx--] = new Region
                         (
-                                getPlayingArea()->Left()+col*width,
-                                getPlayingArea()->Top()+row*height,
-                                getPlayingArea()->Left()+(col+1)*width,
-                                getPlayingArea()->Top()+(row+1)*height,
+                                getPlayingArea()->getLeft()+col*width,
+                                getPlayingArea()->getTop()+row*height,
+                                getPlayingArea()->getLeft()+(col+1)*width,
+                                getPlayingArea()->getTop()+(row+1)*height,
                                 idx
                         );
                 }

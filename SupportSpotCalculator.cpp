@@ -31,14 +31,14 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
 
   	//calculate the positions of each sweet spot, create them and 
   	//store them in m_Spots
-  	double HeightOfSSRegion = PlayingField->Height() * 0.8;
-  	double WidthOfSSRegion  = PlayingField->Width() * 0.9;
+  	double HeightOfSSRegion = PlayingField->getHeight() * 0.8;
+  	double WidthOfSSRegion  = PlayingField->getWidth() * 0.9;
   	double SliceX = WidthOfSSRegion / numX ;
   	double SliceY = HeightOfSSRegion / numY;
 
-  	double left  = PlayingField->Left() + (PlayingField->Width()-WidthOfSSRegion)/2.0 + SliceX/2.0;
-  	double right = PlayingField->Right() - (PlayingField->Width()-WidthOfSSRegion)/2.0 - SliceX/2.0;
-  	double top   = PlayingField->Top() + (PlayingField->Height()-HeightOfSSRegion)/2.0 + SliceY/2.0;
+  	double left  = PlayingField->getLeft() + (PlayingField->getWidth()-WidthOfSSRegion)/2.0 + SliceX/2.0;
+  	double right = PlayingField->getRight() - (PlayingField->getWidth()-WidthOfSSRegion)/2.0 - SliceX/2.0;
+  	double top   = PlayingField->getTop() + (PlayingField->getHeight()-HeightOfSSRegion)/2.0 + SliceY/2.0;
 
   	for (int x=0; x<(numX/2)-1; ++x)
   	{

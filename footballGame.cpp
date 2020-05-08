@@ -219,19 +219,19 @@ void FootballGame::sendDataToNewClients()
                         message.append(",");     //extra comma
 
                         //top left x
-                        message.append( std::to_string( mFootballPitch->mPlayingArea->Left()  ));
+                        message.append( std::to_string( mFootballPitch->mPlayingArea->getLeft()  ));
                         message.append(",");     //extra comma
 
                         //top left y
-                        message.append( std::to_string( mFootballPitch->mPlayingArea->Top()  ));
+                        message.append( std::to_string( mFootballPitch->mPlayingArea->getTop()  ));
                         message.append(",");     //extra comma
 
                         //bottom right x
-                        message.append( std::to_string( mFootballPitch->mPlayingArea->Right()  ));
+                        message.append( std::to_string( mFootballPitch->mPlayingArea->getRight()  ));
                         message.append(",");     //extra comma
 
                         //bottom right y
-                        message.append( std::to_string( mFootballPitch->mPlayingArea->Bottom()  ));
+                        message.append( std::to_string( mFootballPitch->mPlayingArea->getBottom()  ));
                         message.append(",");     //extra comma
 
                         //ballsize radius

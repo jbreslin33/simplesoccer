@@ -163,7 +163,7 @@ void ReturnHome::Execute(GoalKeeper* keeper)
                 printf("ReturnHome::Execute() ID:%d\n", keeper->ID());
         }
 
-	keeper->Steering()->SetTarget(keeper->HomeRegion()->Center());
+	keeper->Steering()->SetTarget(keeper->HomeRegion()->getCenter());
 
   	//if close enough to home or the opponents get control over the ball,
   	//change state to tend goal

@@ -105,9 +105,9 @@ Vector2D GoalKeeper::GetRearInterposeTarget()const
 {
 	double xPosTarget = Team()->HomeGoal()->Center().x;
 
-  	double yPosTarget = Game()->mFootballPitch->getPlayingArea()->Center().y - 
+  	double yPosTarget = Game()->mFootballPitch->getPlayingArea()->getCenter().y - 
                      Game()->mFootballPitch->mGoalWidth*0.5 + (getBall()->Pos().y*Game()->mFootballPitch->mGoalWidth) /
-                     Game()->mFootballPitch->getPlayingArea()->Height();
+                     Game()->mFootballPitch->getPlayingArea()->getHeight();
 
   	return Vector2D(xPosTarget, yPosTarget); 
 }

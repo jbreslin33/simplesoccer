@@ -335,7 +335,7 @@ void ReturnToHomeRegion::Enter(FieldPlayer* player)
 
   	if (!player->HomeRegion()->getIsInside(player->Steering()->Target(), 0))
   	{
-    		player->Steering()->SetTarget(player->HomeRegion()->Center());
+    		player->Steering()->SetTarget(player->HomeRegion()->getCenter());
   	}
 }
 
@@ -413,7 +413,7 @@ void Wait::Enter(FieldPlayer* player)
 	//ready for kick off
   	if (!player->Game()->getGameOn())
   	{
-    		player->Steering()->SetTarget(player->HomeRegion()->Center());
+    		player->Steering()->SetTarget(player->HomeRegion()->getCenter());
   	}
 }
 
