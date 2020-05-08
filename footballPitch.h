@@ -45,7 +45,7 @@ class FootballPitch
 
                 //this instantiates the regions the players utilize to  position
                 //themselves
-                void CreateRegions(double width, double height);
+                void createRegions(double width, double height);
 
 		//pass in an id and get back a region of the playing field
                 const Region* const getRegionFromIndex(int idx);

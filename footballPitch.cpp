@@ -20,7 +20,7 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         mPlayingArea = new Region(20, 20, mFootballGame->mScreenX - 20, mFootballGame->mScreenY - 20);
 
         //create the regions
-        CreateRegions
+        createRegions
         (
                 getPlayingArea()->Width() / (double)NumRegionsHorizontal,
                 getPlayingArea()->Height() / (double)NumRegionsVertical
@@ -89,7 +89,7 @@ FootballPitch::~FootballPitch()
 }
 
 //------------------------- CreateRegions --------------------------------
-void FootballPitch::CreateRegions(double width, double height)
+void FootballPitch::createRegions(double width, double height)
 {
         //index into the vector
         int idx = m_Regions.size()-1;
