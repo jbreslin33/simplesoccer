@@ -293,7 +293,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
     		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
 
     		if (( dist < ClosestSoFar) &&
-        		Game()->mFootballPitch->PlayingArea()->getIsInside(Passes[pass], 1) &&
+        		Game()->mFootballPitch->getPlayingArea()->getIsInside(Passes[pass], 1) &&
         		isPassSafeFromAllOpponents(Game()->getBall()->Pos(),
                                    Passes[pass],
                                    receiver,

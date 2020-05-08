@@ -27,7 +27,7 @@ SupportSpotCalculator::SupportSpotCalculator(int           numX,
         mSpot_CanScoreFromPositionScore          = 1.0;
         mSpot_DistFromControllingPlayerScore     = 2.0;
 
-	const Region* PlayingField = team->Game()->mFootballPitch->PlayingArea();
+	const Region* PlayingField = team->Game()->mFootballPitch->getPlayingArea();
 
   	//calculate the positions of each sweet spot, create them and 
   	//store them in m_Spots

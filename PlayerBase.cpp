@@ -295,7 +295,7 @@ bool PlayerBase::isClosestPlayerOnGameToBall()const
 bool PlayerBase::InHotRegion()const
 {
 	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
-         Game()->mFootballPitch->PlayingArea()->Length()/3.0;
+         Game()->mFootballPitch->getPlayingArea()->Length()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const

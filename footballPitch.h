@@ -28,7 +28,8 @@ class FootballPitch
                 std::vector<Goal*>  mGoalVector;
 
 		/******       Bounds   ***************/
-                const Region*const         PlayingArea()const{return m_pPlayingArea;}
+                const Region* const getPlayingArea()const;
+
                 const std::vector<Wall2D>& Walls(){return m_vecWalls;}
 
                 //walls
@@ -36,7 +37,7 @@ class FootballPitch
                 std::vector<Wall2D>  m_vecWalls;
 
                 //defines the dimensions of the playing area
-                Region*              m_pPlayingArea;
+                Region*              mPlayingArea;
 
                 //the playing field is broken up into regions that the team
                 //can make use of to implement strategies.
