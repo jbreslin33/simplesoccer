@@ -518,7 +518,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(6)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(6)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 6, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -531,7 +531,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(8)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(8)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 8, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -542,7 +542,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(3)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(3)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 3, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -553,7 +553,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(5)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(5)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 5, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -565,7 +565,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new GoalKeeper
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(1)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(1)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 1, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
         			TendGoal::Instance() //FieldPlayer
@@ -583,7 +583,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(9)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(9)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 9, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -594,7 +594,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(11)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(11)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 11, PlayerMaxSpeedWithBall, PlayerBase::attacker, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -607,7 +607,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(12)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(12)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 12, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -618,7 +618,7 @@ void SoccerTeam::CreatePlayers()
 		(
 			new FieldPlayer
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(14)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(14)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 14, PlayerMaxSpeedWithBall, PlayerBase::defender, //PlayerBase 
         			Wait::Instance() //FieldPlayer
@@ -630,7 +630,7 @@ void SoccerTeam::CreatePlayers()
 		(
 		 	new GoalKeeper
 			(
-        			0, this->Game()->mFootballPitch->GetRegionFromIndex(16)->Center(), 10, //BaseGameEntity
+        			0, this->Game()->mFootballPitch->getRegionFromIndex(16)->Center(), 10, //BaseGameEntity
         			Vector2D(0.0,0.0), Vector2D(0,1), PlayerMass, PlayerMaxSpeedWithoutBall, PlayerMaxForce, PlayerMaxTurnRate,        //MovingEntity
         			this, 16, PlayerMaxSpeedWithBall, PlayerBase::goal_keeper, //PlayerBase 
         			TendGoal::Instance() //FieldPlayer

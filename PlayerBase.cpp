@@ -64,7 +64,7 @@ MovingEntity
                                       getBall());  
   
   	//a player's start target is its start position (because it's just waiting)
-  	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->GetRegionFromIndex(homeRegion)->Center());
+  	m_pSteering->SetTarget(soccerTeam->Game()->mFootballPitch->getRegionFromIndex(homeRegion)->Center());
 
         mChancePlayerAttemptsPotShot             = 0.005;
         mChanceOfUsingArriveTypeReceiveBehavior  = 0.5;
@@ -268,11 +268,11 @@ bool PlayerBase::InHomeRegion()const
 {
 	if (m_PlayerRole == goal_keeper)
   	{
-    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 1);
+    		return Game()->mFootballPitch->getRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 1);
   	}
   	else
   	{
-    		return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 0);
+    		return Game()->mFootballPitch->getRegionFromIndex(m_iHomeRegion)->getIsInside(Pos(), 0);
   	}
 }
 
@@ -316,7 +316,7 @@ FootballGame* const PlayerBase::Game()const
 
 const Region* const PlayerBase::HomeRegion()const
 {
-	return Game()->mFootballPitch->GetRegionFromIndex(m_iHomeRegion);
+	return Game()->mFootballPitch->getRegionFromIndex(m_iHomeRegion);
 }
 
 double PlayerBase::getChancePlayerAttemptsPotShot() const

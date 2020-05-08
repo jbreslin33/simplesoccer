@@ -115,5 +115,12 @@ const Region* const FootballPitch::getPlayingArea()const
 	return mPlayingArea;
 }
 
+//pass in an id and get back a region of the playing field
+const Region* const FootballPitch::getRegionFromIndex(int idx)
+{
+	assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
+
+       	return m_Regions[idx];
+}
 
 

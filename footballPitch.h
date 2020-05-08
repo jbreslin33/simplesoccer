@@ -47,12 +47,8 @@ class FootballPitch
                 //themselves
                 void CreateRegions(double width, double height);
 
-                const Region* const GetRegionFromIndex(int idx)
-                {
-                        assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
-
-                        return m_Regions[idx];
-                }
+		//pass in an id and get back a region of the playing field
+                const Region* const getRegionFromIndex(int idx);
 
 };
 #endif
