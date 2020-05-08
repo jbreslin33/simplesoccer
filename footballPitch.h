@@ -16,7 +16,7 @@ class FootballPitch
 		FootballGame* mFootballGame;
 
 		//params
-               	double GoalWidth;
+               	double mGoalWidth;
 
                 int mNumRegionsHorizontal;
                 int mNumRegionsVertical;

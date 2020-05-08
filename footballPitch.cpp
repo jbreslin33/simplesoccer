@@ -12,7 +12,7 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         mNumRegionsHorizontal = 6;
         mNumRegionsVertical   = 3;
         mRegionVector.resize(mNumRegionsHorizontal * mNumRegionsVertical);
-        GoalWidth                               = 100;
+        mGoalWidth                               = 100;
         mNumSupportSpotsX = 13;
         mNumSupportSpotsY = 6;
 
@@ -30,11 +30,11 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         (
                 Vector2D
                 (
-                        mPlayingArea->Right(), mFootballGame->mScreenY - GoalWidth/2
+                        mPlayingArea->Right(), mFootballGame->mScreenY - mGoalWidth/2
                 ),
                 Vector2D
                 (
-                        mPlayingArea->Right(), mFootballGame->mScreenY - (mFootballGame->mScreenY - GoalWidth/2)
+                        mPlayingArea->Right(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2)
                 ),
                 Vector2D
                 (
@@ -47,11 +47,11 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         (
                 Vector2D
                 (
-                        mPlayingArea->Left(), mFootballGame->mScreenY - GoalWidth/2 //550
+                        mPlayingArea->Left(), mFootballGame->mScreenY - mGoalWidth/2 //550
                 ),
                 Vector2D
                 (
-                        mPlayingArea->Left(), mFootballGame->mScreenY - (mFootballGame->mScreenY - GoalWidth/2) //600 - (600 - 50) = 50
+                        mPlayingArea->Left(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2) //600 - (600 - 50) = 50
                 ),
                 Vector2D(1,0)
         ));
