@@ -11,7 +11,7 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         //member variables
         NumRegionsHorizontal = 6;
         NumRegionsVertical   = 3;
-        m_Regions.resize(NumRegionsHorizontal * NumRegionsVertical);
+        mRegionVector.resize(NumRegionsHorizontal * NumRegionsVertical);
         GoalWidth                               = 100;
         NumSupportSpotsX = 13;
         NumSupportSpotsY = 6;
@@ -82,9 +82,9 @@ FootballPitch::~FootballPitch()
 
         delete mPlayingArea;
 
-        for (unsigned int i=0; i<m_Regions.size(); ++i)
+        for (unsigned int i=0; i<mRegionVector.size(); ++i)
         {
-                delete m_Regions[i];
+                delete mRegionVector[i];
         }
 }
 
@@ -97,13 +97,13 @@ const std::vector<Wall2D>& FootballPitch::getWallVector()
 void FootballPitch::createRegions(double width, double height)
 {
         //index into the vector
-        int idx = m_Regions.size()-1;
+        int idx = mRegionVector.size()-1;
 
         for (int col=0; col<NumRegionsHorizontal; ++col)
         {
                 for (int row=0; row<NumRegionsVertical; ++row)
                 {
-                        m_Regions[idx--] = new Region
+                        mRegionVector[idx--] = new Region
                         (
                                 getPlayingArea()->Left()+col*width,
                                 getPlayingArea()->Top()+row*height,
@@ -123,9 +123,9 @@ const Region* const FootballPitch::getPlayingArea()const
 //pass in an id and get back a region of the playing field
 const Region* const FootballPitch::getRegionFromIndex(int idx)
 {
-	assert ( (idx >= 0) && (idx < (int)m_Regions.size()) );
+	assert ( (idx >= 0) && (idx < (int)mRegionVector.size()) );
 
-       	return m_Regions[idx];
+       	return mRegionVector[idx];
 }
 
 

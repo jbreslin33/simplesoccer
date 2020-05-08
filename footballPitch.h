@@ -41,7 +41,7 @@ class FootballPitch
 
                 //the playing field is broken up into regions that the team
                 //can make use of to implement strategies.
-                std::vector<Region*> m_Regions;
+                std::vector<Region*> mRegionVector;
 
                 //this instantiates the regions the players utilize to  position
                 //themselves
