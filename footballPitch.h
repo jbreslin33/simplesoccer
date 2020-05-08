@@ -30,11 +30,11 @@ class FootballPitch
 		/******       Bounds   ***************/
                 const Region* const getPlayingArea()const;
 
-                const std::vector<Wall2D>& Walls(){return m_vecWalls;}
+                const std::vector<Wall2D>& getWallVector();
 
                 //walls
                 //container for the boundary walls
-                std::vector<Wall2D>  m_vecWalls;
+                std::vector<Wall2D>  mWallVector;
 
                 //defines the dimensions of the playing area
                 Region*              mPlayingArea;

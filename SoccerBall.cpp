@@ -60,7 +60,7 @@ void SoccerBall::Update()
   	m_vOldPos = m_vPosition;
 
       	//Test for collisions
-    	TestCollisionWithWalls(Game()->mFootballPitch->Walls());
+    	TestCollisionWithWalls(Game()->mFootballPitch->getWallVector());
 
   	//Simulate Friction. Make sure the speed is positive 
   	//first though

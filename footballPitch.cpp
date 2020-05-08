@@ -62,13 +62,13 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         Vector2D BottomRight(mPlayingArea->Right(), mPlayingArea->Bottom());
         Vector2D BottomLeft(mPlayingArea->Left(), mPlayingArea->Bottom());
 
-        m_vecWalls.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->RightPost()));
-        m_vecWalls.push_back(Wall2D(mGoalVector.at(1)->LeftPost(), TopLeft));
-        m_vecWalls.push_back(Wall2D(TopLeft, TopRight));
+        mWallVector.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->RightPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(1)->LeftPost(), TopLeft));
+        mWallVector.push_back(Wall2D(TopLeft, TopRight));
 
-        m_vecWalls.push_back(Wall2D(TopRight, mGoalVector.at(0)->LeftPost()));
-        m_vecWalls.push_back(Wall2D(mGoalVector.at(0)->RightPost(), BottomRight));
-        m_vecWalls.push_back(Wall2D(BottomRight, BottomLeft));
+        mWallVector.push_back(Wall2D(TopRight, mGoalVector.at(0)->LeftPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(0)->RightPost(), BottomRight));
+        mWallVector.push_back(Wall2D(BottomRight, BottomLeft));
 }
 
 //-------------------------------- dtor ----------------------------------
@@ -86,6 +86,11 @@ FootballPitch::~FootballPitch()
         {
                 delete m_Regions[i];
         }
+}
+
+const std::vector<Wall2D>& FootballPitch::getWallVector()
+{	
+	return mWallVector;
 }
 
 //------------------------- CreateRegions --------------------------------
