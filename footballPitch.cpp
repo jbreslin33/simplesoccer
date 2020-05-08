@@ -16,7 +16,7 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         mNumSupportSpotsX = 13;
         mNumSupportSpotsY = 6;
 
-	        //define the playing area
+        //define the playing area
         mPlayingArea = new Region(20, 20, mFootballGame->mScreenX - 20, mFootballGame->mScreenY - 20);
 
         //create the regions
