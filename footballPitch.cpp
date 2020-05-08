@@ -8,10 +8,11 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 
 	mFootballGame = footballGame;
 
-        //member variables
+        //Regions of pitch
         mNumRegionsHorizontal = 6;
         mNumRegionsVertical   = 3;
         mRegionVector.resize(mNumRegionsHorizontal * mNumRegionsVertical);
+
         mGoalWidth                               = 100;
         mNumSupportSpotsX = 13;
         mNumSupportSpotsY = 6;
