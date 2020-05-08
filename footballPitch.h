@@ -18,11 +18,11 @@ class FootballPitch
 		//params
                	double GoalWidth;
 
-                int NumRegionsHorizontal;
-                int NumRegionsVertical;
+                int mNumRegionsHorizontal;
+                int mNumRegionsVertical;
 
-                int NumSupportSpotsX;
-                int NumSupportSpotsY;
+                int mNumSupportSpotsX;
+                int mNumSupportSpotsY;
 
                 /******       Teams   ***************/
                 std::vector<Goal*>  mGoalVector;

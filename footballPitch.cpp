@@ -9,12 +9,12 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 	mFootballGame = footballGame;
 
         //member variables
-        NumRegionsHorizontal = 6;
-        NumRegionsVertical   = 3;
-        mRegionVector.resize(NumRegionsHorizontal * NumRegionsVertical);
+        mNumRegionsHorizontal = 6;
+        mNumRegionsVertical   = 3;
+        mRegionVector.resize(mNumRegionsHorizontal * mNumRegionsVertical);
         GoalWidth                               = 100;
-        NumSupportSpotsX = 13;
-        NumSupportSpotsY = 6;
+        mNumSupportSpotsX = 13;
+        mNumSupportSpotsY = 6;
 
 	        //define the playing area
         mPlayingArea = new Region(20, 20, mFootballGame->mScreenX - 20, mFootballGame->mScreenY - 20);
@@ -22,8 +22,8 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         //create the regions
         createRegions
         (
-                getPlayingArea()->Width() / (double)NumRegionsHorizontal,
-                getPlayingArea()->Height() / (double)NumRegionsVertical
+                getPlayingArea()->Width() / (double)mNumRegionsHorizontal,
+                getPlayingArea()->Height() / (double)mNumRegionsVertical
         );
         
 	mGoalVector.push_back(new Goal
@@ -99,9 +99,9 @@ void FootballPitch::createRegions(double width, double height)
         //index into the vector
         int idx = mRegionVector.size()-1;
 
-        for (int col=0; col<NumRegionsHorizontal; ++col)
+        for (int col=0; col<mNumRegionsHorizontal; ++col)
         {
-                for (int row=0; row<NumRegionsVertical; ++row)
+                for (int row=0; row<mNumRegionsVertical; ++row)
                 {
                         mRegionVector[idx--] = new Region
                         (

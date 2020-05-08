@@ -58,8 +58,8 @@ SoccerTeam::SoccerTeam(Goal*        home_goal,
 
 
   	//create the sweet spot calculator
-  	m_pSupportSpotCalc = new SupportSpotCalculator(Game()->mFootballPitch->NumSupportSpotsX,
-                                                 Game()->mFootballPitch->NumSupportSpotsY,
+  	m_pSupportSpotCalc = new SupportSpotCalculator(Game()->mFootballPitch->mNumSupportSpotsX,
+                                                 Game()->mFootballPitch->mNumSupportSpotsY,
                                                  this);
 }
 
