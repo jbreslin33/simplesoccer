@@ -19,7 +19,6 @@
 
 class Goal 
 {
-
 	private:
 
   		Vector2D   m_vLeftPost;
@@ -36,45 +35,20 @@ class Goal
 
 	public:
 
-  		Goal(Vector2D left, Vector2D right, Vector2D facing):m_vLeftPost(left),
-                                                       m_vRightPost(right),
-                                                       m_vCenter((left+right)/2.0),
-                                                       m_iNumGoalsScored(0),
-                                                       m_vFacing(facing)
-  		{  
-  		}
+  		Goal(Vector2D left, Vector2D right, Vector2D facing);
 
   		//Given the current ball position and the previous ball position,
   		//this method returns true if the ball has crossed the goal line 
   		//and increments m_iNumGoalsScored
-  		inline bool Scored(const SoccerBall*const ball);
+  		bool Scored(const SoccerBall*const ball);
 
   		//-----------------------------------------------------accessor methods
- 	 	Vector2D Center()
-		{
-			return m_vCenter;
-		}
-  		Vector2D Facing()const{return m_vFacing;}
-  		Vector2D LeftPost()const{return m_vLeftPost;}
-  		Vector2D RightPost()const{return m_vRightPost;}
+ 	 	Vector2D Center();
+  		Vector2D Facing()const;
+  		Vector2D LeftPost()const;
+  		Vector2D RightPost()const;
 
-  		int      NumGoalsScored()const{return m_iNumGoalsScored;}
-  		void     ResetGoalsScored(){m_iNumGoalsScored = 0;}
+  		int      NumGoalsScored()const;
+  		void     ResetGoalsScored();
 };
-
-
-/////////////////////////////////////////////////////////////////////////
-
-bool Goal::Scored(const SoccerBall*const ball)
-{
-	if (LineIntersection2D(ball->Pos(), ball->OldPos(), m_vLeftPost, m_vRightPost))
-  	{
-    		++m_iNumGoalsScored;
-
-    		return true;
-  	}
-
-  	return false;
-}
-
 #endif
