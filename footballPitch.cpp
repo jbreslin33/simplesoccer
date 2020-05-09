@@ -1,7 +1,7 @@
 #include "footballPitch.h"
 #include "footballGame.h"
 #include "Game/Region.h"
-#include "Goal.h"
+#include "goal.h"
 
 FootballPitch::FootballPitch(FootballGame* footballGame)
 {

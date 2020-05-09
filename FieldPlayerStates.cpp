@@ -3,7 +3,7 @@
 #include "FieldPlayer.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
-#include "Goal.h"
+#include "goal.h"
 #include "2D/geometry.h"
 #include "SoccerBall.h"
 #include "Messaging/Telegram.h"

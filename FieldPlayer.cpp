@@ -3,7 +3,7 @@
 #include "SteeringBehaviors.h"
 #include "2D/geometry.h"
 #include "2D/C2DMatrix.h"
-#include "Goal.h"
+#include "goal.h"
 #include "Game/Region.h"
 #include "Game/EntityFunctionTemplates.h"
 #include "SoccerTeam.h"

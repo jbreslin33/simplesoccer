@@ -1,6 +1,6 @@
 #include "SoccerTeam.h"
 #include "footballGame.h"
-#include "Goal.h"
+#include "goal.h"
 #include "PlayerBase.h"
 #include "Goalkeeper.h"
 #include "FieldPlayer.h"

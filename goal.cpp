@@ -1,4 +1,4 @@
-#include "Goal.h"
+#include "goal.h"
 
 Goal::Goal(Vector2D left, Vector2D right, Vector2D facing)
 {

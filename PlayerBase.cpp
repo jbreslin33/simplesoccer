@@ -6,7 +6,7 @@
 #include "Messaging/MessageDispatcher.h"
 #include "SoccerMessages.h"
 #include "SoccerTeam.h"
-#include "Goal.h"
+#include "goal.h"
 #include "SoccerBall.h"
 #include "footballGame.h"
 #include "client.h"

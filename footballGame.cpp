@@ -1,7 +1,7 @@
 //custome
 #include "footballGame.h"
 #include "SoccerBall.h"
-#include "Goal.h"
+#include "goal.h"
 #include "2D/geometry.h"
 #include "SoccerTeam.h"
 #include "Game/EntityManager.h"

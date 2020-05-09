@@ -9,7 +9,7 @@
 //  Desc:   Base composite goal class
 //-----------------------------------------------------------------------------
 #include <list>
-#include "Goal.h"
+#include "goal.h"
 
 
 template <class entity_type>

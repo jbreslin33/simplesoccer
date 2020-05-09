@@ -1,6 +1,6 @@
 #include "SupportSpotCalculator.h"
 #include "PlayerBase.h"
-#include "Goal.h"
+#include "goal.h"
 #include "SoccerBall.h"
 #include "constants.h"
 #include "SoccerTeam.h"

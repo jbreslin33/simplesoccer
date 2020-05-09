@@ -4,7 +4,7 @@
 #include "Goalkeeper.h"
 #include "SteeringBehaviors.h"
 #include "SoccerTeam.h"
-#include "Goal.h"
+#include "goal.h"
 #include "FieldPlayer.h"
 #include "Messaging/Telegram.h"
 #include "Messaging/MessageDispatcher.h"

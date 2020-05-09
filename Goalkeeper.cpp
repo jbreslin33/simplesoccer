@@ -3,7 +3,7 @@
 #include "SoccerTeam.h"
 #include "footballGame.h"
 #include "GoalKeeperStates.h"
-#include "Goal.h"
+#include "goal.h"
 #include "Game/EntityFunctionTemplates.h"
 #include "footballPitch.h"
 
