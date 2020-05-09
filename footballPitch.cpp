@@ -25,11 +25,13 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 	double lengthOfRegions = getPlayingArea()->getHeight() / (double)mNumRegionsVertical;
         createRegions(widthOfRegions, lengthOfRegions);
 
+	//away goal
 	Vector2D leftPostAway(mPlayingArea->getRight(), mFootballGame->mScreenY - mGoalWidth/2);
 	Vector2D rightPostAway(mPlayingArea->getRight(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2));
 	Vector2D facingAway(-1,0);
 	mGoalVector.push_back(new Goal(leftPostAway, rightPostAway, facingAway));
 
+	//home goal
 	Vector2D leftPostHome(mPlayingArea->getLeft(), mFootballGame->mScreenY - mGoalWidth/2); 
 	Vector2D rightPostHome(mPlayingArea->getLeft(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2));
 	Vector2D facingHome(1,0);
