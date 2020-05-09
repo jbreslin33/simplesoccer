@@ -570,7 +570,7 @@ void KickBall::Execute(FieldPlayer* player)
    		//Vector2D KickDirection = BallTarget - player->Ball()->Pos();
 
    		//Vector2D KickDirection = player->Ball()->Pos() - player->Team()->OpponentsGoal()->Center();
-   		Vector2D KickDirection = player->Team()->OpponentsGoal()->Center() - player->getBall()->Pos();
+   		Vector2D KickDirection = player->Team()->OpponentsGoal()->getCenter() - player->getBall()->Pos();
    
    		player->getBall()->Kick(KickDirection, power);
     
@@ -726,7 +726,7 @@ void Dribble::Execute(FieldPlayer* player)
 		printf("Dribble::Execute() ID:%d\n", player->ID());
 	}
   
-	double dot = player->Team()->HomeGoal()->Facing().Dot(player->Heading());
+	double dot = player->Team()->HomeGoal()->getFacing().Dot(player->Heading());
 
   	//if the ball is between the player and the home goal, it needs to swivel
   	// the ball around by doing multiple small kicks and turns until the player 
@@ -741,7 +741,7 @@ void Dribble::Execute(FieldPlayer* player)
     		//facing direction of the goal so that the player rotates around in the 
     		//correct direction
     		double angle = QuarterPi * -1 *
-                 player->Team()->HomeGoal()->Facing().Sign(player->Heading());
+                 player->Team()->HomeGoal()->getFacing().Sign(player->Heading());
 
     		Vec2DRotateAroundOrigin(direction, angle);
 
@@ -754,7 +754,7 @@ void Dribble::Execute(FieldPlayer* player)
   	//kick the ball down the field
   	else
   	{
-    		player->getBall()->Kick(player->Team()->HomeGoal()->Facing(),
+    		player->getBall()->Kick(player->Team()->HomeGoal()->getFacing(),
                          player->MaxDribbleForce);  
   	}
 

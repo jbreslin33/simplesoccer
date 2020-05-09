@@ -21,17 +21,17 @@ class Goal
 {
 	private:
 
-  		Vector2D   m_vLeftPost;
-  		Vector2D   m_vRightPost;
+  		Vector2D   mLeftPost;
+  		Vector2D   mRightPost;
 
   		//a vector representing the facing direction of the goal
-  		Vector2D   m_vFacing;
+  		Vector2D   mFacing;
 
   		//the position of the center of the goal line
-  		Vector2D   m_vCenter;
+  		Vector2D   mCenter;
 
   		//each time Scored() detects a goal this is incremented
-  		int        m_iNumGoalsScored;
+  		int        mNumGoalsScored;
 
 	public:
 
@@ -40,15 +40,15 @@ class Goal
   		//Given the current ball position and the previous ball position,
   		//this method returns true if the ball has crossed the goal line 
   		//and increments m_iNumGoalsScored
-  		bool Scored(const SoccerBall*const ball);
+  		bool isGoalScored(const SoccerBall*const ball);
 
   		//-----------------------------------------------------accessor methods
- 	 	Vector2D Center();
-  		Vector2D Facing()const;
-  		Vector2D LeftPost()const;
-  		Vector2D RightPost()const;
+ 	 	Vector2D getCenter();
+  		Vector2D getFacing()const;
+  		Vector2D getLeftPost()const;
+  		Vector2D getRightPost()const;
 
-  		int      NumGoalsScored()const;
-  		void     ResetGoalsScored();
+  		int      getNumGoalsScored()const;
+  		void     resetGoalsScored();
 };
 #endif

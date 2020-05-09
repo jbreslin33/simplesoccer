@@ -235,12 +235,12 @@ void PlayerBase::FindSupport()const
 //calculate distance to opponent's goal. Used frequently by the passing//methods
 double PlayerBase::DistToOppGoal()const
 {
-	return fabs(Pos().x - Team()->OpponentsGoal()->Center().x);
+	return fabs(Pos().x - Team()->OpponentsGoal()->getCenter().x);
 }
 
 double PlayerBase::DistToHomeGoal()const
 {
-	return fabs(Pos().x - Team()->HomeGoal()->Center().x);
+	return fabs(Pos().x - Team()->HomeGoal()->getCenter().x);
 }
 
 bool PlayerBase::isControllingPlayer()const
@@ -294,14 +294,14 @@ bool PlayerBase::isClosestPlayerOnGameToBall()const
 
 bool PlayerBase::InHotRegion()const
 {
-	return fabs(Pos().y - Team()->OpponentsGoal()->Center().y ) <
+	return fabs(Pos().y - Team()->OpponentsGoal()->getCenter().y ) <
          Game()->mFootballPitch->getPlayingArea()->getLength()/3.0;
 }
 
 bool PlayerBase::isAheadOfAttacker()const
 {
-	return fabs(Pos().x - Team()->OpponentsGoal()->Center().x) <
-         fabs(Team()->ControllingPlayer()->Pos().x - Team()->OpponentsGoal()->Center().x);
+	return fabs(Pos().x - Team()->OpponentsGoal()->getCenter().x) <
+         fabs(Team()->ControllingPlayer()->Pos().x - Team()->OpponentsGoal()->getCenter().x);
 }
 
 SoccerBall* const PlayerBase::getBall()const

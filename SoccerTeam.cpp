@@ -204,7 +204,7 @@ bool SoccerTeam::FindPass(const PlayerBase*const passer,
       			{
         			//if the pass target is the closest to the opponent's goal line found
         			// so far, keep a record of it
-        			double Dist2Goal = fabs(Target.x - OpponentsGoal()->Center().x);
+        			double Dist2Goal = fabs(Target.x - OpponentsGoal()->getCenter().x);
 
         			if (Dist2Goal < ClosestToGoalSoFar)
         			{
@@ -290,7 +290,7 @@ bool SoccerTeam::GetBestPassToReceiver(const PlayerBase* const passer,
 
   	for (int pass=0; pass<NumPassesToTry; ++pass)
   	{   	 
-    		double dist = fabs(Passes[pass].x - OpponentsGoal()->Center().x);
+    		double dist = fabs(Passes[pass].x - OpponentsGoal()->getCenter().x);
 
     		if (( dist < ClosestSoFar) &&
         		Game()->mFootballPitch->getPlayingArea()->getIsInside(Passes[pass], 1) &&
@@ -431,14 +431,14 @@ bool SoccerTeam::CanShoot(Vector2D  BallPos, double power)
       		//you messed with this...	  
       		Vector2D* ShotTarget = new Vector2D();
 		//Vector2D shotTarget = OpponentsGoal()->Center();
-    		ShotTarget->x = OpponentsGoal()->Center().x;
-    		ShotTarget->y = OpponentsGoal()->Center().y;
+    		ShotTarget->x = OpponentsGoal()->getCenter().x;
+    		ShotTarget->y = OpponentsGoal()->getCenter().y;
 
 
     		//the y value of the shot position should lay somewhere between two
     		//goalposts (taking into consideration the ball diameter)
-    		int MinYVal = (int)(OpponentsGoal()->RightPost().y - Game()->getBall()->getBoundingRadius());
-    		int MaxYVal = (int)(OpponentsGoal()->LeftPost().y + Game()->getBall()->getBoundingRadius());
+    		int MinYVal = (int)(OpponentsGoal()->getRightPost().y - Game()->getBall()->getBoundingRadius());
+    		int MaxYVal = (int)(OpponentsGoal()->getLeftPost().y + Game()->getBall()->getBoundingRadius());
 
     		ShotTarget->y = (double)RandInt(MinYVal, MaxYVal);
 

@@ -101,7 +101,7 @@ void FootballGame::tick()
 	
 
   	//if a goal has been detected reset the game ready for kickoff
-  	if (mFootballPitch->mGoalVector.at(0)->Scored(mBall) || mFootballPitch->mGoalVector.at(1)->Scored(mBall))
+  	if (mFootballPitch->mGoalVector.at(0)->isGoalScored(mBall) || mFootballPitch->mGoalVector.at(1)->isGoalScored(mBall))
  	{
     		setGameOn(false);
     

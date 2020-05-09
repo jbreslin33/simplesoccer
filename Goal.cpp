@@ -2,48 +2,48 @@
 
 Goal::Goal(Vector2D left, Vector2D right, Vector2D facing)
 {
-	m_vLeftPost = left;
-        m_vRightPost = right;
-        m_vCenter = (left+right) / 2.0;
-        m_iNumGoalsScored = 0;
-        m_vFacing = facing;
+	mLeftPost = left;
+        mRightPost = right;
+        mCenter = (left+right) / 2.0;
+        mNumGoalsScored = 0;
+        mFacing = facing;
 }
 
-Vector2D Goal::Center()
+Vector2D Goal::getCenter()
 {
-	return m_vCenter;
+	return mCenter;
 }
 
-Vector2D Goal::Facing()const
+Vector2D Goal::getFacing()const
 {
-	return m_vFacing;
+	return mFacing;
 }
 
-Vector2D Goal::LeftPost()const
+Vector2D Goal::getLeftPost()const
 {
-	return m_vLeftPost;
+	return mLeftPost;
 }
 
-Vector2D Goal::RightPost()const
+Vector2D Goal::getRightPost()const
 {
-	return m_vRightPost;
+	return mRightPost;
 }
 
-int Goal::NumGoalsScored()const
+int Goal::getNumGoalsScored()const
 {
-	return m_iNumGoalsScored;
+	return mNumGoalsScored;
 }
 
-void Goal::ResetGoalsScored()
+void Goal::resetGoalsScored()
 {
-	m_iNumGoalsScored = 0;
+	mNumGoalsScored = 0;
 }
 
-bool Goal::Scored(const SoccerBall*const ball)
+bool Goal::isGoalScored(const SoccerBall*const ball)
 {
-	if (LineIntersection2D(ball->Pos(), ball->OldPos(), m_vLeftPost, m_vRightPost))
+	if (LineIntersection2D(ball->Pos(), ball->OldPos(), mLeftPost, mRightPost))
   	{
-    		++m_iNumGoalsScored;
+    		++mNumGoalsScored;
 
     		return true;
   	}

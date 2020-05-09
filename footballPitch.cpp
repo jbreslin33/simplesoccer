@@ -61,12 +61,12 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         Vector2D BottomRight(mPlayingArea->getRight(), mPlayingArea->getBottom());
         Vector2D BottomLeft(mPlayingArea->getLeft(), mPlayingArea->getBottom());
 
-        mWallVector.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->RightPost()));
-        mWallVector.push_back(Wall2D(mGoalVector.at(1)->LeftPost(), TopLeft));
+        mWallVector.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->getRightPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(1)->getLeftPost(), TopLeft));
         mWallVector.push_back(Wall2D(TopLeft, TopRight));
 
-        mWallVector.push_back(Wall2D(TopRight, mGoalVector.at(0)->LeftPost()));
-        mWallVector.push_back(Wall2D(mGoalVector.at(0)->RightPost(), BottomRight));
+        mWallVector.push_back(Wall2D(TopRight, mGoalVector.at(0)->getLeftPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(0)->getRightPost(), BottomRight));
         mWallVector.push_back(Wall2D(BottomRight, BottomLeft));
 }
 
