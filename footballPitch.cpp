@@ -24,36 +24,16 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 	double widthOfRegions = getPlayingArea()->getWidth() / (double)mNumRegionsHorizontal;
 	double lengthOfRegions = getPlayingArea()->getHeight() / (double)mNumRegionsVertical;
         createRegions(widthOfRegions, lengthOfRegions);
-        
-	mGoalVector.push_back(new Goal
-        (
-                Vector2D
-                (
-                        mPlayingArea->getRight(), mFootballGame->mScreenY - mGoalWidth/2
-                ),
-                Vector2D
-                (
-                        mPlayingArea->getRight(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2)
-                ),
-                Vector2D
-                (
-                        -1,0
-                )
-        ));
 
-        //Goals
-        mGoalVector.push_back(new Goal
-        (
-                Vector2D
-                (
-                        mPlayingArea->getLeft(), mFootballGame->mScreenY - mGoalWidth/2 //550
-                ),
-                Vector2D
-                (
-                        mPlayingArea->getLeft(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2) //600 - (600 - 50) = 50
-                ),
-                Vector2D(1,0)
-        ));
+	Vector2D leftPostAway(mPlayingArea->getRight(), mFootballGame->mScreenY - mGoalWidth/2);
+	Vector2D rightPostAway(mPlayingArea->getRight(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2));
+	Vector2D facingAway(-1,0);
+	mGoalVector.push_back(new Goal(leftPostAway, rightPostAway, facingAway));
+
+	Vector2D leftPostHome(mPlayingArea->getLeft(), mFootballGame->mScreenY - mGoalWidth/2); 
+	Vector2D rightPostHome(mPlayingArea->getLeft(), mFootballGame->mScreenY - (mFootballGame->mScreenY - mGoalWidth/2));
+	Vector2D facingHome(1,0);
+	mGoalVector.push_back(new Goal(leftPostHome, rightPostHome, facingHome));
 
 	//create the walls
         Vector2D TopLeft(mPlayingArea->getLeft(), mPlayingArea->getTop());
