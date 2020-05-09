@@ -21,11 +21,9 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
         mPlayingArea = new Region(20, 20, mFootballGame->mScreenX - 20, mFootballGame->mScreenY - 20);
 
         //create the regions
-        createRegions
-        (
-                getPlayingArea()->getWidth() / (double)mNumRegionsHorizontal,
-                getPlayingArea()->getHeight() / (double)mNumRegionsVertical
-        );
+	double widthOfRegions = getPlayingArea()->getWidth() / (double)mNumRegionsHorizontal;
+	double lengthOfRegions = getPlayingArea()->getHeight() / (double)mNumRegionsVertical;
+        createRegions(widthOfRegions, lengthOfRegions);
         
 	mGoalVector.push_back(new Goal
         (
@@ -98,19 +96,19 @@ const std::vector<Wall2D>& FootballPitch::getWallVector()
 void FootballPitch::createRegions(double width, double height)
 {
         //index into the vector
-        int idx = mRegionVector.size()-1;
+        int id = mRegionVector.size()-1;
 
         for (int col=0; col<mNumRegionsHorizontal; ++col)
         {
                 for (int row=0; row<mNumRegionsVertical; ++row)
                 {
-                        mRegionVector[idx--] = new Region
+                        mRegionVector[id--] = new Region
                         (
                                 getPlayingArea()->getLeft()+col*width,
                                 getPlayingArea()->getTop()+row*height,
                                 getPlayingArea()->getLeft()+(col+1)*width,
                                 getPlayingArea()->getTop()+(row+1)*height,
-                                idx
+                                id
                         );
                 }
         }
