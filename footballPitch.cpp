@@ -38,18 +38,18 @@ FootballPitch::FootballPitch(FootballGame* footballGame)
 	mGoalVector.push_back(new Goal(leftPostHome, rightPostHome, facingHome));
 
 	//create the walls
-        Vector2D TopLeft(mPlayingArea->getLeft(), mPlayingArea->getTop());
-        Vector2D TopRight(mPlayingArea->getRight(), mPlayingArea->getTop());
-        Vector2D BottomRight(mPlayingArea->getRight(), mPlayingArea->getBottom());
-        Vector2D BottomLeft(mPlayingArea->getLeft(), mPlayingArea->getBottom());
+        Vector2D topLeftWall(mPlayingArea->getLeft(), mPlayingArea->getTop());
+        Vector2D topRightWall(mPlayingArea->getRight(), mPlayingArea->getTop());
+        Vector2D bottomRightWall(mPlayingArea->getRight(), mPlayingArea->getBottom());
+        Vector2D bottomLeftWall(mPlayingArea->getLeft(), mPlayingArea->getBottom());
 
-        mWallVector.push_back(Wall2D(BottomLeft, mGoalVector.at(1)->getRightPost()));
-        mWallVector.push_back(Wall2D(mGoalVector.at(1)->getLeftPost(), TopLeft));
-        mWallVector.push_back(Wall2D(TopLeft, TopRight));
+        mWallVector.push_back(Wall2D(bottomLeftWall, mGoalVector.at(1)->getRightPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(1)->getLeftPost(), topLeftWall));
+        mWallVector.push_back(Wall2D(topLeftWall, topRightWall));
 
-        mWallVector.push_back(Wall2D(TopRight, mGoalVector.at(0)->getLeftPost()));
-        mWallVector.push_back(Wall2D(mGoalVector.at(0)->getRightPost(), BottomRight));
-        mWallVector.push_back(Wall2D(BottomRight, BottomLeft));
+        mWallVector.push_back(Wall2D(topRightWall, mGoalVector.at(0)->getLeftPost()));
+        mWallVector.push_back(Wall2D(mGoalVector.at(0)->getRightPost(), bottomRightWall));
+        mWallVector.push_back(Wall2D(bottomRightWall, bottomLeftWall));
 }
 
 //-------------------------------- dtor ----------------------------------
